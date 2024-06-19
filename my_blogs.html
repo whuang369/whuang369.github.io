@@ -4,9 +4,67 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Blogs</title>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .blog-list {
+            margin-bottom: 20px;
+        }
+        .blog-list a {
+            display: block;
+            margin: 10px 0;
+            text-decoration: none;
+            color: #007BFF;
+        }
+        .blog-list a:hover {
+            text-decoration: underline;
+        }
+        .blog-content {
+            border-top: 1px solid #ccc;
+            padding-top: 20px;
+        }
+    </style>
 </head>
 <body>
     <h2>My Blogs</h2>
-    <p>Welcome to my blog page. Here, I will share my thoughts and experiences on various topics related to my research, interests, and hobbies.</p>
+    <div class="blog-list" id="blogList">
+        <!-- Blog links will be inserted here by JavaScript -->
+    </div>
+    <div class="blog-content" id="blogContent">
+        <!-- Blog content will be displayed here -->
+    </div>
+    <script>
+        const blogsDirectory = 'blogs/';
+        const blogList = document.getElementById('blogList');
+        const blogContent = document.getElementById('blogContent');
+
+        const blogFiles = [
+            'example1.md',
+            'example2.md'
+            // Add more Markdown files here
+        ];
+
+        blogFiles.forEach(file => {
+            const link = document.createElement('a');
+            link.href = '#';
+            link.textContent = file.replace('.md', '');
+            link.onclick = (event) => {
+                event.preventDefault();
+                loadBlogContent(file);
+            };
+            blogList.appendChild(link);
+        });
+
+        function loadBlogContent(file) {
+            fetch(blogsDirectory + file)
+                .then(response => response.text())
+                .then(text => {
+                    blogContent.innerHTML = marked(text);
+                });
+        }
+    </script>
 </body>
 </html>
