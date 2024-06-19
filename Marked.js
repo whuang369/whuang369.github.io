@@ -1,3 +1,5 @@
+import { marked } from 'marked'
+
 (function (global) {
   'use strict';
 
