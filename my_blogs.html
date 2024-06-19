@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Blogs</title>
-    <script src="path/to/marked.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -42,7 +42,7 @@
         const blogContent = document.getElementById('blogContent');
 
         const blogFiles = [
-            'Treap.md',
+            'example1.md',
             'example2.md'
             // Add more Markdown files here
         ];
@@ -60,9 +60,18 @@
 
         function loadBlogContent(file) {
             fetch(blogsDirectory + file)
-                .then(response => response.text())
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.text();
+                })
                 .then(text => {
                     blogContent.innerHTML = marked(text);
+                })
+                .catch(error => {
+                    blogContent.innerHTML = '<p>Failed to load blog content.</p>';
+                    console.error('There has been a problem with your fetch operation:', error);
                 });
         }
     </script>
