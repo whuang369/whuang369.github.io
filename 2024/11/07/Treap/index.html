@@ -9,7 +9,7 @@
   <meta name="description" content="##前置芝士熟练掌握二叉查找（排序）树的插入、删除、求排名、求某一排名的数、求前驱、求后继等操作。#引言二叉查找树看似可以在 $O(logn)$ 中完成任意上述操作。但若该二叉查找树退化为如下形态：  此时，在此图上操作的时间复杂度仍为 $O(n)$。观察可知：二叉查找树的最优形态是平衡树，故需要一种能维持树的平衡形态的二叉查找树。  #正文Treap又名树堆，是一种利用随机性来维持二叉查找树的平">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Treap">
-<meta property="og:url" content="http://whuang369.com/2024/11/07/Treap/index.html">
+<meta property="og:url" content="http://whuang369.com/blogs/2024/11/07/Treap/index.html">
 <meta property="og:site_name" content="Harry Huang &#x2F; Wenyuan Huang">
 <meta property="og:description" content="##前置芝士熟练掌握二叉查找（排序）树的插入、删除、求排名、求某一排名的数、求前驱、求后继等操作。#引言二叉查找树看似可以在 $O(logn)$ 中完成任意上述操作。但若该二叉查找树退化为如下形态：  此时，在此图上操作的时间复杂度仍为 $O(n)$。观察可知：二叉查找树的最优形态是平衡树，故需要一种能维持树的平衡形态的二叉查找树。  #正文Treap又名树堆，是一种利用随机性来维持二叉查找树的平">
 <meta property="og:locale" content="en_US">
@@ -24,18 +24,18 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://img2020.cnblogs.com/blog/1766216/202007/1766216-20200703170058580-1974291410.png">
   
-    <link rel="alternate" href="/atom.xml" title="Harry Huang / Wenyuan Huang" type="application/atom+xml">
+    <link rel="alternate" href="/blogs/atom.xml" title="Harry Huang / Wenyuan Huang" type="application/atom+xml">
   
   
-    <link rel="shortcut icon" href="/favicon.png">
+    <link rel="shortcut icon" href="/blogs/favicon.png">
   
   
   
-<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/blogs/css/style.css">
 
   
     
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+<link rel="stylesheet" href="/blogs/fancybox/jquery.fancybox.min.css">
 
   
   
@@ -53,11 +53,11 @@
   <div id="header-outer" class="outer">
     <div id="header-title" class="inner">
       <h1 id="logo-wrap">
-        <a href="/" id="logo">Harry Huang / Wenyuan Huang</a>
+        <a href="/blogs/" id="logo">Harry Huang / Wenyuan Huang</a>
       </h1>
       
         <h2 id="subtitle-wrap">
-          <a href="/" id="subtitle">Math &amp; CS student in UW - Madison</a>
+          <a href="/blogs/" id="subtitle">Math &amp; CS student in UW - Madison</a>
         </h2>
       
     </div>
@@ -65,20 +65,20 @@
       <nav id="main-nav">
         <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
         
-          <a class="main-nav-link" href="/">Home</a>
+          <a class="main-nav-link" href="/blogs/">Home</a>
         
-          <a class="main-nav-link" href="/archives">Archives</a>
+          <a class="main-nav-link" href="/blogs/archives">Archives</a>
         
       </nav>
       <nav id="sub-nav">
         
         
-          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+          <a class="nav-icon" href="/blogs/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
         
         <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
       </nav>
       <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://whuang369.com"></form>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://whuang369.com/blogs"></form>
       </div>
     </div>
   </div>
@@ -87,7 +87,7 @@
       <div class="outer">
         <section id="main"><article id="post-Treap" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2024/11/07/Treap/" class="article-date">
+    <a href="/blogs/2024/11/07/Treap/" class="article-date">
   <time class="dt-published" datetime="2024-11-07T07:35:27.772Z" itemprop="datePublished">2024-11-07</time>
 </a>
     
@@ -129,7 +129,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://whuang369.com/2024/11/07/Treap/" data-id="cm37vfqgg00004citdl4w9on2" data-title="Treap" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://whuang369.com/blogs/2024/11/07/Treap/" data-id="cm3b3gfb10000xdit3z1g26ll" data-title="Treap" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -140,7 +140,7 @@
 <nav id="article-nav">
   
   
-    <a href="/2024/11/07/Analysis%20I/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/blogs/2024/11/07/Analysis%20I/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
       <div class="article-nav-title">Study note of MATH 521 - Analysis I</div>
     </a>
@@ -167,7 +167,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/11/">November 2024</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/blogs/archives/2024/11/">November 2024</a></li></ul>
     </div>
   </div>
 
@@ -180,11 +180,11 @@
       <ul>
         
           <li>
-            <a href="/2024/11/07/Treap/">Treap</a>
+            <a href="/blogs/2024/11/07/Treap/">Treap</a>
           </li>
         
           <li>
-            <a href="/2024/11/07/Analysis%20I/">Study note of MATH 521 - Analysis I</a>
+            <a href="/blogs/2024/11/07/Analysis%20I/">Study note of MATH 521 - Analysis I</a>
           </li>
         
       </ul>
@@ -209,25 +209,25 @@
     </div>
     <nav id="mobile-nav">
   
-    <a href="/" class="mobile-nav-link">Home</a>
+    <a href="/blogs/" class="mobile-nav-link">Home</a>
   
-    <a href="/archives" class="mobile-nav-link">Archives</a>
+    <a href="/blogs/archives" class="mobile-nav-link">Archives</a>
   
 </nav>
     
 
 
-<script src="/js/jquery-3.6.4.min.js"></script>
+<script src="/blogs/js/jquery-3.6.4.min.js"></script>
 
 
 
   
-<script src="/fancybox/jquery.fancybox.min.js"></script>
+<script src="/blogs/fancybox/jquery.fancybox.min.js"></script>
 
 
 
 
-<script src="/js/script.js"></script>
+<script src="/blogs/js/script.js"></script>
 
 
 
