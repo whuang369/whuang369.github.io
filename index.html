@@ -7,7 +7,7 @@
     <style>
         body {
             font-family: "Microsoft YaHei", Arial, sans-serif;
-            font-size: 18px; /* Enlarged default font size */
+            font-size: 20px; /* Enlarged default font size */
             margin: 0;
             padding: 0;
             line-height: 1.8;
@@ -33,9 +33,14 @@
         }
         .container {
             display: flex;
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 20px auto;
             padding: 0 20px;
+        }
+        .shortinfo {
+            color: #A0A0A0;
+            text-align: center;
+            font-size: 20px;
         }
         .left-column {
             width: 30%;
@@ -58,8 +63,12 @@
             height: 1000px;
             object-fit: fill;
         }
-        h1, h2, h3 {
-            font-size: 24px; /* Enlarged heading fonts */
+        h2, h3 {
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 35px; /* Enlarged heading fonts */
+        }
+        h1 {
+            font-size: 35px; /* Enlarged heading fonts */
         }
         .biography, .interests, .education {
             margin-bottom: 20px;
@@ -87,7 +96,7 @@
             padding: 20px;
             border-top: 1px solid #ddd;
             margin-top: 20px;
-            font-size: 16px; /* Footer font size */
+            font-size: 12px; /* Footer font size */
         }
     </style>
 </head>
@@ -107,12 +116,12 @@
             <div class="profile-image">
                 <img src="images/Smilephoto.jpg" alt="Harry Huang" style="width: 300px; height: 300px; border-radius: 50%; object-fit: cover;">
             </div>            
-            <h2>Harry Huang</h2>
-            <p>
+            <h2 align="center">Harry Huang</h2>
+            <div class="shortinfo">
                 Undergraduate (Junior)<br>
-                BS Math (with honor) and BS Computer Science (with honor)<br>
+                Math & Comp Sci<br>
                 University of Wisconsin - Madison
-            </p>
+            </div>
         </div>
 
         <!-- Right Column -->
@@ -120,12 +129,13 @@
             <div class="biography">
                 <h2>Biography</h2>
                 <p>
-                        I am Harry Huang (aka Wenyuan Huang, 黄问远), a junior standing student of Math & CS at the University of Wisconsin - Madison.
-                    Currently, my primary areas of study include (Deep) Reinforcement Learning, Algorithm Optimization, and Computational Complexity.
-                    Recently, I have been reading literature on semi-supervised learning and reinforcement learning.
+                    I am Harry Huang (aka Wenyuan Huang, 黄问远), a junior standing student of Math & CS at the University of Wisconsin - Madison.
+                    My primary areas of study include (Deep) Reinforcement Learning, Algorithm Optimization, and Computational Complexity.
+                    I have been reading literature on semi-supervised learning and reinforcement learning recently.
                     At the same time, I am also deeply interested in Probability Theory and Game Theory.
                 <br />
-                    I am an active algorithm competition participant, having won national first prizes every year during my three years of high school, and I won the champion of the ICPC NCNA on November 9, 2024.
+                    I am an active competitive programming pariticipant, having won national first prizes every year during my three years of high school.
+                    On November 9, 2024, I won the champion of <a href="https://pages.cs.wisc.edu/~dieter/ICPC/hall-of-fame.html">ICPC NCNA 2024</a>.
                 <br /> Outside of academics, I excel in swimming, badminton and instrument playing.
                     I started learning piano at the age of four and began teaching myself the cello after entering university, participating in a symphony/string orchestra for two and a half consecutive years.
                 </p>
@@ -165,8 +175,7 @@
     </div>
 
     <footer>
-        <p>Last Updated: [Date]</p>
-        <p>© Harry Huang. This work is licensed under [License].</p>
+        <p>© Harry Huang. This work is licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> </p> </p>
     </footer>
 </body>
 </html>
