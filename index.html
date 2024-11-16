@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harry Huang's Homepage</title>
+    <style>
+        body {
+            font-family: "Microsoft YaHei", Arial, sans-serif;
+            font-size: 18px; /* Enlarged default font size */
+            margin: 0;
+            padding: 0;
+            line-height: 1.8;
+        }
+        header {
+            text-align: center;
+            padding: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            padding: 10px;
+        }
+        nav a {
+            margin: 0 20px; /* Increased spacing between links */
+            text-decoration: none;
+            color: black;
+            font-size: 20px; /* Enlarged font for navigation links */
+        }
+        nav a:hover {
+            color: #007bff; /* Add hover effect */
+        }
+        .container {
+            display: flex;
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+        .left-column {
+            width: 30%;
+            padding-right: 20px;
+            border-right: 1px solid #ddd;
+            box-sizing: border-box;
+        }
+        .right-column {
+            width: 70%;
+            padding-left: 20px;
+            box-sizing: border-box;
+        }
+        .profile-image {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .profile-image img {
+            /* border-radius: 50%; */
+            width: 1000px;
+            height: 1000px;
+            object-fit: fill;
+        }
+        h1, h2, h3 {
+            font-size: 24px; /* Enlarged heading fonts */
+        }
+        .biography, .interests, .education {
+            margin-bottom: 20px;
+        }
+        .interests-education-container {
+            display: flex;
+            justify-content: space-between;
+        }
+        .interests, .education {
+            width: 48%;
+        }
+        .education-item {
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .education-item img {
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            border-top: 1px solid #ddd;
+            margin-top: 20px;
+            font-size: 16px; /* Footer font size */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Harry Huang's Homepage</h1>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="https://whuang369.com/blog">Blog</a>
+            <a href="resume.html">Resume</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <!-- Left Column -->
+        <div class="left-column">
+            <div class="profile-image">
+                <img src="images/Smilephoto.jpg" alt="Harry Huang" style="width: 300px; height: 300px; border-radius: 50%; object-fit: cover;">
+            </div>            
+            <h2>Harry Huang</h2>
+            <p>
+                Undergraduate (Junior)<br>
+                BS Math (with honor) and BS Computer Science (with honor)<br>
+                University of Wisconsin - Madison
+            </p>
+        </div>
+
+        <!-- Right Column -->
+        <div class="right-column">
+            <div class="biography">
+                <h2>Biography</h2>
+                <p>
+                        I am Harry Huang (aka Wenyuan Huang, 黄问远), a junior standing student of Math & CS at the University of Wisconsin - Madison.
+                    Currently, my primary areas of study include (Deep) Reinforcement Learning, Algorithm Optimization, and Computational Complexity.
+                    Recently, I have been reading literature on semi-supervised learning and reinforcement learning.
+                    At the same time, I am also deeply interested in Probability Theory and Game Theory.
+                <br />
+                    I am an active algorithm competition participant, having won national first prizes every year during my three years of high school, and I won the champion of the ICPC NCNA on November 9, 2024.
+                <br /> Outside of academics, I excel in swimming, badminton and instrument playing.
+                    I started learning piano at the age of four and began teaching myself the cello after entering university, participating in a symphony/string orchestra for two and a half consecutive years.
+                </p>
+            </div>
+
+            <div class="interests-education-container">
+                <div class="interests">
+                    <h2>Interests</h2>
+                    <ul>
+                        <li>Deep Reinforcement Learning</li>
+                        <li>Probability Theory</li>
+                        <li>Competitive Programming</li>
+                    </ul>
+                </div>
+
+                <div class="education">
+                    <h2>Education</h2>
+                    <div class="education-item">
+                        <img src="images/uwmlogo.png" alt="uwm" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover;">
+                        <div>
+                            <b>University of Wisconsin - Madison</b><br>
+                            2024 Jan ~ 2027 May (Expected)<br>
+                            B.Sc. in Mathematics with Honor, B.Sc. in Computer Science with Honor
+                        </div>
+                    </div>
+                    <div class="education-item">
+                        <img src="images/njupt.jpg"  alt="njupt" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover;">
+                        <div>
+                            <b>Nanjing University of Posts and Telecommunications</b><br>
+                            2022 Sep ~ 2024 Jan (Transferred)<br>
+                            B.Sc. In Computer Science and Technology
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Last Updated: [Date]</p>
+        <p>© Harry Huang. This work is licensed under [License].</p>
+    </footer>
+</body>
+</html>
