@@ -14,8 +14,9 @@
         }
         header {
             text-align: center;
-            padding: 20px;
+            padding: 10px;
             border-bottom: 1px solid #ddd;
+            line-height: 1.2;
         }
         nav {
             display: flex;
@@ -33,7 +34,7 @@
         }
         .container {
             display: flex;
-            max-width: 1400px;
+            max-width: 1500px;
             margin: 20px auto;
             padding: 0 20px;
         }
@@ -63,12 +64,20 @@
             height: 1000px;
             object-fit: fill;
         }
+        .subtitle {
+            line-height: 1.2;
+            color: black;
+            font-size: 16px; /* Enlarged heading fonts */
+        }
         h2, h3 {
+            line-height: 0.5;
             font-family: 'Times New Roman', Times, serif;
             font-size: 35px; /* Enlarged heading fonts */
         }
         h1 {
-            font-size: 35px; /* Enlarged heading fonts */
+            line-height: 0.5;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 45px; /* Enlarged heading fonts */
         }
         .biography, .interests, .education {
             margin-bottom: 20px;
@@ -80,11 +89,16 @@
         .interests, .education {
             width: 48%;
         }
+        .links {
+            color: grey;
+            font-size: 23px;
+        }
         .education-item {
-            font-size: 15px;
+            line-height: 1.2;
+            font-size: 14px;
             display: flex;
             align-items: center;
-            margin-bottom: 15px;
+            margin-bottom: 14px;
         }
         .education-item img {
             width: 50px;
@@ -104,9 +118,9 @@
     <header>
         <h1>Harry Huang's Homepage</h1>
         <nav>
-            <a href="index.html">Home</a>
-            <a href="https://whuang369.com/blog">Blog</a>
-            <a href="resume.html">Resume</a>
+            <a href="index.html", class = "links">Home</a>
+            <a href="https://whuang369.com/blog", class = "links">Blog</a>
+            <a href="resume.html", class = "links">Resume</a>
         </nav>
     </header>
 
@@ -119,7 +133,7 @@
             <h2 align="center">Harry Huang</h2>
             <div class="shortinfo">
                 Undergraduate (Junior)<br>
-                Math & Comp Sci<br>
+                Math & CS<br>
                 University of Wisconsin - Madison
             </div>
         </div>
@@ -135,7 +149,7 @@
                     At the same time, I am also deeply interested in Probability Theory and Game Theory.
                 <br />
                     I am an active competitive programming pariticipant, having won national first prizes every year during my three years of high school.
-                    On November 9, 2024, I won the champion of <a href="https://pages.cs.wisc.edu/~dieter/ICPC/hall-of-fame.html">ICPC NCNA 2024</a>.
+                    On November 9, 2024, I won the champion of <a href="https://ncna24.kattis.com/contests/ncna24/standings?filter=6771">ICPC NCNA 2024</a>.
                 <br /> Outside of academics, I excel in swimming, badminton and instrument playing.
                     I started learning piano at the age of four and began teaching myself the cello after entering university, participating in a symphony/string orchestra for two and a half consecutive years.
                 </p>
@@ -145,9 +159,9 @@
                 <div class="interests">
                     <h2>Interests</h2>
                     <ul>
-                        <li>Deep Reinforcement Learning</li>
-                        <li>Probability Theory</li>
-                        <li>Competitive Programming</li>
+                        <li><a href="https://en.wikipedia.org/wiki/Deep_reinforcement_learning">Deep Reinforcement Learning</a></li>
+                        <li><a href="https://en.wikipedia.org/wiki/Probability_theory">Probability Theory</a></li>
+                        <li><a href="https://en.wikipedia.org/wiki/Competitive_programming">Competitive Programming</a></li>
                     </ul>
                 </div>
 
@@ -156,15 +170,17 @@
                     <div class="education-item">
                         <img src="images/uwmlogo.png" alt="uwm" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover;">
                         <div>
-                            <b>University of Wisconsin - Madison</b><br>
+                            <div class="subtitle"><b>University of Wisconsin - Madison</b></div>
                             2024 Jan ~ 2027 May (Expected)<br>
-                            B.Sc. in Mathematics with Honor, B.Sc. in Computer Science with Honor
+                            B.Sc. in Mathematics with Honor <br>
+                            B.Sc. in Computer Science with Honor
                         </div>
                     </div>
+                    <p>
                     <div class="education-item">
                         <img src="images/njupt.jpg"  alt="njupt" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover;">
                         <div>
-                            <b>Nanjing University of Posts and Telecommunications</b><br>
+                            <div class="subtitle"><b>Nanjing University of Posts and Telecommunications</b></div>
                             2022 Sep ~ 2024 Jan (Transferred)<br>
                             B.Sc. In Computer Science and Technology
                         </div>
