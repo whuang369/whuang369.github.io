@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Hexo Theme Redefine">
+    
+    <meta name="author" content="Harry Huang (aka Wenyuan Haung, 黄问远)">
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    
+        
+        
+        
+            <link rel="preconnect" href="https://registry.npmmirror.com" crossorigin>
+        
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="http://whuang369.com/2024/11/07/treap/"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+        <meta name="description" content="##前置芝士熟练掌握二叉查找（排序）树的插入、删除、求排名、求某一排名的数、求前驱、求后继等操作。#引言二叉查找树看似可以在 $O(logn)$ 中完成任意上述操作。但若该二叉查找树退化为如下形态：  此时，在此图上操作的时间复杂度仍为 $O(n)$。观察可知：二叉查找树的最优形态是平衡树，故需要一种能维持树的平衡形态的二叉查找树。  #正文Treap又名树堆，是一种利用随机性来维持二叉查找树的平">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Treap">
+<meta property="og:url" content="http://whuang369.com/2024/11/07/Treap/index.html">
+<meta property="og:site_name" content="Harry Huang &#x2F; Wenyuan Huang">
+<meta property="og:description" content="##前置芝士熟练掌握二叉查找（排序）树的插入、删除、求排名、求某一排名的数、求前驱、求后继等操作。#引言二叉查找树看似可以在 $O(logn)$ 中完成任意上述操作。但若该二叉查找树退化为如下形态：  此时，在此图上操作的时间复杂度仍为 $O(n)$。观察可知：二叉查找树的最优形态是平衡树，故需要一种能维持树的平衡形态的二叉查找树。  #正文Treap又名树堆，是一种利用随机性来维持二叉查找树的平">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/1766216/202007/1766216-20200703170058580-1974291410.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/1766216/202007/1766216-20200703170523966-955075840.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/1766216/202007/1766216-20200703171325409-2087694991.png">
+<meta property="og:image" content="https://img2018.cnblogs.com/blog/1376658/201811/1376658-20181106152641976-1107462982.gif">
+<meta property="og:image" content="https://img2018.cnblogs.com/blog/1376658/201811/1376658-20181106152658367-982581642.gif">
+<meta property="article:published_time" content="2024-11-07T07:35:27.772Z">
+<meta property="article:modified_time" content="2024-11-16T02:16:23.305Z">
+<meta property="article:author" content="Harry Huang &#x2F; Hexo">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img2020.cnblogs.com/blog/1766216/202007/1766216-20200703170058580-1974291410.png">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/redefine-favicon.svg" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/redefine-favicon.svg">
+    <meta name="theme-color" content="#A31F34">
+    <link rel="shortcut icon" href="/images/redefine-favicon.svg">
+    <!--- Page Info-->
+    
+    <title>
+        
+            Treap | Harry Huang&#39;s Blog
+        
+    </title>
+
+    <link rel="stylesheet" href="https://registry.npmmirror.com/hexo-theme-redefine/2.7.3/files/source/fonts/Chillax/chillax.css">
+
+    <!--- Inject Part-->
+    
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+        <link rel="stylesheet" href="https://registry.npmmirror.com/hexo-theme-redefine/2.7.3/files/source/assets/build/styles.css">
+    
+
+    <link rel="stylesheet" href="https://registry.npmmirror.com/hexo-theme-redefine/2.7.3/files/source/fonts/GeistMono/geist-mono.css">
+    <link rel="stylesheet" href="https://registry.npmmirror.com/hexo-theme-redefine/2.7.3/files/source/fonts/Geist/geist.css">
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"whuang369.com","root":"/","language":"en"};
+    window.theme = {"articles":{"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":false,"link_icon":true,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.4rem","h3":"1.9rem","h4":"1.6rem","h5":"1.4rem","h6":"1.3rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":false,"list":[]},"code_block":{"copy":true,"style":"mac","highlight_theme":{"light":"github","dark":"vs2015"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"cc_by_nc_sa"},"lazyload":true,"recommendation":{"enable":false,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#A31F34","secondary":null,"default_mode":"light"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1000px","sidebar_width":"210px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":false,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":{"enable":false,"custom_message":null},"open_graph":true,"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"/images/wallhaven-wqery6-light.webp","dark":"/images/wallhaven-wqery6-dark.webp"},"title":"Harry Huang's Blog","subtitle":{"text":["TECH OTAKUS SAVE THE WORLD"],"hitokoto":{"enable":false,"show_author":false,"api":"https://v1.hitokoto.cn"},"typing_speed":100,"backing_speed":80,"starting_delay":500,"backing_delay":1500,"loop":true,"smart_backspace":true},"text_color":{"light":"#fff","dark":"#d1d1b6"},"text_style":{"title_size":"2.8rem","subtitle_size":"1.5rem","line_height":1.2},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":true,"style":"default","links":{"github":"https://github.com/whuang369","instagram":"https://www.instagram.com/huangwe_10/","twitter":"https://x.com/whuang369","email":"whuang369 [at] wisc [dot] edu"}}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":false,"type":"fixed","audios":[{"name":null,"artist":null,"url":null,"cover":null,"lrc":null}]},"mermaid":{"enable":false,"version":"9.3.0"}},"version":"2.7.3","navbar":{"auto_hide":false,"color":{"left":"#f78736","right":"#367df7","transparency":35},"width":{"home":"1200px","pages":"1000px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"Archives":{"path":"/archives","icon":"fa-regular fa-archive"},"About":{"icon":"fa-regular fa-user","submenus":{"Me":"/about","Github":"https://github.com/EvanNotFound/hexo-theme-redefine","Blog":"https://ohevan.com","Friends":"/friends"}},"Links":{"icon":"fa-regular fa-link","submenus":{"Link1":"/link1","Link2":"/link2","Link3":"/link3"}}},"search":{"enable":false,"preload":true}},"page_templates":{"friends_column":2,"tags_style":"blur"},"home":{"sidebar":{"enable":true,"position":"left","first_item":"menu","announcement":null,"show_on_mobile":true,"links":null},"article_date_format":"auto","excerpt_length":200,"categories":{"enable":true,"limit":3},"tags":{"enable":true,"limit":3}},"footerStart":"2022/8/17 11:45:14"};
+    window.lang_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    <link rel="stylesheet" href="https://registry.npmmirror.com/hexo-theme-redefine/2.7.3/files/source/fontawesome/fontawesome.min.css">
+    <link rel="stylesheet" href="https://registry.npmmirror.com/hexo-theme-redefine/2.7.3/files/source/fontawesome/brands.min.css">
+    <link rel="stylesheet" href="https://registry.npmmirror.com/hexo-theme-redefine/2.7.3/files/source/fontawesome/solid.min.css">
+    <link rel="stylesheet" href="https://registry.npmmirror.com/hexo-theme-redefine/2.7.3/files/source/fontawesome/regular.min.css">
+    
+    
+    
+    
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+<!--        <span class="swup-progress-icon">-->
+<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+<!--        </span>-->
+    
+</div>
+
+
+
+<main class="page-container" id="swup">
+
+    
+
+    <div class="main-content-container flex flex-col justify-between min-h-dvh">
+
+
+        <div class="main-content-header">
+            <header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                Harry Huang&#39;s Blog
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/"
+                                        >
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    HOME
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/archives"
+                                        >
+                                    <i class="fa-regular fa-archive fa-fw"></i>
+                                    ARCHIVES
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="has-dropdown"
+                                   href="#"
+                                        onClick=&#34;return false;&#34;>
+                                    <i class="fa-regular fa-user fa-fw"></i>
+                                    ABOUT
+                                    <i class="fa-solid fa-chevron-down fa-fw"></i>
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                                    <ul class="sub-menu">
+                                        
+                                            <li>
+                                                <a href="/about">
+                                                    ME
+                                                </a>
+                                            </li>
+                                        
+                                            <li>
+                                                <a target="_blank" rel="noopener" href="https://github.com/EvanNotFound/hexo-theme-redefine">
+                                                    GITHUB
+                                                </a>
+                                            </li>
+                                        
+                                            <li>
+                                                <a target="_blank" rel="noopener" href="https://ohevan.com">
+                                                    BLOG
+                                                </a>
+                                            </li>
+                                        
+                                            <li>
+                                                <a href="/friends">
+                                                    FRIENDS
+                                                </a>
+                                            </li>
+                                        
+                                    </ul>
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="has-dropdown"
+                                   href="#"
+                                        onClick=&#34;return false;&#34;>
+                                    <i class="fa-regular fa-link fa-fw"></i>
+                                    LINKS
+                                    <i class="fa-solid fa-chevron-down fa-fw"></i>
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                                    <ul class="sub-menu">
+                                        
+                                            <li>
+                                                <a href="/link1">
+                                                    LINK1
+                                                </a>
+                                            </li>
+                                        
+                                            <li>
+                                                <a href="/link2">
+                                                    LINK2
+                                                </a>
+                                            </li>
+                                        
+                                            <li>
+                                                <a href="/link3">
+                                                    LINK3
+                                                </a>
+                                            </li>
+                                        
+                                    </ul>
+                                
+                            </li>
+                    
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile sheet -->
+    <div class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/"
+                        >
+                            <span>
+                                HOME
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/archives"
+                        >
+                            <span>
+                                ARCHIVES
+                            </span>
+                            
+                                <i class="fa-regular fa-archive fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item-sub text-base my-1.5 flex flex-col w-full">
+                        
+                        <div class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary cursor-pointer text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                             navbar-data-toggle="submenu-About"
+                        >
+                            <span>
+                                ABOUT
+                            </span>
+                            
+                                <i class="fa-solid fa-chevron-right fa-sm fa-fw transition-all"></i>
+                            
+                        </div>
+                        
+
+                        
+                            <div class="flex-col items-start px-2 py-2 hidden" data-target="submenu-About">
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           href="/about">ME</a>
+                                    </div>
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           target="_blank" rel="noopener" href="https://github.com/EvanNotFound/hexo-theme-redefine">GITHUB</a>
+                                    </div>
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           target="_blank" rel="noopener" href="https://ohevan.com">BLOG</a>
+                                    </div>
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           href="/friends">FRIENDS</a>
+                                    </div>
+                                
+                            </div>
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item-sub text-base my-1.5 flex flex-col w-full">
+                        
+                        <div class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary cursor-pointer text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                             navbar-data-toggle="submenu-Links"
+                        >
+                            <span>
+                                LINKS
+                            </span>
+                            
+                                <i class="fa-solid fa-chevron-right fa-sm fa-fw transition-all"></i>
+                            
+                        </div>
+                        
+
+                        
+                            <div class="flex-col items-start px-2 py-2 hidden" data-target="submenu-Links">
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           href="/link1">LINK1</a>
+                                    </div>
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           href="/link2">LINK2</a>
+                                    </div>
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           href="/link3">LINK3</a>
+                                    </div>
+                                
+                            </div>
+                        
+                    </li>
+            
+
+            
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">0</div>
+        <div class="label text-third-text-color text-sm">Tags</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">0</div>
+        <div class="label text-third-text-color text-sm">Categories</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">2</div>
+        <div class="label text-third-text-color text-sm">Posts</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="main-content-body">
+
+            
+
+            <div class="main-content">
+
+                
+                    <div class="post-page-container flex relative justify-between box-border w-full h-full">
+    <div class="article-content-container">
+
+        <div class="article-title relative w-full">
+            
+                <div class="w-full flex items-center pt-6 justify-start">
+                    <h1 class="article-title-regular text-second-text-color tracking-tight text-4xl md:text-6xl font-semibold px-2 sm:px-6 md:px-8 py-3">Treap</h1>
+                </div>
+            
+            </div>
+
+        
+            <div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+                <div class="avatar w-[46px] h-[46px] flex-shrink-0 rounded-medium border border-border-color p-[1px]">
+                    <img src="/images/redefine-avatar.svg">
+                </div>
+                <div class="info flex flex-col justify-between">
+                    <div class="author flex items-center">
+                        <span class="name text-default-text-color text-lg font-semibold">Harry Huang (aka Wenyuan Haung, 黄问远)</span>
+                        
+                            <span class="author-label ml-1.5 text-xs px-2 py-0.5 rounded-small text-third-text-color border border-shadow-color-1">Lv1</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2024-11-07 01:35:27</span>
+        <span class="mobile">2024-11-07 01:35:27</span>
+        <span class="hover-info">Created</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2024-11-15 20:16:23</span>
+            <span class="mobile">2024-11-15 20:16:23</span>
+            <span class="hover-info">Updated</span>
+        </span>
+    
+
+    
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        
+
+
+        <div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
+            <p>##前置芝士<br>熟练掌握二叉查找（排序）树的插入、删除、求排名、求某一排名的数、求前驱、求后继等操作。<br>#引言<br>二叉查找树看似可以在 $O(logn)$ 中完成任意上述操作。但若该二叉查找树退化为如下形态：</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://img2020.cnblogs.com/blog/1766216/202007/1766216-20200703170058580-1974291410.png"
+                     
+                ></p>
+<p>此时，在此图上操作的时间复杂度仍为 $O(n)$。<br>观察可知：二叉查找树的最优形态是平衡树，故需要一种能维持树的平衡形态的二叉查找树。</p>
+<hr>
+<p>#正文<br>Treap又名树堆，是一种利用随机性来维持二叉查找树的平衡形态的树（相较于Splay，方便且暴力许多）。<br>学习Treap，首先需要了解Treap的特色旋转操作（与Splay的旋转有一定差别）。旋转操作在Treap中主要用于在不破坏二叉查找树的性质（左子树比根小，右子树比根大）的情况下，对元素的位置进行挪动。根据所需旋转的节点属于其父亲节点的左子树和右子树，可分为左旋和右旋。</p>
+<p>###旋转<br><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://img2020.cnblogs.com/blog/1766216/202007/1766216-20200703170523966-955075840.png"
+                     
+                ><br>如图，假设我们要将B点挪到现A点的位置，一种很自然的思路是将图整体像右移动：C点移至原B点位置、B点移至原A点位置、A点移至原E点位置、E点移至原E点右儿子位置。<br>但此时会出现一个问题，如图：<br><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://img2020.cnblogs.com/blog/1766216/202007/1766216-20200703171325409-2087694991.png"
+                     
+                ><br>B点有两个右儿子：A、D，故需要将一个右儿子移至他处。发现A点没有左儿子，所以可将D点改为A点的左儿子。<br>操作完成后可发现，子树的二叉查找性并没有受到破坏，所以旋转可以随意在二叉查找树中使用。<br>因为该操作的过程类似旋转，并且方向为顺时针，故称其为右旋。<br>左旋与右旋类似，故在此不赘述。<br><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://img2018.cnblogs.com/blog/1376658/201811/1376658-20181106152641976-1107462982.gif"
+                     
+                ><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://img2018.cnblogs.com/blog/1376658/201811/1376658-20181106152658367-982581642.gif"
+                     
+                ></p>
+<blockquote>
+<p>GIF来自<a class="link"   target="_blank" rel="noopener" href="https://www.cnblogs.com/lazy-people/p/9326556.html" >https://www.cnblogs.com/lazy-people/p/9326556.html <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+</blockquote>
+<h2 id="这两张动图可以更方便读者理解“旋转”操作的过程。-代码"><a href="#这两张动图可以更方便读者理解“旋转”操作的过程。-代码" class="headerlink" title="这两张动图可以更方便读者理解“旋转”操作的过程。####代码"></a>这两张动图可以更方便读者理解“旋转”操作的过程。<br>####代码<br><div class="highlight-container" data-rel="C++"><figure class="iseeu highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">rotate</span> <span class="params">(<span class="type">int</span> &amp;x, <span class="type">int</span> d)</span> </span>&#123;</span><br><span class="line">    <span class="type">int</span> t = sons[x][d ^ <span class="number">1</span>];</span><br><span class="line">    sons[x][d ^ <span class="number">1</span>] = sons[t][d];</span><br><span class="line">    sons[t][d] = x;</span><br><span class="line">    <span class="built_in">pushup</span> (x);</span><br><span class="line">    <span class="built_in">pushup</span> (t);</span><br><span class="line">    x = t;</span><br><span class="line">    <span class="keyword">return</span> ;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div></h2><h2 id="插入节点Treap的插入操作与普通的二叉查找树如出一辙，但是为了保持平衡，每个节点会有一个随机值来保证图的形态的随机性。-操作步骤-1、从根节点开始递归；-2、如果当前节点的值等于需插入的值，则将该节点的数值数量和该节点的子树的节点数-1；-3、如果当前节点的值大于需插入的值，则在当前节点的左儿子中继续2、3两步；如果当前节点的值小于需插入的值，则在当前节点的右儿子中继续2、3两步。操作完成后，若子节点的随机值大于当前节点的随机值，则将当前节点向下旋转；-4、如果当前节点为空节点，则在当前节点中建立新的节点，并赋予新节点一个随机值；-代码"><a href="#插入节点Treap的插入操作与普通的二叉查找树如出一辙，但是为了保持平衡，每个节点会有一个随机值来保证图的形态的随机性。-操作步骤-1、从根节点开始递归；-2、如果当前节点的值等于需插入的值，则将该节点的数值数量和该节点的子树的节点数-1；-3、如果当前节点的值大于需插入的值，则在当前节点的左儿子中继续2、3两步；如果当前节点的值小于需插入的值，则在当前节点的右儿子中继续2、3两步。操作完成后，若子节点的随机值大于当前节点的随机值，则将当前节点向下旋转；-4、如果当前节点为空节点，则在当前节点中建立新的节点，并赋予新节点一个随机值；-代码" class="headerlink" title="###插入节点Treap的插入操作与普通的二叉查找树如出一辙，但是为了保持平衡，每个节点会有一个随机值来保证图的形态的随机性。###操作步骤#####1、从根节点开始递归；#####2、如果当前节点的值等于需插入的值，则将该节点的数值数量和该节点的子树的节点数+1；#####3、如果当前节点的值大于需插入的值，则在当前节点的左儿子中继续2、3两步；如果当前节点的值小于需插入的值，则在当前节点的右儿子中继续2、3两步。操作完成后，若子节点的随机值大于当前节点的随机值，则将当前节点向下旋转；#####4、如果当前节点为空节点，则在当前节点中建立新的节点，并赋予新节点一个随机值；####代码"></a>###插入节点<br>Treap的插入操作与普通的二叉查找树如出一辙，但是为了保持平衡，每个节点会有一个随机值来保证图的形态的随机性。<br>###操作步骤<br>#####1、从根节点开始递归；<br>#####2、如果当前节点的值等于需插入的值，则将该节点的数值数量和该节点的子树的节点数+1；<br>#####3、如果当前节点的值大于需插入的值，则在当前节点的左儿子中继续2、3两步；如果当前节点的值小于需插入的值，则在当前节点的右儿子中继续2、3两步。操作完成后，若子节点的随机值大于当前节点的随机值，则将当前节点向下旋转；<br>#####4、如果当前节点为空节点，则在当前节点中建立新的节点，并赋予新节点一个随机值；<br>####代码<br><div class="highlight-container" data-rel="C++"><figure class="iseeu highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">ins</span> <span class="params">(<span class="type">int</span> &amp;p, <span class="type">int</span> x)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!p) &#123;</span><br><span class="line">        p = ++ cnt;</span><br><span class="line">        siz[p] = num[p] = <span class="number">1</span>;</span><br><span class="line">        val[p] = x;</span><br><span class="line">        rd[p] = <span class="built_in">rand</span> ();</span><br><span class="line">        <span class="keyword">return</span> ;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (val[p] == x) &#123;</span><br><span class="line">        num[p] ++;</span><br><span class="line">        siz[p] ++;</span><br><span class="line">        <span class="keyword">return</span> ;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">int</span> d = (x &gt; val[p]);</span><br><span class="line">    <span class="built_in">ins</span> (sons[p][d], x);</span><br><span class="line">    <span class="keyword">if</span> (rd[p] &lt; rd[sons[p][d]])</span><br><span class="line">        <span class="built_in">rotate</span> (p, d ^ <span class="number">1</span>);</span><br><span class="line">    <span class="built_in">pushup</span> (p);</span><br><span class="line">    <span class="keyword">return</span> ;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div></h2><p>###删除节点<br>删除操作和插入节点的区别在于，需要分类讨论需删除的节点的状态（左儿子存在与否、右儿子存在与否）。</p>
+<p>#####情况一：左儿子右儿子都不存在<br>因为叶子节点的存在不会影响整树的平衡，所以此时可以直接删除该节点；<br>#####情况二：左儿子存在、右儿子不存在<br>若直接删除节点，有可能影响树的平衡性，所以将当前节点向左儿子旋转；<br>#####情况三：左儿子不存在，右儿子存在<br>与情况二大同小异，差别是要将当前节点向右儿子旋转；<br>#####情况四：左儿子存在，右儿子存在<br>此时需要选择旋转左旋还是右旋。显然，若进行左&#x2F;右旋，则左&#x2F;右儿子会更替当前节点的位置。故为了维持树的随机性，需要将左儿子和右儿子中随机值大的点向上旋转；</p>
+<h2 id="点的遍历操作与插入节点的遍历如出一辙，此处不再赘述。-代码"><a href="#点的遍历操作与插入节点的遍历如出一辙，此处不再赘述。-代码" class="headerlink" title="点的遍历操作与插入节点的遍历如出一辙，此处不再赘述。####代码"></a>点的遍历操作与插入节点的遍历如出一辙，此处不再赘述。<br>####代码<br><div class="highlight-container" data-rel="C++"><figure class="iseeu highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">del</span> <span class="params">(<span class="type">int</span> &amp;p, <span class="type">int</span> x)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!p)</span><br><span class="line">        <span class="keyword">return</span> ;</span><br><span class="line">    <span class="keyword">if</span> (x &lt; val[p])</span><br><span class="line">        <span class="built_in">del</span> (sons[p][<span class="number">0</span>], x);</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (x &gt; val[p])</span><br><span class="line">        <span class="built_in">del</span> (sons[p][<span class="number">1</span>], x);</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (!sons[p][<span class="number">0</span>] &amp;&amp; !sons[p][<span class="number">1</span>]) &#123;</span><br><span class="line">            num[p] --;</span><br><span class="line">            siz[p] --;</span><br><span class="line">            <span class="keyword">if</span> (num[p] == <span class="number">0</span>)</span><br><span class="line">                p = <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (sons[p][<span class="number">0</span>] &amp;&amp; !sons[p][<span class="number">1</span>]) &#123;</span><br><span class="line">            <span class="built_in">rotate</span> (p, <span class="number">1</span>);</span><br><span class="line">            <span class="built_in">del</span> (sons[p][<span class="number">1</span>], x);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (!sons[p][<span class="number">0</span>] &amp;&amp; sons[p][<span class="number">1</span>]) &#123;</span><br><span class="line">            <span class="built_in">rotate</span> (p, <span class="number">0</span>);</span><br><span class="line">            <span class="built_in">del</span> (sons[p][<span class="number">0</span>], x);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (sons[p][<span class="number">0</span>] &amp;&amp; sons[p][<span class="number">1</span>]) &#123;</span><br><span class="line">            <span class="type">int</span> d = (rd[sons[p][<span class="number">0</span>]] &gt; rd[sons[p][<span class="number">1</span>]]);</span><br><span class="line">            <span class="built_in">rotate</span> (p, d);</span><br><span class="line">            <span class="built_in">del</span> (sons[p][d], x);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">pushup</span> (p);</span><br><span class="line">    <span class="keyword">return</span> ;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div></h2><p>###查找某个数的排名<br>仍然可以使用正常的二叉排序树的一般遍历方式。</p>
+<p>###遍历操作<br>###情况一：若当前节点的值等于查找的树，则返回当前节点的左子树的数量+1；<br>###情况二：若当前节点的值小于需查找的值，则返回 需查找的值在右子树的排名+当前节点的左子树的节点数+当前节点的数量；<br>###情况三：若当前节点的值大于需查找的值，则返回 需查找的值在左子树的排名；</p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="####代码"></a>####代码<br><div class="highlight-container" data-rel="C++"><figure class="iseeu highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">ranks</span> <span class="params">(<span class="type">int</span> p, <span class="type">int</span> x)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!p)</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (x == val[p])</span><br><span class="line">        <span class="keyword">return</span> siz[sons[p][<span class="number">0</span>]] + <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span> (val[p] &lt; x)</span><br><span class="line">        <span class="keyword">return</span> siz[sons[p][<span class="number">0</span>]] + num[p] + <span class="built_in">ranks</span> (sons[p][<span class="number">1</span>], x);</span><br><span class="line">    <span class="keyword">if</span> (val[p] &gt; x)</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">ranks</span> (sons[p][<span class="number">0</span>], x);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div></h2><p>###查找某排名的数<br>本质就是逆向操作“查找某个数的排名”。</p>
+<h2 id="代码-1"><a href="#代码-1" class="headerlink" title="####代码"></a>####代码<br><div class="highlight-container" data-rel="C++"><figure class="iseeu highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">find</span> <span class="params">(<span class="type">int</span> p, <span class="type">int</span> x)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!p)</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (x &lt;= siz[sons[p][<span class="number">0</span>]])</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">find</span> (sons[p][<span class="number">0</span>], x);</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (x &gt; siz[sons[p][<span class="number">0</span>]] + num[p])</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">find</span> (sons[p][<span class="number">1</span>], x - siz[sons[p][<span class="number">0</span>]] - num[p]);</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="keyword">return</span> val[p];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div></h2><p>###求先驱、后继<br>过程并不复杂：在遍历过程中不断向需求先驱的数靠近，同时用当前节点的值更新答案。</p>
+<h2 id="代码-2"><a href="#代码-2" class="headerlink" title="####代码"></a>####代码<br><div class="highlight-container" data-rel="C++"><figure class="iseeu highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">pre</span> <span class="params">(<span class="type">int</span> p, <span class="type">int</span> x)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!p)</span><br><span class="line">        <span class="keyword">return</span> -inf;</span><br><span class="line">    <span class="keyword">if</span> (val[p] &gt;= x)</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">pre</span> (sons[p][<span class="number">0</span>], x);</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">max</span> (val[p], <span class="built_in">pre</span> (sons[p][<span class="number">1</span>], x));</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">suc</span> <span class="params">(<span class="type">int</span> p, <span class="type">int</span> x)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!p)</span><br><span class="line">        <span class="keyword">return</span> inf;</span><br><span class="line">    <span class="keyword">if</span> (val[p] &lt;= x)</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">suc</span> (sons[p][<span class="number">1</span>], x);</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">min</span> (val[p], <span class="built_in">suc</span> (sons[p][<span class="number">0</span>], x));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div></h2><p>完整版代码：</p>
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;bits/stdc++.h&gt;</span><br><span class="line">using namespace std;</span><br><span class="line">const int N = 1e5 + 500, inf = 2000000005;</span><br><span class="line">int n, rt, val[N], siz[N], rd[N], cnt, sons[N][2], num[N];</span><br><span class="line">void pushup (int x) &#123;</span><br><span class="line">    siz[x] = siz[sons[x][0]] + siz[sons[x][1]] + num[x];</span><br><span class="line">    return ;</span><br><span class="line">&#125;</span><br><span class="line">void rotate (int &amp;x, int d) &#123;</span><br><span class="line">    int t = sons[x][d ^ 1];</span><br><span class="line">    sons[x][d ^ 1] = sons[t][d];</span><br><span class="line">    sons[t][d] = x;</span><br><span class="line">    pushup (x);</span><br><span class="line">    pushup (t);</span><br><span class="line">    x = t;</span><br><span class="line">    return ;</span><br><span class="line">&#125;</span><br><span class="line">void del (int &amp;p, int x) &#123;</span><br><span class="line">    if (!p)</span><br><span class="line">        return ;</span><br><span class="line">    if (x &lt; val[p])</span><br><span class="line">        del (sons[p][0], x);</span><br><span class="line">    else if (x &gt; val[p])</span><br><span class="line">        del (sons[p][1], x);</span><br><span class="line">    else &#123;</span><br><span class="line">        if (!sons[p][0] &amp;&amp; !sons[p][1]) &#123;</span><br><span class="line">            num[p] --;</span><br><span class="line">            siz[p] --;</span><br><span class="line">            if (num[p] == 0)</span><br><span class="line">                p = 0;</span><br><span class="line">        &#125;</span><br><span class="line">        else if (sons[p][0] &amp;&amp; !sons[p][1]) &#123;</span><br><span class="line">            rotate (p, 1);</span><br><span class="line">            del (sons[p][1], x);</span><br><span class="line">        &#125;</span><br><span class="line">        else if (!sons[p][0] &amp;&amp; sons[p][1]) &#123;</span><br><span class="line">            rotate (p, 0);</span><br><span class="line">            del (sons[p][0], x);</span><br><span class="line">        &#125;</span><br><span class="line">        else if (sons[p][0] &amp;&amp; sons[p][1]) &#123;</span><br><span class="line">            int d = (rd[sons[p][0]] &gt; rd[sons[p][1]]);</span><br><span class="line">            rotate (p, d);</span><br><span class="line">            del (sons[p][d], x);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    pushup (p);</span><br><span class="line">    return ;</span><br><span class="line">&#125;</span><br><span class="line">void ins (int &amp;p, int x) &#123;</span><br><span class="line">    if (!p) &#123;</span><br><span class="line">        p = ++ cnt;</span><br><span class="line">        siz[p] = num[p] = 1;</span><br><span class="line">        val[p] = x;</span><br><span class="line">        rd[p] = rand ();</span><br><span class="line">        return ;</span><br><span class="line">    &#125;</span><br><span class="line">    if (val[p] == x) &#123;</span><br><span class="line">        num[p] ++;</span><br><span class="line">        siz[p] ++;</span><br><span class="line">        return ;</span><br><span class="line">    &#125;</span><br><span class="line">    int d = (x &gt; val[p]);</span><br><span class="line">    ins (sons[p][d], x);</span><br><span class="line">    if (rd[p] &lt; rd[sons[p][d]])</span><br><span class="line">        rotate (p, d ^ 1);</span><br><span class="line">    pushup (p);</span><br><span class="line">    return ;</span><br><span class="line">&#125;</span><br><span class="line">int ranks (int p, int x) &#123;</span><br><span class="line">    if (!p)</span><br><span class="line">        return 0;</span><br><span class="line">    if (x == val[p])</span><br><span class="line">        return siz[sons[p][0]] + 1;</span><br><span class="line">    if (val[p] &lt; x)</span><br><span class="line">        return siz[sons[p][0]] + num[p] + ranks (sons[p][1], x);</span><br><span class="line">    if (val[p] &gt; x)</span><br><span class="line">        return ranks (sons[p][0], x);</span><br><span class="line">&#125;</span><br><span class="line">int find (int p, int x) &#123;</span><br><span class="line">    if (!p)</span><br><span class="line">        return 0;</span><br><span class="line">    if (x &lt;= siz[sons[p][0]])</span><br><span class="line">        return find (sons[p][0], x);</span><br><span class="line">    else if (x &gt; siz[sons[p][0]] + num[p])</span><br><span class="line">        return find (sons[p][1], x - siz[sons[p][0]] - num[p]);</span><br><span class="line">    else</span><br><span class="line">        return val[p];</span><br><span class="line">&#125;</span><br><span class="line">int pre (int p, int x) &#123;</span><br><span class="line">    if (!p)</span><br><span class="line">        return -inf;</span><br><span class="line">    if (val[p] &gt;= x)</span><br><span class="line">        return pre (sons[p][0], x);</span><br><span class="line">    else</span><br><span class="line">        return max (val[p], pre (sons[p][1], x));</span><br><span class="line">&#125;</span><br><span class="line">int suc (int p, int x) &#123;</span><br><span class="line">    if (!p)</span><br><span class="line">        return inf;</span><br><span class="line">    if (val[p] &lt;= x)</span><br><span class="line">        return suc (sons[p][1], x);</span><br><span class="line">    else</span><br><span class="line">        return min (val[p], suc (sons[p][0], x));</span><br><span class="line">&#125;</span><br><span class="line">int main () &#123;</span><br><span class="line">    scanf (&quot;%d&quot;, &amp;n);</span><br><span class="line">    for (int i = 1; i &lt;= n; i ++) &#123;</span><br><span class="line">        int op, x;</span><br><span class="line">        scanf (&quot;%d%d&quot;, &amp;op, &amp;x);</span><br><span class="line">        if (op == 1)</span><br><span class="line">             ins (rt, x);</span><br><span class="line">        else if (op == 2)</span><br><span class="line">             del (rt, x);</span><br><span class="line">        else if (op == 3)</span><br><span class="line">             printf (&quot;%d\n&quot;, ranks (rt, x));</span><br><span class="line">                else if (op == 4)</span><br><span class="line">             printf (&quot;%d\n&quot;, find (rt, x));</span><br><span class="line">                else if (op == 5)</span><br><span class="line">             printf (&quot;%d\n&quot;, pre (rt, x));</span><br><span class="line">                else if (op == 6)</span><br><span class="line">             printf (&quot;%d\n&quot;, suc (rt, x));</span><br><span class="line">    &#125;</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+<p>例题推荐：<a class="link"   target="_blank" rel="noopener" href="https://loj.ac/problem/104" >LOJ #104 普通平衡树 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+
+        </div>
+
+        
+            <div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+                <div class="article-copyright-info-container">
+    <ul>
+        <li><strong>Title:</strong> Treap</li>
+        <li><strong>Author:</strong> Harry Huang (aka Wenyuan Haung, 黄问远)</li>
+        <li><strong>Created at
+                :</strong> 2024-11-07 01:35:27</li>
+        
+            <li>
+                <strong>Updated at
+                    :</strong> 2024-11-15 20:16:23
+            </li>
+        
+        <li>
+            <strong>Link:</strong> https://whuang369.com/2024/11/07/Treap/
+        </li>
+        <li>
+            <strong>
+                License:
+            </strong>
+            
+
+            
+                This work is licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0">CC BY-NC-SA 4.0</a>.
+            
+        </li>
+    </ul>
+</div>
+
+            </div>
+        
+
+        
+
+        
+
+        
+            <div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+                
+                
+                    <div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+                        <a class="next"
+                        rel="next"
+                        href="/2024/11/07/Analysis%20I/"
+                        >
+                            <span class="title flex justify-center items-center">
+                                <span class="post-nav-title-item">Study note of MATH 521 - Analysis I</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex justify-center items-center">
+                                <i class="fa-solid fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+
+        
+            <div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+                <div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        Comments
+    </div>
+    
+
+        
+            
+    <div id="waline"></div>
+    <script type="module" data-swup-reload-script>
+      import { init } from '/js/libs/waline.mjs';
+
+      function loadWaline() {
+        init({
+          el: '#waline',
+          serverURL: 'https://example.example.com',
+          lang: 'zh-CN',
+          dark: 'body[class~="dark-mode"]',
+          reaction: false,
+          requiredMeta: ['nick', 'mail'],
+          emoji: [],
+          
+          
+        });
+      }
+
+      if (typeof swup !== 'undefined') {
+        loadWaline();
+      } else {
+        window.addEventListener('DOMContentLoaded', loadWaline);
+      }
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+
+    
+        <div class="toc-content-container">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <div class="toc-title">On this page</div>
+        <div class="page-title">Treap</div>
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%99%E4%B8%A4%E5%BC%A0%E5%8A%A8%E5%9B%BE%E5%8F%AF%E4%BB%A5%E6%9B%B4%E6%96%B9%E4%BE%BF%E8%AF%BB%E8%80%85%E7%90%86%E8%A7%A3%E2%80%9C%E6%97%8B%E8%BD%AC%E2%80%9D%E6%93%8D%E4%BD%9C%E7%9A%84%E8%BF%87%E7%A8%8B%E3%80%82-%E4%BB%A3%E7%A0%81"><span class="nav-text">这两张动图可以更方便读者理解“旋转”操作的过程。####代码123456789void rotate (int &amp;x, int d) {    int t &#x3D; sons[x][d ^ 1];    sons[x][d ^ 1] &#x3D; sons[t][d];    sons[t][d] &#x3D; x;    pushup (x);    pushup (t);    x &#x3D; t;    return ;}</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8F%92%E5%85%A5%E8%8A%82%E7%82%B9Treap%E7%9A%84%E6%8F%92%E5%85%A5%E6%93%8D%E4%BD%9C%E4%B8%8E%E6%99%AE%E9%80%9A%E7%9A%84%E4%BA%8C%E5%8F%89%E6%9F%A5%E6%89%BE%E6%A0%91%E5%A6%82%E5%87%BA%E4%B8%80%E8%BE%99%EF%BC%8C%E4%BD%86%E6%98%AF%E4%B8%BA%E4%BA%86%E4%BF%9D%E6%8C%81%E5%B9%B3%E8%A1%A1%EF%BC%8C%E6%AF%8F%E4%B8%AA%E8%8A%82%E7%82%B9%E4%BC%9A%E6%9C%89%E4%B8%80%E4%B8%AA%E9%9A%8F%E6%9C%BA%E5%80%BC%E6%9D%A5%E4%BF%9D%E8%AF%81%E5%9B%BE%E7%9A%84%E5%BD%A2%E6%80%81%E7%9A%84%E9%9A%8F%E6%9C%BA%E6%80%A7%E3%80%82-%E6%93%8D%E4%BD%9C%E6%AD%A5%E9%AA%A4-1%E3%80%81%E4%BB%8E%E6%A0%B9%E8%8A%82%E7%82%B9%E5%BC%80%E5%A7%8B%E9%80%92%E5%BD%92%EF%BC%9B-2%E3%80%81%E5%A6%82%E6%9E%9C%E5%BD%93%E5%89%8D%E8%8A%82%E7%82%B9%E7%9A%84%E5%80%BC%E7%AD%89%E4%BA%8E%E9%9C%80%E6%8F%92%E5%85%A5%E7%9A%84%E5%80%BC%EF%BC%8C%E5%88%99%E5%B0%86%E8%AF%A5%E8%8A%82%E7%82%B9%E7%9A%84%E6%95%B0%E5%80%BC%E6%95%B0%E9%87%8F%E5%92%8C%E8%AF%A5%E8%8A%82%E7%82%B9%E7%9A%84%E5%AD%90%E6%A0%91%E7%9A%84%E8%8A%82%E7%82%B9%E6%95%B0-1%EF%BC%9B-3%E3%80%81%E5%A6%82%E6%9E%9C%E5%BD%93%E5%89%8D%E8%8A%82%E7%82%B9%E7%9A%84%E5%80%BC%E5%A4%A7%E4%BA%8E%E9%9C%80%E6%8F%92%E5%85%A5%E7%9A%84%E5%80%BC%EF%BC%8C%E5%88%99%E5%9C%A8%E5%BD%93%E5%89%8D%E8%8A%82%E7%82%B9%E7%9A%84%E5%B7%A6%E5%84%BF%E5%AD%90%E4%B8%AD%E7%BB%A7%E7%BB%AD2%E3%80%813%E4%B8%A4%E6%AD%A5%EF%BC%9B%E5%A6%82%E6%9E%9C%E5%BD%93%E5%89%8D%E8%8A%82%E7%82%B9%E7%9A%84%E5%80%BC%E5%B0%8F%E4%BA%8E%E9%9C%80%E6%8F%92%E5%85%A5%E7%9A%84%E5%80%BC%EF%BC%8C%E5%88%99%E5%9C%A8%E5%BD%93%E5%89%8D%E8%8A%82%E7%82%B9%E7%9A%84%E5%8F%B3%E5%84%BF%E5%AD%90%E4%B8%AD%E7%BB%A7%E7%BB%AD2%E3%80%813%E4%B8%A4%E6%AD%A5%E3%80%82%E6%93%8D%E4%BD%9C%E5%AE%8C%E6%88%90%E5%90%8E%EF%BC%8C%E8%8B%A5%E5%AD%90%E8%8A%82%E7%82%B9%E7%9A%84%E9%9A%8F%E6%9C%BA%E5%80%BC%E5%A4%A7%E4%BA%8E%E5%BD%93%E5%89%8D%E8%8A%82%E7%82%B9%E7%9A%84%E9%9A%8F%E6%9C%BA%E5%80%BC%EF%BC%8C%E5%88%99%E5%B0%86%E5%BD%93%E5%89%8D%E8%8A%82%E7%82%B9%E5%90%91%E4%B8%8B%E6%97%8B%E8%BD%AC%EF%BC%9B-4%E3%80%81%E5%A6%82%E6%9E%9C%E5%BD%93%E5%89%8D%E8%8A%82%E7%82%B9%E4%B8%BA%E7%A9%BA%E8%8A%82%E7%82%B9%EF%BC%8C%E5%88%99%E5%9C%A8%E5%BD%93%E5%89%8D%E8%8A%82%E7%82%B9%E4%B8%AD%E5%BB%BA%E7%AB%8B%E6%96%B0%E7%9A%84%E8%8A%82%E7%82%B9%EF%BC%8C%E5%B9%B6%E8%B5%8B%E4%BA%88%E6%96%B0%E8%8A%82%E7%82%B9%E4%B8%80%E4%B8%AA%E9%9A%8F%E6%9C%BA%E5%80%BC%EF%BC%9B-%E4%BB%A3%E7%A0%81"><span class="nav-text">###插入节点Treap的插入操作与普通的二叉查找树如出一辙，但是为了保持平衡，每个节点会有一个随机值来保证图的形态的随机性。###操作步骤#####1、从根节点开始递归；#####2、如果当前节点的值等于需插入的值，则将该节点的数值数量和该节点的子树的节点数+1；#####3、如果当前节点的值大于需插入的值，则在当前节点的左儿子中继续2、3两步；如果当前节点的值小于需插入的值，则在当前节点的右儿子中继续2、3两步。操作完成后，若子节点的随机值大于当前节点的随机值，则将当前节点向下旋转；#####4、如果当前节点为空节点，则在当前节点中建立新的节点，并赋予新节点一个随机值；####代码1234567891011121314151617181920void ins (int &amp;p, int x) {    if (!p) {        p &#x3D; ++ cnt;        siz[p] &#x3D; num[p] &#x3D; 1;        val[p] &#x3D; x;        rd[p] &#x3D; rand ();        return ;    }    if (val[p] &#x3D;&#x3D; x) {        num[p] ++;        siz[p] ++;        return ;    }    int d &#x3D; (x &gt; val[p]);    ins (sons[p][d], x);    if (rd[p] &lt; rd[sons[p][d]])        rotate (p, d ^ 1);    pushup (p);    return ;}</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%82%B9%E7%9A%84%E9%81%8D%E5%8E%86%E6%93%8D%E4%BD%9C%E4%B8%8E%E6%8F%92%E5%85%A5%E8%8A%82%E7%82%B9%E7%9A%84%E9%81%8D%E5%8E%86%E5%A6%82%E5%87%BA%E4%B8%80%E8%BE%99%EF%BC%8C%E6%AD%A4%E5%A4%84%E4%B8%8D%E5%86%8D%E8%B5%98%E8%BF%B0%E3%80%82-%E4%BB%A3%E7%A0%81"><span class="nav-text">点的遍历操作与插入节点的遍历如出一辙，此处不再赘述。####代码12345678910111213141516171819202122232425262728293031void del (int &amp;p, int x) {    if (!p)        return ;    if (x &lt; val[p])        del (sons[p][0], x);    else if (x &gt; val[p])        del (sons[p][1], x);    else {        if (!sons[p][0] &amp;&amp; !sons[p][1]) {            num[p] --;            siz[p] --;            if (num[p] &#x3D;&#x3D; 0)                p &#x3D; 0;        }        else if (sons[p][0] &amp;&amp; !sons[p][1]) {            rotate (p, 1);            del (sons[p][1], x);        }        else if (!sons[p][0] &amp;&amp; sons[p][1]) {            rotate (p, 0);            del (sons[p][0], x);        }        else if (sons[p][0] &amp;&amp; sons[p][1]) {            int d &#x3D; (rd[sons[p][0]] &gt; rd[sons[p][1]]);            rotate (p, d);            del (sons[p][d], x);        }    }    pushup (p);    return ;}</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81"><span class="nav-text">####代码12345678910int ranks (int p, int x) {    if (!p)        return 0;    if (x &#x3D;&#x3D; val[p])        return siz[sons[p][0]] + 1;    if (val[p] &lt; x)        return siz[sons[p][0]] + num[p] + ranks (sons[p][1], x);    if (val[p] &gt; x)        return ranks (sons[p][0], x);}</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81-1"><span class="nav-text">####代码12345678910int find (int p, int x) {    if (!p)        return 0;    if (x &lt;&#x3D; siz[sons[p][0]])        return find (sons[p][0], x);    else if (x &gt; siz[sons[p][0]] + num[p])        return find (sons[p][1], x - siz[sons[p][0]] - num[p]);    else        return val[p];}</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81-2"><span class="nav-text">####代码12345678910111213141516int pre (int p, int x) {    if (!p)        return -inf;    if (val[p] &gt;&#x3D; x)        return pre (sons[p][0], x);    else        return max (val[p], pre (sons[p][1], x));}int suc (int p, int x) {    if (!p)        return inf;    if (val[p] &lt;&#x3D; x)        return suc (sons[p][1], x);    else        return min (val[p], suc (sons[p][0], x));}</span></a></li></ol>
+
+    </div>
+</div>
+        </div>
+    
+</div>
+
+
+
+                
+
+            </div>
+
+            
+
+        </div>
+
+        <div class="main-content-footer">
+            <footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+        <div class="text-center">
+            &copy;
+            
+              <span>2022</span>
+              -
+            
+            2024&nbsp;&nbsp;<i class="fa-solid fa-heart fa-beat" style="--fa-animation-duration: 0.5s; color: #f54545"></i>&nbsp;&nbsp;<a href="/">Harry Huang (aka Wenyuan Haung, 黄问远)</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        2 posts in total
+                    </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script src="https://cn.vercount.one/js"></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">VISITOR COUNT</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">TOTAL PAGE VIEWS</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">POWERED BY <?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a></span>
+            <span class="text-sm lg:block">THEME&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.7.3</a></span>
+        </div>
+        
+        
+            <div>
+                Blog up for <span class="odometer" id="runtime_days" ></span> days <span class="odometer" id="runtime_hours"></span> hrs <span class="odometer" id="runtime_minutes"></span> Min <span class="odometer" id="runtime_seconds"></span> Sec
+            </div>
+        
+        
+            <script data-swup-reload-script>
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+        
+    </div>  
+</footer>
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="article-tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="right-bottom-tools page-aside-toggle">
+                <i class="fa-regular fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fa-regular fa-comments"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-side-tools-container">
+        <div class="side-tools-container">
+    <ul class="hidden-tools-list">
+        <li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+            <i class="fa-regular fa-magnifying-glass-plus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+            <i class="fa-regular fa-magnifying-glass-minus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+            <i class="fa-regular fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+
+        <li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+            <i class="fa-regular fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="visible-tools-list">
+        <li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+            <i class="fa-regular fa-cog fa-spin"></i>
+        </li>
+        
+            <li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+                <i class="arrow-up fas fa-arrow-up"></i>
+                <span class="percent"></span>
+            </li>
+        
+        
+    </ul>
+</div>
+
+    </div>
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+    <script  src="https://registry.npmmirror.com/hexo-theme-redefine/2.7.3/files/source/js/libs/Swup.min.js" ></script><script  src="https://registry.npmmirror.com/hexo-theme-redefine/2.7.3/files/source/js/libs/SwupSlideTheme.min.js" ></script><script  src="https://registry.npmmirror.com/hexo-theme-redefine/2.7.3/files/source/js/libs/SwupScriptsPlugin.min.js" ></script><script  src="https://registry.npmmirror.com/hexo-theme-redefine/2.7.3/files/source/js/libs/SwupProgressPlugin.min.js" ></script><script  src="https://registry.npmmirror.com/hexo-theme-redefine/2.7.3/files/source/js/libs/SwupScrollPlugin.min.js" ></script><script  src="https://registry.npmmirror.com/hexo-theme-redefine/2.7.3/files/source/js/libs/SwupPreloadPlugin.min.js" ></script>
+<script>
+    const swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+</script>
+
+
+
+
+
+
+<script type="module" src="https://registry.npmmirror.com/hexo-theme-redefine/2.7.3/files/source/js/tools/imageViewer.js" ></script><script type="module" src="https://registry.npmmirror.com/hexo-theme-redefine/2.7.3/files/source/js/utils.js" ></script><script type="module" src="https://registry.npmmirror.com/hexo-theme-redefine/2.7.3/files/source/js/main.js" ></script><script type="module" src="https://registry.npmmirror.com/hexo-theme-redefine/2.7.3/files/source/js/layouts/navbarShrink.js" ></script><script type="module" src="https://registry.npmmirror.com/hexo-theme-redefine/2.7.3/files/source/js/tools/scrollTopBottom.js" ></script><script type="module" src="https://registry.npmmirror.com/hexo-theme-redefine/2.7.3/files/source/js/tools/lightDarkSwitch.js" ></script><script type="module" src="https://registry.npmmirror.com/hexo-theme-redefine/2.7.3/files/source/js/layouts/categoryList.js" ></script>
+
+
+
+
+    <script type="module" src="https://registry.npmmirror.com/hexo-theme-redefine/2.7.3/files/source/js/tools/codeBlock.js" ></script>
+
+
+
+    <script type="module" src="https://registry.npmmirror.com/hexo-theme-redefine/2.7.3/files/source/js/layouts/lazyload.js" ></script>
+
+
+
+    <script  src="https://registry.npmmirror.com/hexo-theme-redefine/2.7.3/files/source/js/tools/runtime.js" ></script>
+    <script  src="https://registry.npmmirror.com/hexo-theme-redefine/2.7.3/files/source/js/libs/odometer.min.js" ></script>
+    <link rel="stylesheet" href="https://registry.npmmirror.com/hexo-theme-redefine/2.7.3/files/source/assets/odometer-theme-minimal.css">
+
+
+
+  <script  src="https://registry.npmmirror.com/hexo-theme-redefine/2.7.3/files/source/js/libs/Typed.min.js" ></script>
+  <script type="module" src="https://registry.npmmirror.com/hexo-theme-redefine/2.7.3/files/source/js/plugins/typed.js" ></script>
+
+
+
+
+
+
+
+    <script  src="https://registry.npmmirror.com/hexo-theme-redefine/2.7.3/files/source/js/libs/anime.min.js" ></script>
+
+
+
+
+    <script type="module" src="https://registry.npmmirror.com/hexo-theme-redefine/2.7.3/files/source/js/tools/tocToggle.js" data-swup-reload-script></script><script type="module" src="https://registry.npmmirror.com/hexo-theme-redefine/2.7.3/files/source/js/layouts/toc.js" data-swup-reload-script></script><script type="module" src="https://registry.npmmirror.com/hexo-theme-redefine/2.7.3/files/source/js/plugins/tabs.js" data-swup-reload-script></script>
+
+
+<script  src="https://registry.npmmirror.com/hexo-theme-redefine/2.7.3/files/source/js/libs/moment-with-locales.min.js" data-swup-reload-script></script>
+<script type="module" src="https://registry.npmmirror.com/hexo-theme-redefine/2.7.3/files/source/js/layouts/essays.js" data-swup-reload-script></script>
+
+
+
+</body>
+</html>
