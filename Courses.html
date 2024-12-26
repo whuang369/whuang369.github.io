@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harry Huang's Homepage</title>
+    <link rel="icon" href="src/images/favicon.JPG" type="image/JPG">
+    <style>
+        body {
+            font-family: "Microsoft YaHei", Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ddd;
+            color: black;
+            line-height: 1.8;
+        }
+        header {
+            text-align: center;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            line-height: 1.2;
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            padding: 10px;
+        }
+        nav a {
+            margin: 0 20px; /* Increased spacing between links */
+            text-decoration: none;
+            color: black;
+            font-size: 20px; /* Enlarged font for navigation links */
+        }
+        nav a:hover {
+            color: #A0A0A0; /* Add hover effect */
+        }
+        .container {
+            max-width: 1500px;
+            margin: 40px auto;
+            padding: 0 20px;
+            text-align: center;
+        }
+        .shortinfo {
+            color: #A0A0A0;
+            text-align: center;
+            font-size: 20px;
+        }
+        .profile-image {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .profile-image img {
+            /* border-radius: 50%; */
+            width: 1000px;
+            height: 1000px;
+            object-fit: fill;
+        }
+        .subtitle {
+            line-height: 1.2;
+            color: black;
+            font-size: 16px; /* Enlarged heading fonts */
+        }
+        h2, h3 {
+            line-height: 0.5;
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 35px; /* Enlarged heading fonts */
+        }
+        h1 {
+            line-height: 0.5;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 45px; /* Enlarged heading fonts */
+        }
+        .interests-education-container {
+            display: flex;
+            justify-content: space-between;
+        }
+        .interests, .education {
+            width: 48%;
+        }
+        .links {
+            color: grey;
+            font-size: 23px;
+        }
+
+        .title {
+            font-size: 28px;
+            font-weight: bold;
+            color: black;
+            margin-bottom: 30px;
+        }
+
+        .semester-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* Three columns */
+            grid-auto-rows: 400px;
+            gap: 20px; /* Space between items */
+        }
+
+        .semester-card {
+            background-color: #2e2e2e;
+            border-radius: 8px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+            text-align: left;
+            color: white;
+            padding: 20px;
+            grid-row: span var(--grid-rows, 1);
+        }
+
+        .semester-card h3 {
+            margin-top: 0;
+            font-size: 20px;
+            color: #f5ba13;
+        }
+
+        .semester-card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .semester-card ul li {
+            margin-bottom: 8px;
+            color: #ddd;
+            font-family: 'Menlo';
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            border-top: 1px solid #ddd;
+            margin-top: 20px;
+            font-size: 12px; /* Footer font size */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Harry Huang's Homepage</h1>
+        <nav>
+            <a href="https://whuang369.com", class = "links">Home</a>
+            <a href="https://whuang369.com/blog", class = "links">Blog</a>
+            <a href="courses.html" class="links">Courses</a>
+            <a href="src/docs/resume.pdf", class = "links">Resume</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h2 class="title">In University of Wisconsin - Madison</h2>
+
+        <!-- Courses Grid -->
+        <div class="semester-grid">
+            <!-- Semester 1 -->
+            <div class="semester-card">
+                <h3>2024 Spring</h3>
+                <ul>
+                    <li>MATH 341 - Linear Algebra (Honor)</li>
+                    <li>CS 300 - Programming II </li>
+                    <li>CS 240 - Introduction to Discrete Mathematics</li>
+                    <li>ESL 116 - Academic Reading and Vocabulary Skills</li>
+                    <li>ASIAN AM 102 - Introduction to Comparative US Ethnic and American Indian Studies </li>
+                    <li>Music 60 - All-University String Orchestra</li>
+                </ul>
+            </div>
+            
+            <!-- Semester 2 -->
+            <div class="semester-card">
+                <h3>2024 Summer</h3>
+                <ul>
+                    <li>CS 252 - Introduction to Computer Engineering </li>
+                    <li>CS 400 - Programming III </li>
+                    <li>ESL 117 - Academic Writing I</li>
+                </ul>
+            </div>
+            
+            <!-- Semester 3 -->
+            <div class="semester-card">
+                <h3>2024 Fall</h3>
+                <ul>
+                    <li>MATH 521 - Analysis I (Honor)</li>
+                    <li>MATH 541 - Modern Algebra (Honor)</li>
+                    <li>MATH 551 - Elementary Topology (Honor)</li>
+                    <li>MATH 475 - Introduction to Combinatorics</li>
+                    <li>CS 540 - Introduction to Artificial Intelligence</li>
+                    <li>CS 502 - Theory and Practice in Computer Science Education</li>
+                    <li>Music 60 - All-University String Orchestra</li>
+                </ul>
+            </div>
+            
+            <!-- Semester 4 -->
+            <div class="semester-card">
+                <h3>2025 Spring (Expected)</h3>
+                <ul>
+                    <li>CS 577 - Introduction to Algorithms (Honor)</li>
+                    <li>MATH 522 - Analysis II (Honor)</li>
+                    <li>MATH 542 - Modern Algebra (Honor)</li>
+                    <li>MATH 531 - Probability Theory (Honor)</li>
+                    <li>CS 354 - Machine Organization and Programming</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+    <footer>
+        <p>© Harry Huang. This work is licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a></p>
+    </footer>
+</body>
+</html>

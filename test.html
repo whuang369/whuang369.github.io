@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harry Huang's Courses</title>
+    <link rel="icon" href="src/images/favicon.JPG" type="image/JPG">
+    <style>
+        body {
+            font-family: "Microsoft YaHei", Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #1e1e1e;
+            color: white;
+            line-height: 1.8;
+        }
+
+        header {
+            text-align: center;
+            padding: 10px;
+            border-bottom: 1px solid #444;
+            line-height: 1.2;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            padding: 10px;
+        }
+
+        nav a {
+            margin: 0 20px;
+            text-decoration: none;
+            color: white;
+            font-size: 18px;
+        }
+
+        nav a:hover {
+            color: #007bff;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .title {
+            font-size: 28px;
+            font-weight: bold;
+            color: #f5ba13;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .semester-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Dynamic columns */
+            grid-auto-rows: 100px; /* Base row height */
+            gap: 20px; /* Space between items */
+        }
+
+        .semester-card {
+            background-color: #e74c3c; /* Red for visual reference */
+            border-radius: 8px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+            text-align: left;
+            color: white;
+            padding: 10px;
+            grid-row: span var(--grid-rows, 1); /* Dynamically span rows */
+        }
+
+        .semester-card h3 {
+            margin-top: 0;
+            font-size: 16px;
+        }
+
+        .semester-card ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .semester-card ul li {
+            margin-bottom: 8px;
+            color: #ddd;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            color: #aaa;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Harry Huang's Homepage</h1>
+        <nav>
+            <a href="https://whuang369.com">Home</a>
+            <a href="https://whuang369.com/blog">Blog</a>
+            <a href="src/docs/resume.pdf">Resume</a>
+            <a href="courses.html">Courses</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h2 class="title">Courses Taken at UW-Madison</h2>
+
+        <!-- Courses Grid -->
+        <div class="semester-grid">
+            <!-- Semester 1 -->
+            <div class="semester-card" style="--grid-rows: 2;">
+                <h3>2024 Spring</h3>
+                <ul>
+                    <li>CS 540 - Introduction to AI</li>
+                    <li>MATH 341 - Modern Algebra</li>
+                </ul>
+            </div>
+            
+            <!-- Semester 2 -->
+            <div class="semester-card" style="--grid-rows: 1;">
+                <h3>2024 Summer</h3>
+                <ul>
+                    <li>CS 536 - Introduction to Compilers</li>
+                </ul>
+            </div>
+            
+            <!-- Semester 3 -->
+            <div class="semester-card" style="--grid-rows: 1;">
+                <h3>2024 Fall</h3>
+                <ul>
+                    <li>CS 577 - Introduction to Algorithms</li>
+                </ul>
+            </div>
+            
+            <!-- Semester 4 -->
+            <div class="semester-card" style="--grid-rows: 3;">
+                <h3>2025 Spring</h3>
+                <ul>
+                    <li>CS 532 - Matrix Methods in Machine Learning</li>
+                    <li>MATH 475 - Introduction to Probability</li>
+                    <li>PHYS 320 - Modern Physics</li>
+                </ul>
+            </div>
+            
+            <!-- Semester 5 -->
+            <div class="semester-card" style="--grid-rows: 1;">
+                <h3>2025 Summer</h3>
+                <ul>
+                    <li>CS 699 - Directed Study</li>
+                </ul>
+            </div>
+            
+            <!-- Semester 6 -->
+            <div class="semester-card" style="--grid-rows: 2;">
+                <h3>2025 Fall</h3>
+                <ul>
+                    <li>MATH 699 - Advanced Directed Study</li>
+                    <li>PHIL 104 - Logic</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>© Harry Huang. This work is licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" style="color: #f5ba13;">CC BY-NC-SA 4.0</a>.</p>
+    </footer>
+</body>
+</html>
