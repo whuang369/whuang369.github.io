@@ -91,8 +91,7 @@
 
         .semester-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr); /* Three columns */
-            grid-auto-rows: 400px;
+            grid-template-columns: repeat(3, 1fr); /* Dynamic columns */
             gap: 20px; /* Space between items */
         }
 
@@ -148,7 +147,7 @@
         <!-- Courses Grid -->
         <div class="semester-grid">
             <!-- Semester 1 -->
-            <div class="semester-card">
+            <div class="semester-card", style="--grid-rows: 6; grid-column: 1;">
                 <h3>2024 Spring</h3>
                 <ul>
                     <li>MATH 341 - Linear Algebra (Honor)</li>
@@ -161,7 +160,7 @@
             </div>
             
             <!-- Semester 2 -->
-            <div class="semester-card">
+            <div class="semester-card", style="--grid-rows: 3; grid-column: 2;">
                 <h3>2024 Summer</h3>
                 <ul>
                     <li>CS 252 - Introduction to Computer Engineering </li>
@@ -171,7 +170,7 @@
             </div>
             
             <!-- Semester 3 -->
-            <div class="semester-card">
+            <div class="semester-card", style="--grid-rows: 7; grid-column: 3;">
                 <h3>2024 Fall</h3>
                 <ul>
                     <li>MATH 521 - Analysis I (Honor)</li>
@@ -185,7 +184,7 @@
             </div>
             
             <!-- Semester 4 -->
-            <div class="semester-card">
+            <div class="semester-card", style="--grid-rows: 5; grid-column: 1;">
                 <h3>2025 Spring (Expected)</h3>
                 <ul>
                     <li>CS 577 - Introduction to Algorithms (Honor)</li>
