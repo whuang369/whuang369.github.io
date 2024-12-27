@@ -145,11 +145,10 @@
 
         .comments {
             max-width: 1500px;
-            margin-left: 100px;
-            margin-right: 100px;
             padding-top: 1px;
             padding-bottom: 40px;
             text-align: center;
+            margin: 40px auto;
         }
 
         .course-grid {
@@ -184,6 +183,9 @@
             color: #ddd;
             font-family: 'Menlo';
         }
+        .navb {
+            display: none;
+        }
         footer {
             text-align: center;
             padding: 20px;
@@ -196,6 +198,9 @@
                 line-height: 1.0;
                 font-family: 'Courier New', Courier, monospace;
                 font-size: 45px; /* Enlarged heading fonts */
+            }
+            .navb {
+                display: flex;
             }
             nav {
                 flex-direction: column; /* Change navbar to vertical */
@@ -257,11 +262,19 @@
                 color: #ddd;
                 font-family: 'Menlo';
             }
-
             .course-grid {
                 display: grid;
                 grid-template-columns: repeat(1, 1fr); /* Dynamic columns */
                 gap: 20px; /* Space between items */
+            }
+            .comments {
+                max-width: 1500px;
+                padding-top: 1px;
+                padding-bottom: 40px;
+                text-align: center;
+                margin: 40px auto;
+                padding-left: 20px;
+                padding-right: 20px;
             }
             footer {
                 text-align: center;
@@ -276,6 +289,7 @@
 <body>
     <header style = "background-color: white;">
         <h1>Harry Huang's Homepage</h1>
+        <hr class = "navb">
         <nav>
             <a href="https://whuang369.com", class = "links">Home</a>
             <a href="https://whuang369.com/blog", class = "links">Blog</a>
