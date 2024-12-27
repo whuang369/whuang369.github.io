@@ -17,7 +17,7 @@
         header {
             text-align: center;
             padding: 10px;
-            border-bottom: 1px solid #ddd;
+            border-bottom: 1px;
             line-height: 1.2;
         }
         nav {
@@ -31,11 +31,22 @@
             color: black;
             font-size: 20px; /* Enlarged font for navigation links */
         }
+        .navbar .hamburger {
+            display: none; /* Hidden by default on larger screens */
+            font-size: 24px;
+            cursor: pointer;
+        }
         nav a:hover {
             color: #A0A0A0; /* Add hover effect */
         }
+        .mid{
+            background-color: #ddd;
+        }
+        .tail{
+            background-color: white;
+        }
         .container {
-            max-width: 1500px;
+            max-width: 1200px;
             margin: 40px auto;
             padding: 0 20px;
             text-align: center;
@@ -45,30 +56,28 @@
             text-align: center;
             font-size: 20px;
         }
-        .profile-image {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .profile-image img {
-            /* border-radius: 50%; */
-            width: 1000px;
-            height: 1000px;
-            object-fit: fill;
-        }
         .subtitle {
             line-height: 1.2;
             color: black;
             font-size: 16px; /* Enlarged heading fonts */
         }
-        h2, h3 {
-            line-height: 0.5;
-            font-family: 'Times New Roman', Times, serif;
-            font-size: 35px; /* Enlarged heading fonts */
+        .a2 {
+            color: white;
         }
         h1 {
             line-height: 0.5;
             font-family: 'Courier New', Courier, monospace;
             font-size: 45px; /* Enlarged heading fonts */
+        }
+        h2 {
+            line-height: 1.8;
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 35px; /* Enlarged heading fonts */
+        }
+        h3 {
+            line-height: 1.8;
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 35px; /* Enlarged heading fonts */
         }
         .interests-education-container {
             display: flex;
@@ -81,7 +90,6 @@
             color: grey;
             font-size: 23px;
         }
-
         .title {
             font-size: 28px;
             font-weight: bold;
@@ -89,12 +97,12 @@
             margin-bottom: 30px;
         }
 
+
         .semester-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr); /* Dynamic columns */
             gap: 20px; /* Space between items */
         }
-
         .semester-card {
             background-color: #2e2e2e;
             border-radius: 8px;
@@ -103,20 +111,75 @@
             color: white;
             padding: 20px;
             grid-row: span var(--grid-rows, 1);
+            grid-column: auto;
         }
-
         .semester-card h3 {
             margin-top: 0;
             font-size: 20px;
             color: #f5ba13;
         }
-
         .semester-card ul {
             list-style: none;
             padding: 0;
         }
-
         .semester-card ul li {
+            margin-bottom: 8px;
+            color: #ddd;
+            font-family: 'Menlo';
+        }
+        a {
+            color: grey;
+        }
+
+        @media screen and (min-width: 769px) {
+            .semester-card:nth-child(3n+1) {
+                grid-column: 1;
+            }
+            .semester-card:nth-child(3n+2) {
+                grid-column: 2;
+            }
+            .semester-card:nth-child(3n) {
+                grid-column: 3;
+            }
+        }
+
+        .comments {
+            max-width: 1500px;
+            margin-left: 100px;
+            margin-right: 100px;
+            padding-top: 1px;
+            padding-bottom: 40px;
+            text-align: center;
+        }
+
+        .course-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); /* Dynamic columns */
+            gap: 20px; /* Space between items */
+        }
+        .course-card {
+            background-color: #2e2e2e;
+            border-radius: 8px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+            text-align: left;
+            color: white;
+            padding: 20px;
+            grid-row: span var(--grid-rows, 1);
+            grid-column: auto;
+            font-family: 'Menlo';
+            justify-content: space-between;
+            align-items: center;
+        }
+        .course-card h3 {
+            margin-top: 0;
+            font-size: 20px;
+            color: #f5ba13;
+        }
+        .course-card ul {
+            list-style: none;
+            padding: 0;
+        }
+        .course-card ul li {
             margin-bottom: 8px;
             color: #ddd;
             font-family: 'Menlo';
@@ -128,10 +191,90 @@
             margin-top: 20px;
             font-size: 12px; /* Footer font size */
         }
+        @media screen and (max-width: 768px) {
+            h1 {
+                line-height: 1.0;
+                font-family: 'Courier New', Courier, monospace;
+                font-size: 45px; /* Enlarged heading fonts */
+            }
+            nav {
+                flex-direction: column; /* Change navbar to vertical */
+                align-items: center; /* Center-align the links */
+            }
+            nav a {
+                margin: 10px 0; /* Add spacing between links */
+                font-size: 18px; /* Slightly larger font for better usability */
+            }
+            .navbar .hamburger {
+                display: block; /* Show hamburger menu on small screens */
+            }
+            .navbar-links {
+                display: none; /* Hidden by default for dropdown behavior */
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+                position: absolute;
+                top: 50px;
+                left: 0;
+                width: 100%;
+                background-color: #f5f5f5;
+                box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+                z-index: 1000;
+            }
+
+            .navbar-links.visible {
+                display: flex;
+            }
+            .semester-grid {
+                display: grid;
+                grid-template-columns: repeat(1, 1fr); /* Dynamic columns */
+                gap: 20px; /* Space between items */
+            }
+            .semester-card {
+                background-color: #2e2e2e;
+                border-radius: 8px;
+                box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+                text-align: left;
+                color: white;
+                padding: 20px;
+                grid-row: span var(--grid-rows, 1);
+                grid-column: auto;
+            }
+
+            .semester-card h3 {
+                margin-top: 0;
+                font-size: 20px;
+                color: #f5ba13;
+            }
+
+            .semester-card ul {
+                list-style: none;
+                padding: 0;
+            }
+
+            .semester-card ul li {
+                margin-bottom: 8px;
+                color: #ddd;
+                font-family: 'Menlo';
+            }
+
+            .course-grid {
+                display: grid;
+                grid-template-columns: repeat(1, 1fr); /* Dynamic columns */
+                gap: 20px; /* Space between items */
+            }
+            footer {
+                text-align: center;
+                padding: 20px;
+                border-top: 1px solid #ddd;
+                margin-top: 20px;
+                font-size: 12px; /* Footer font size */
+            }
+        }
     </style>
 </head>
 <body>
-    <header>
+    <header style = "background-color: white;">
         <h1>Harry Huang's Homepage</h1>
         <nav>
             <a href="https://whuang369.com", class = "links">Home</a>
@@ -141,65 +284,150 @@
         </nav>
     </header>
 
-    <div class="container">
-        <h2 class="title">In University of Wisconsin - Madison</h2>
+    <div class="mid">
+        <div class="container">
+            <h2 class="title">University of Wisconsin - Madison</h2>
 
-        <!-- Courses Grid -->
-        <div class="semester-grid">
-            <!-- Semester 1 -->
-            <div class="semester-card", style="--grid-rows: 6; grid-column: 1;">
-                <h3>2024 Spring</h3>
-                <ul>
-                    <li>MATH 341 - Linear Algebra (Honor)</li>
-                    <li>CS 300 - Programming II </li>
-                    <li>CS 240 - Introduction to Discrete Mathematics</li>
-                    <li>ESL 116 - Academic Reading and Vocabulary Skills</li>
-                    <li>ASIAN AM 102 - Introduction to Comparative US Ethnic and American Indian Studies </li>
-                    <li>Music 60 - All-University String Orchestra</li>
-                </ul>
+            <!-- Courses Grid -->
+            <div class="semester-grid">
+                <!-- Semester 1 -->
+                <div class="semester-card", style="--grid-rows: 6;">
+                    <h3>2024 Spring</h3>
+                    <ul>
+                        <li>MATH 341 - Linear Algebra (Honor)</li>
+                        <li>CS 300 - Programming II </li>
+                        <li>MATH/CS 240 - Introduction to Discrete Mathematics</li>
+                        <li>ESL 116 - Academic Reading and Vocabulary Skills</li>
+                        <li>ASIAN AM 102 - Introduction to Comparative US Ethnic and American Indian Studies </li>
+                        <li>Music 60 - All-University String Orchestra</li>
+                    </ul>
+                </div>
+                
+                <!-- Semester 2 -->
+                <div class="semester-card", style="--grid-rows: 3;">
+                    <h3>2024 Summer</h3>
+                    <ul>
+                        <li>CS 252 - Introduction to Computer Engineering </li>
+                        <li>CS 400 - Programming III </li>
+                        <li>ESL 117 - Academic Writing I</li>
+                    </ul>
+                </div>
+                
+                <!-- Semester 3 -->
+                <div class="semester-card", style="--grid-rows: 7;">
+                    <h3>2024 Fall</h3>
+                    <ul>
+                        <li>MATH 521 - Analysis I (Honor)</li>
+                        <li>MATH 541 - Modern Algebra (Honor)</li>
+                        <li>MATH 551 - Elementary Topology (Honor)</li>
+                        <li>MATH/CS 475 - Introduction to Combinatorics</li>
+                        <li>CS 540 - Introduction to Artificial Intelligence</li>
+                        <li>CS 502 - Theory and Practice in Computer Science Education</li>
+                        <li>Music 60 - All-University String Orchestra</li>
+                    </ul>
+                </div>
+                
+                <!-- Semester 4 -->
+                <div class="semester-card", style="--grid-rows: 5;">
+                    <h3>2025 Spring (Expected)</h3>
+                    <ul>
+                        <li>CS 577 - Introduction to Algorithms (Honor)</li>
+                        <li>MATH 522 - Analysis II (Honor)</li>
+                        <li>MATH 542 - Modern Algebra (Honor)</li>
+                        <li>MATH 531 - Probability Theory (Honor)</li>
+                        <li>CS 354 - Machine Organization and Programming</li>
+                    </ul>
+                </div>
             </div>
-            
-            <!-- Semester 2 -->
-            <div class="semester-card", style="--grid-rows: 3; grid-column: 2;">
-                <h3>2024 Summer</h3>
-                <ul>
-                    <li>CS 252 - Introduction to Computer Engineering </li>
-                    <li>CS 400 - Programming III </li>
-                    <li>ESL 117 - Academic Writing I</li>
-                </ul>
-            </div>
-            
-            <!-- Semester 3 -->
-            <div class="semester-card", style="--grid-rows: 7; grid-column: 3;">
-                <h3>2024 Fall</h3>
-                <ul>
-                    <li>MATH 521 - Analysis I (Honor)</li>
-                    <li>MATH 541 - Modern Algebra (Honor)</li>
-                    <li>MATH 551 - Elementary Topology (Honor)</li>
-                    <li>MATH 475 - Introduction to Combinatorics</li>
-                    <li>CS 540 - Introduction to Artificial Intelligence</li>
-                    <li>CS 502 - Theory and Practice in Computer Science Education</li>
-                    <li>Music 60 - All-University String Orchestra</li>
-                </ul>
-            </div>
-            
-            <!-- Semester 4 -->
-            <div class="semester-card", style="--grid-rows: 5; grid-column: 1;">
-                <h3>2025 Spring (Expected)</h3>
-                <ul>
-                    <li>CS 577 - Introduction to Algorithms (Honor)</li>
-                    <li>MATH 522 - Analysis II (Honor)</li>
-                    <li>MATH 542 - Modern Algebra (Honor)</li>
-                    <li>MATH 531 - Probability Theory (Honor)</li>
-                    <li>CS 354 - Machine Organization and Programming</li>
-                </ul>
+        </div>
+    </div>
+    
+    <div class="tail", style = "background-color: white;">
+        <div class="comments">
+            <h2>Details of Selected Courses</h2>
+            <div class="course-grid">
+                <div class="course-card">
+                    <h3>MATH 240 <br> Introduction to Discrete Mathematics</h3>
+                    An introduction to discrete mathematics. We covered topics such like proof techniques, 
+                    recursion and structural induction, recurrences, 
+                    functions and relations, graphs and trees, finite automata and regular expressions, and counting.
+                </div>
+                <div class="course-card">
+                    <h3>MATH 341 <br> Linear Algebra (Honor Section) </h3>
+                    An introduction to linear algebra. This is one of the hardest linear algebra courses
+                    in UW-Madison. We talked about some properties of vector
+                    space, subspace, and field first. Then we covered the regular topics such as matrix
+                    calculation, eigenvalues, diagonalization, Gram-Schmidt Orthogonalization Process
+                    and Orthogonal Complements. Details can be seen in my github repo <a href="https://github.com/whuang369/MATH-341">MATH341</a>.
+                </div>
+                <div class="course-card">
+                    <h3>COMP SCI 300 <br> Programming II </h3>
+                    My first formal Computer Science course in UW-Madison. This course talked about some basic objects and properties of Java like polymorphis.
+                    Also, it introduced some simple data structures like binary search tree, heap, etc.
+                    There were 10 programming assignments in total, all of them are strongly related with current topic. All of them should be completed with Java.
+                </div>
+                <div class="course-card">
+                    <h3>MUSIC 60 <br> All-University String Orchestra</h3>
+                    University string orchastra opened for all students in our university. I play cello in this orchastra. This course has rehearsals every week, and a concert at the end of semester.
+                </div>
+                <div class="course-card">
+                    <h3>COMP SCI 252 <br> Introduction to Computer Engineering </h3>
+                    An introduction to computer engineering. It introduced how computers compile programs, various electronic components, and how to write
+                    assembly language. There are programming assignments in LC-3 language.
+                </div>
+                <div class="course-card">
+                    <h3>COMP SCI 400 <br> Programming III </h3>
+                    This is the third and final course in the series of Java programming course CS200/300/400. In this course we learnt some useful
+                    CS techniques, including usage of various Linux commands and git. Also, we learnt more algorithms including 
+                    Kruskal, Dijkstra, and data structures like red-black tree.
+                </div>
+                <div class="course-card">
+                    <h3>MATH 521 <br> Analysis I (Honor Section)</h3>
+                    Introduction to mathematics analysis. It covered several topics about analysis, including basic set theory, topology on metric spaces, formal definitions 
+                    of derivative and integral, and some techniques about analyzing properties of sequence, series, and functions.
+                    We used baby rudin (Principles of Mathematical Analysis) as our textbooks, which is written by professor Rudin from our university!
+                </div>
+                <div class="course-card">
+                    <h3>MATH 541 <br> Modern Algebra (Honor Section)</h3>
+                    This course introduced abstract algebra. Topics basic set theory, group theory (including group actions), ring theory, Euclidean Domain, 
+                    Principle Ideal Domain, and congurence problems with Chinese Remainder Theorem are covered and all appear in the homework and exams.
+                    We mainly followed the lecture notes written by professor Chenxi Wu.
+                    I wrote <a href = "https://whuang369.com/blog/categories/Mathematics/Abstract-Algebra/">several blogs</a> about topics that are covered in this course.
+                </div>
+                <div class="course-card">
+                    <h3>MATH 551 <br> Elementary Topology (Honor Section)</h3>
+                    In this course, we learnt point set topology, in the order of set theory, topology on metric spaces, then point set topology (general topology).
+                    I wrote <a href = "https://whuang369.com/blog/categories/Mathematics/Topology/">several blogs</a> about topics that are covered in this course.
+                </div>
+                <div class="course-card">
+                    <h3>MATH/CS 475 <br> Introduction to Combinatorics</h3>
+                    This course introduced various topics about combinatorics, including generating permutations and combinations, binomial coefficients, 
+                    inclusion-exclusion principle, recurrence relations, generating functions, special counting sequences (First/Second Stirling number, Catalan number), 
+                    and Polya Counting. It is interesting that these topics are also covered in International Collegiate Programming Contest.
+                    We used a textbook written by professor Brualdi, who also comes from our university.
+                </div>
+                <div class="course-card">
+                    <h3>COMP SCI 540 <br> Introduction to Artificial Intelligence</h3>
+                    As its name, this is an introduction to artificial intelligence. Indeed, this is one of the most popular upper level CS courses in UW-MAdison, probably because its name.
+                    As there are to many topics that are covered in this course, please refer to <a href = "https://pages.cs.wisc.edu/~yw/CS540F24S.html">our course webpage</a> if you are interested in 
+                    the topics of this course.
+                    There are 10 programming assignments in this course. All of them (except the first one about writing essay) should be completed by python.
+                    While there are few prerequistes for this course, you need a solid understanding in basic probability theory and linear algebra to 
+                    fully grasp this course.
+                </div>
+                <div class="course-card">
+                    <h3>COMP SCI 502 <br> Theory and Practice in Computer Science Education</h3>
+                    This is a course about CS education. We discuessed lots of topics about the problems in CS education, such as the usage of LLM, 
+                    how to make students feel more belonging in CS courses, and what are the characteristics of a good peer mentor. We are also asked to watch 
+                    how peer mentors/TAs work, and write reports and thoughts from the observation.
+                </div>
             </div>
         </div>
     </div>
 
 
     <footer>
-        <p>© Harry Huang. This work is licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a></p>
+        <p>© Harry Huang. This work is licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/", style = "color: purple;">CC BY-NC-SA 4.0</a></p>
     </footer>
 </body>
 </html>

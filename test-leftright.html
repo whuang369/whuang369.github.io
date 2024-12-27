@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grid with Left-Right Layout</title>
+    <link rel="icon" href="src/images/favicon.JPG" type="image/JPG">
+    <style>
+        body {
+            font-family: "Microsoft YaHei", Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ddd;
+            color: black;
+            line-height: 1.8;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .title {
+            font-size: 28px;
+            font-weight: bold;
+            color: black;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        /* 核心 Grid 布局 */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* 三列布局 */
+            gap: 20px; /* Grid 间距 */
+        }
+
+        .grid-item {
+            background-color: #2e2e2e;
+            border-radius: 8px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+            color: white;
+            padding: 20px;
+            display: flex; /* Flexbox 用于左右布局 */
+            justify-content: space-between; /* 左右对齐 */
+            align-items: center; /* 垂直居中 */
+        }
+
+        .grid-item .left {
+            font-size: 18px;
+            color: #f5ba13;
+        }
+
+        .grid-item .right {
+            font-size: 16px;
+            color: #ddd;
+        }
+
+        @media screen and (max-width: 768px) {
+            .grid {
+                grid-template-columns: repeat(1, 1fr); /* 手机端每行一个 grid */
+            }
+
+            .grid-item {
+                flex-direction: column; /* 手机端改为上下布局 */
+                align-items: flex-start; /* 左对齐内容 */
+            }
+
+            .grid-item .right {
+                margin-top: 10px; /* 增加上下间距 */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 class="title">Grid with Left-Right Layout</h2>
+
+        <div class="grid">
+            <!-- Grid Item 1 -->
+            <div class="grid-item">
+                <div class="left">Course Name</div>
+                <div class="right">CS 540</div>
+            </div>
+
+            <!-- Grid Item 2 -->
+            <div class="grid-item">
+                <div class="left">Instructor</div>
+                <div class="right">Prof. John Doe</div>
+            </div>
+
+            <!-- Grid Item 3 -->
+            <div class="grid-item">
+                <div class="left">Semester</div>
+                <div class="right">Fall 2024</div>
+            </div>
+
+            <!-- Grid Item 4 -->
+            <div class="grid-item">
+                <div class="left">Location</div>
+                <div class="right">Room 101</div>
+            </div>
+
+            <!-- Grid Item 5 -->
+            <div class="grid-item">
+                <div class="left">Credits</div>
+                <div class="right">3</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

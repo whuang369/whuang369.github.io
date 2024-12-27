@@ -3,22 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Harry Huang's Courses</title>
+    <title>Harry Huang's Homepage</title>
     <link rel="icon" href="src/images/favicon.JPG" type="image/JPG">
     <style>
         body {
             font-family: "Microsoft YaHei", Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #1e1e1e;
-            color: white;
+            background-color: #ddd;
+            color: black;
             line-height: 1.8;
         }
 
         header {
             text-align: center;
             padding: 10px;
-            border-bottom: 1px solid #444;
+            border-bottom: 1px solid #ddd;
             line-height: 1.2;
         }
 
@@ -26,17 +26,18 @@
             display: flex;
             justify-content: center;
             padding: 10px;
+            background-color: #f5f5f5;
         }
 
         nav a {
-            margin: 0 20px;
+            margin: 5px 10px;
             text-decoration: none;
-            color: white;
-            font-size: 18px;
+            color: black;
+            font-size: 16px;
         }
 
         nav a:hover {
-            color: #007bff;
+            color: #A0A0A0;
         }
 
         .container {
@@ -48,31 +49,31 @@
         .title {
             font-size: 28px;
             font-weight: bold;
-            color: #f5ba13;
+            color: black;
             margin-bottom: 30px;
             text-align: center;
         }
 
+        /* Core Grid Layout */
         .semester-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Dynamic columns */
-            grid-auto-rows: 200px; /* Base row height */
+            grid-template-columns: repeat(3, 1fr); /* Default three columns */
             gap: 20px; /* Space between items */
         }
 
         .semester-card {
-            background-color: #e74c3c; /* Red for visual reference */
+            background-color: #2e2e2e;
             border-radius: 8px;
             box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
             text-align: left;
             color: white;
-            padding: 10px;
-            grid-row: span var(--grid-rows, 1); /* Dynamically span rows */
+            padding: 20px;
         }
 
         .semester-card h3 {
             margin-top: 0;
-            font-size: 16px;
+            font-size: 18px;
+            color: #f5ba13;
         }
 
         .semester-card ul {
@@ -84,13 +85,44 @@
         .semester-card ul li {
             margin-bottom: 8px;
             color: #ddd;
+            font-family: 'Menlo', monospace;
         }
 
         footer {
             text-align: center;
             padding: 20px;
-            margin-top: 40px;
-            color: #aaa;
+            border-top: 1px solid #ddd;
+            margin-top: 20px;
+            font-size: 12px;
+        }
+
+        /* Mobile Adaptation */
+        @media screen and (max-width: 768px) {
+            .semester-grid {
+                grid-template-columns: 1fr; /* Only one grid per row */
+            }
+
+            nav {
+                flex-direction: column; /* Change navbar to vertical */
+                align-items: center; /* Center-align the links */
+            }
+
+            nav a {
+                margin: 10px 0; /* Add spacing between links */
+                font-size: 18px; /* Slightly larger font for better usability */
+            }
+
+            .semester-card {
+                padding: 15px;
+            }
+
+            .semester-card h3 {
+                font-size: 16px;
+            }
+
+            .semester-card ul li {
+                font-size: 14px;
+            }
         }
     </style>
 </head>
@@ -98,74 +130,66 @@
     <header>
         <h1>Harry Huang's Homepage</h1>
         <nav>
-            <a href="https://whuang369.com">Home</a>
-            <a href="https://whuang369.com/blog">Blog</a>
-            <a href="src/docs/resume.pdf">Resume</a>
-            <a href="courses.html">Courses</a>
+            <a href="https://whuang369.com" class="links">Home</a>
+            <a href="https://whuang369.com/blog" class="links">Blog</a>
+            <a href="courses.html" class="links">Courses</a>
+            <a href="src/docs/resume.pdf" class="links">Resume</a>
         </nav>
     </header>
 
     <div class="container">
-        <h2 class="title">Courses Taken at UW-Madison</h2>
+        <h2 class="title">In University of Wisconsin - Madison</h2>
 
         <!-- Courses Grid -->
         <div class="semester-grid">
             <!-- Semester 1 -->
-            <div class="semester-card" style="--grid-rows: 2;">
+            <div class="semester-card">
                 <h3>2024 Spring</h3>
                 <ul>
-                    <li>CS 540 - Introduction to AI</li>
-                    <li>MATH 341 - Modern Algebra</li>
+                    <li>MATH 341 - Linear Algebra (Honor)</li>
+                    <li>CS 300 - Programming II</li>
+                    <li>CS 240 - Introduction to Discrete Mathematics</li>
+                    <li>ESL 116 - Academic Reading and Vocabulary Skills</li>
+                    <li>ASIAN AM 102 - Comparative Ethnic Studies</li>
+                    <li>Music 60 - Orchestra</li>
                 </ul>
             </div>
             
             <!-- Semester 2 -->
-            <div class="semester-card" style="--grid-rows: 1;">
+            <div class="semester-card">
                 <h3>2024 Summer</h3>
                 <ul>
-                    <li>CS 536 - Introduction to Compilers</li>
+                    <li>CS 252 - Computer Engineering</li>
+                    <li>CS 400 - Programming III</li>
+                    <li>ESL 117 - Academic Writing I</li>
                 </ul>
             </div>
             
             <!-- Semester 3 -->
-            <div class="semester-card" style="--grid-rows: 1;">
+            <div class="semester-card">
                 <h3>2024 Fall</h3>
                 <ul>
-                    <li>CS 577 - Introduction to Algorithms</li>
+                    <li>MATH 521 - Analysis I (Honor)</li>
+                    <li>MATH 541 - Modern Algebra</li>
+                    <li>CS 540 - Artificial Intelligence</li>
+                    <li>CS 502 - Computer Science Education</li>
                 </ul>
             </div>
             
             <!-- Semester 4 -->
-            <div class="semester-card" style="--grid-rows: 3;">
+            <div class="semester-card">
                 <h3>2025 Spring</h3>
                 <ul>
-                    <li>CS 532 - Matrix Methods in Machine Learning</li>
-                    <li>MATH 475 - Introduction to Probability</li>
-                    <li>PHYS 320 - Modern Physics</li>
-                </ul>
-            </div>
-            
-            <!-- Semester 5 -->
-            <div class="semester-card" style="--grid-rows: 1;">
-                <h3>2025 Summer</h3>
-                <ul>
-                    <li>CS 699 - Directed Study</li>
-                </ul>
-            </div>
-            
-            <!-- Semester 6 -->
-            <div class="semester-card" style="--grid-rows: 2;">
-                <h3>2025 Fall</h3>
-                <ul>
-                    <li>MATH 699 - Advanced Directed Study</li>
-                    <li>PHIL 104 - Logic</li>
+                    <li>CS 577 - Algorithms (Honor)</li>
+                    <li>MATH 522 - Analysis II</li>
+                    <li>MATH 531 - Probability Theory</li>
                 </ul>
             </div>
         </div>
     </div>
 
     <footer>
-        <p>© Harry Huang. This work is licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" style="color: #f5ba13;">CC BY-NC-SA 4.0</a>.</p>
+        <p>© Harry Huang. This work is licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a></p>
     </footer>
 </body>
 </html>
