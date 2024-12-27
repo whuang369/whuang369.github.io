@@ -300,7 +300,7 @@
 
     <div class="mid">
         <div class="container">
-            <h2 class="title">University of Wisconsin - Madison</h2>
+            <h2 class="title", id="uwm">University of Wisconsin - Madison</h2>
 
             <!-- Courses Grid -->
             <div class="semester-grid">
@@ -308,12 +308,12 @@
                 <div class="semester-card", style="--grid-rows: 6;">
                     <h3>2024 Spring</h3>
                     <ul>
-                        <li>MATH 341 - Linear Algebra (Honor)</li>
-                        <li>CS 300 - Programming II </li>
-                        <li>MATH/CS 240 - Introduction to Discrete Mathematics</li>
+                        <li><a href="#math341", style="color:#ddd">MATH 341 - Linear Algebra (Honor)</a></li>
+                        <li><a href="#cs300", style="color:#ddd">CS 300 - Programming II </a></li>
+                        <li><a href="#math240", style="color:#ddd">MATH/CS 240 - Introduction to Discrete Mathematics </a></li>
                         <li>ESL 116 - Academic Reading and Vocabulary Skills</li>
                         <li>ASIAN AM 102 - Introduction to Comparative US Ethnic and American Indian Studies </li>
-                        <li>Music 60 - All-University String Orchestra</li>
+                        <li><a href="#music60", style="color:#ddd">Music 60 - All-University String Orchestra</a></li>
                     </ul>
                 </div>
                 
@@ -321,8 +321,8 @@
                 <div class="semester-card", style="--grid-rows: 3;">
                     <h3>2024 Summer</h3>
                     <ul>
-                        <li>CS 252 - Introduction to Computer Engineering </li>
-                        <li>CS 400 - Programming III </li>
+                        <li><a href="#cs252", style="color:#ddd">CS 252 - Introduction to Computer Engineering </a></li>
+                        <li><a href="#cs400", style="color:#ddd">CS 400 - Programming III </a></li>
                         <li>ESL 117 - Academic Writing I</li>
                     </ul>
                 </div>
@@ -331,12 +331,12 @@
                 <div class="semester-card", style="--grid-rows: 7;">
                     <h3>2024 Fall</h3>
                     <ul>
-                        <li>MATH 521 - Analysis I (Honor)</li>
-                        <li>MATH 541 - Modern Algebra (Honor)</li>
-                        <li>MATH 551 - Elementary Topology (Honor)</li>
-                        <li>MATH/CS 475 - Introduction to Combinatorics</li>
-                        <li>CS 540 - Introduction to Artificial Intelligence</li>
-                        <li>CS 502 - Theory and Practice in Computer Science Education</li>
+                        <li><a href="#math521", style="color:#ddd">MATH 521 - Analysis I (Honor)</a></li>
+                        <li><a href="#math541", style="color:#ddd">MATH 541 - Modern Algebra (Honor)</a></li>
+                        <li><a href="#math551", style="color:#ddd">MATH 551 - Elementary Topology (Honor)</a></li>
+                        <li><a href="#math475", style="color:#ddd">MATH/CS 475 - Introduction to Combinatorics</a></li>
+                        <li><a href="#cs540", style="color:#ddd">CS 540 - Introduction to Artificial Intelligence</a></li>
+                        <li><a href="#cs502", style="color:#ddd">CS 502 - Theory and Practice in Computer Science Education</a></li>
                         <li>Music 60 - All-University String Orchestra</li>
                     </ul>
                 </div>
@@ -360,13 +360,13 @@
         <div class="comments">
             <h2>Details of Selected Courses</h2>
             <div class="course-grid">
-                <div class="course-card">
+                <div class="course-card", id="math240">
                     <h3>MATH 240 <br> Introduction to Discrete Mathematics</h3>
                     An introduction to discrete mathematics. We covered topics such like proof techniques, 
                     recursion and structural induction, recurrences, 
                     functions and relations, graphs and trees, finite automata and regular expressions, and counting.
                 </div>
-                <div class="course-card">
+                <div class="course-card", id="math341">
                     <h3>MATH 341 <br> Linear Algebra (Honor Section) </h3>
                     An introduction to linear algebra. This is one of the hardest linear algebra courses
                     in UW-Madison. We talked about some properties of vector
@@ -374,53 +374,53 @@
                     calculation, eigenvalues, diagonalization, Gram-Schmidt Orthogonalization Process
                     and Orthogonal Complements. Details can be seen in my github repo <a href="https://github.com/whuang369/MATH-341">MATH341</a>.
                 </div>
-                <div class="course-card">
+                <div class="course-card", id="cs300">
                     <h3>COMP SCI 300 <br> Programming II </h3>
                     My first formal Computer Science course in UW-Madison. This course talked about some basic objects and properties of Java like polymorphis.
                     Also, it introduced some simple data structures like binary search tree, heap, etc.
                     There were 10 programming assignments in total, all of them are strongly related with current topic. All of them should be completed with Java.
                 </div>
-                <div class="course-card">
+                <div class="course-card", id="music60">
                     <h3>MUSIC 60 <br> All-University String Orchestra</h3>
                     University string orchastra opened for all students in our university. I play cello in this orchastra. This course has rehearsals every week, and a concert at the end of semester.
                 </div>
-                <div class="course-card">
+                <div class="course-card", id="cs252">
                     <h3>COMP SCI 252 <br> Introduction to Computer Engineering </h3>
                     An introduction to computer engineering. It introduced how computers compile programs, various electronic components, and how to write
                     assembly language. There are programming assignments in LC-3 language.
                 </div>
-                <div class="course-card">
+                <div class="course-card", id="cs400">
                     <h3>COMP SCI 400 <br> Programming III </h3>
                     This is the third and final course in the series of Java programming course CS200/300/400. In this course we learnt some useful
                     CS techniques, including usage of various Linux commands and git. Also, we learnt more algorithms including 
                     Kruskal, Dijkstra, and data structures like red-black tree.
                 </div>
-                <div class="course-card">
+                <div class="course-card", id="math521">
                     <h3>MATH 521 <br> Analysis I (Honor Section)</h3>
                     Introduction to mathematics analysis. It covered several topics about analysis, including basic set theory, topology on metric spaces, formal definitions 
                     of derivative and integral, and some techniques about analyzing properties of sequence, series, and functions.
                     We used baby rudin (Principles of Mathematical Analysis) as our textbooks, which is written by professor Rudin from our university!
                 </div>
-                <div class="course-card">
+                <div class="course-card", id="math541">
                     <h3>MATH 541 <br> Modern Algebra (Honor Section)</h3>
                     This course introduced abstract algebra. Topics basic set theory, group theory (including group actions), ring theory, Euclidean Domain, 
                     Principle Ideal Domain, and congurence problems with Chinese Remainder Theorem are covered and all appear in the homework and exams.
                     We mainly followed the lecture notes written by professor Chenxi Wu.
                     I wrote <a href = "https://whuang369.com/blog/categories/Mathematics/Abstract-Algebra/">several blogs</a> about topics that are covered in this course.
                 </div>
-                <div class="course-card">
+                <div class="course-card", id="math551">
                     <h3>MATH 551 <br> Elementary Topology (Honor Section)</h3>
                     In this course, we learnt point set topology, in the order of set theory, topology on metric spaces, then point set topology (general topology).
                     I wrote <a href = "https://whuang369.com/blog/categories/Mathematics/Topology/">several blogs</a> about topics that are covered in this course.
                 </div>
-                <div class="course-card">
+                <div class="course-card", id="math475">
                     <h3>MATH/CS 475 <br> Introduction to Combinatorics</h3>
                     This course introduced various topics about combinatorics, including generating permutations and combinations, binomial coefficients, 
                     inclusion-exclusion principle, recurrence relations, generating functions, special counting sequences (First/Second Stirling number, Catalan number), 
                     and Polya Counting. It is interesting that these topics are also covered in International Collegiate Programming Contest.
                     We used a textbook written by professor Brualdi, who also comes from our university.
                 </div>
-                <div class="course-card">
+                <div class="course-card", id="cs540">
                     <h3>COMP SCI 540 <br> Introduction to Artificial Intelligence</h3>
                     As its name, this is an introduction to artificial intelligence. Indeed, this is one of the most popular upper level CS courses in UW-MAdison, probably because its name.
                     As there are to many topics that are covered in this course, please refer to <a href = "https://pages.cs.wisc.edu/~yw/CS540F24S.html">our course webpage</a> if you are interested in 
@@ -429,7 +429,7 @@
                     While there are few prerequistes for this course, you need a solid understanding in basic probability theory and linear algebra to 
                     fully grasp this course.
                 </div>
-                <div class="course-card">
+                <div class="course-card", id="cs502">
                     <h3>COMP SCI 502 <br> Theory and Practice in Computer Science Education</h3>
                     This is a course about CS education. We discuessed lots of topics about the problems in CS education, such as the usage of LLM, 
                     how to make students feel more belonging in CS courses, and what are the characteristics of a good peer mentor. We are also asked to watch 
