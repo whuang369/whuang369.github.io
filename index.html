@@ -114,6 +114,80 @@
             margin-top: 20px;
             font-size: 12px; /* Footer font size */
         }
+        @media screen and (max-width: 768px) {
+            h1 {
+                line-height: 1.0;
+                font-family: 'Courier New', Courier, monospace;
+                font-size: 45px; /* Enlarged heading fonts */
+            }
+            h2, h3 {
+                line-height: 1.0;
+                font-family: 'Times New Roman', Times, serif;
+                font-size: 35px; /* Enlarged heading fonts */
+            }
+            .container {
+                display: flex;
+                flex-direction: column;
+                max-width: 1500px;
+                margin: 20px auto;
+                padding: 0 20px;
+                gap: 0;
+            }
+            .left-column, .right-column {
+                border: none;
+            }
+
+            .left-column {
+                width: 100%;
+            }
+            .right-column {
+                width: 100%;
+            }
+            .navb {
+                display: flex;
+            }
+            nav {
+                flex-direction: column; /* Change navbar to vertical */
+                align-items: center; /* Center-align the links */
+            }
+            nav a {
+                margin: 10px 0; /* Add spacing between links */
+                font-size: 18px; /* Slightly larger font for better usability */
+            }
+            .navbar .hamburger {
+                display: block; /* Show hamburger menu on small screens */
+            }
+            .navbar-links {
+                display: none; /* Hidden by default for dropdown behavior */
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+                position: absolute;
+                top: 50px;
+                left: 0;
+                width: 100%;
+                background-color: #f5f5f5;
+                box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+                z-index: 1000;
+            }
+            .interests-education-container {
+                display: flex;
+                flex-direction: column;
+            }
+            .interests, .education {
+                width: 100%;
+            }
+            .navbar-links.visible {
+                display: flex;
+            }
+            footer {
+                text-align: center;
+                padding: 20px;
+                border-top: 1px solid #ddd;
+                margin-top: 20px;
+                font-size: 12px; /* Footer font size */
+            }
+        }
     </style>
 </head>
 <body>
