@@ -70,7 +70,7 @@
             font-size: 45px; /* Enlarged heading fonts */
         }
         h2 {
-            line-height: 1.8;
+            line-height: 1.0;
             font-family: 'Times New Roman', Times, serif;
             font-size: 35px; /* Enlarged heading fonts */
         }
@@ -96,8 +96,6 @@
             color: black;
             margin-bottom: 30px;
         }
-
-
         .semester-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr); /* Dynamic columns */
@@ -304,7 +302,11 @@
 
     <div class="mid">
         <div class="container">
-            <h2 class="title", id="uwm">University of Wisconsin - Madison</h2>
+            <h2 class="title", id="uwm">
+                <p>University of Wisconsin - Madison</p>
+                <span style="font-size: 14px; display: inline-block; color:white; background-color: #2e2e2e;"> Courses marked in <span style="display: inline-block;color:#ede47d; background-color: #2e2e2e;">light yellow</span> are for graduate students.</span>
+            </h2>
+            
 
             <!-- Courses Grid -->
             <div class="semester-grid">
@@ -368,10 +370,10 @@
 
                 <!-- Semester 6 -->
                 <div class="semester-card", style="--grid-rows: 4;">
-                    <h3>2025 Fall</h3>
+                    <h3>2025 Fall (Current)</h3>
                     <ul>
-                        <li>MATH/CS 726 - Nonlinear Optimization I</li>
-                        <li>CS 839 - Advanced Topics in Reinforcement Learning</li>
+                        <li style="color:#ede47d">MATH/CS 726 - Nonlinear Optimization I</li>
+                        <li style="color:#ede47d">CS 839 - Advanced Topics in Reinforcement Learning</li>
                         <li>MATH 542 - Modern Algebra</li>
                         <li>PSYCH 202 - Introduction to Psychology</li>
                     </ul>
