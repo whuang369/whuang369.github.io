@@ -3,487 +3,336 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Harry Huang's Homepage</title>
+    <title>Courses · Harry Huang</title>
     <link rel="icon" href="src/images/favicon.JPG" type="image/JPG">
     <style>
+        :root {
+            --text: #1a1a1a;
+            --muted: #666;
+            --rule: #e5e5e5;
+            --link: #8b1a1a;
+            --link-hover: #c0392b;
+            --accent: #8b6f1a;
+        }
+        * { box-sizing: border-box; }
         body {
-            font-family: "Microsoft YaHei", Arial, sans-serif;
+            font-family: "Charter", "Georgia", "Times New Roman", serif;
+            font-size: 15px;
+            line-height: 1.55;
+            color: var(--text);
+            background: #fff;
             margin: 0;
             padding: 0;
-            background-color: #ddd;
-            color: black;
-            line-height: 1.8;
         }
-        header {
-            text-align: center;
-            padding: 10px;
-            border-bottom: 1px;
-            line-height: 1.2;
+        a { color: var(--link); text-decoration: none; }
+        a:hover { color: var(--link-hover); text-decoration: underline; }
+        .wrap {
+            max-width: 880px;
+            margin: 0 auto;
+            padding: 36px 28px 48px;
         }
-        nav {
+        nav.top {
+            font-family: "Helvetica Neue", Arial, sans-serif;
+            font-size: 13px;
+            color: var(--muted);
+            border-bottom: 1px solid var(--rule);
+            padding-bottom: 10px;
+            margin-bottom: 28px;
             display: flex;
-            justify-content: center;
-            padding: 10px;
+            justify-content: flex-end;
+            gap: 18px;
         }
-        nav a {
-            margin: 0 20px; /* Increased spacing between links */
-            text-decoration: none;
-            color: black;
-            font-size: 20px; /* Enlarged font for navigation links */
-        }
-        .navbar .hamburger {
-            display: none; /* Hidden by default on larger screens */
-            font-size: 24px;
-            cursor: pointer;
-        }
-        nav a:hover {
-            color: #A0A0A0; /* Add hover effect */
-        }
-        .mid{
-            background-color: #ddd;
-        }
-        .tail{
-            background-color: white;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 40px auto;
-            padding: 0 20px;
-            text-align: center;
-        }
-        .shortinfo {
-            color: #A0A0A0;
-            text-align: center;
-            font-size: 20px;
-        }
-        .subtitle {
-            line-height: 1.2;
-            color: black;
-            font-size: 16px; /* Enlarged heading fonts */
-        }
-        .a2 {
-            color: white;
-        }
+        nav.top a { color: var(--muted); }
+        nav.top a:hover { color: var(--link); }
         h1 {
-            line-height: 0.5;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 45px; /* Enlarged heading fonts */
+            font-family: "Charter", "Georgia", serif;
+            font-size: 26px;
+            font-weight: 600;
+            margin: 0 0 6px 0;
+            line-height: 1.2;
+        }
+        .lede {
+            color: var(--muted);
+            font-size: 14px;
+            margin-bottom: 24px;
         }
         h2 {
-            line-height: 1.0;
-            font-family: 'Times New Roman', Times, serif;
-            font-size: 35px; /* Enlarged heading fonts */
-        }
-        h3 {
-            line-height: 1.8;
-            font-family: 'Times New Roman', Times, serif;
-            font-size: 35px; /* Enlarged heading fonts */
-        }
-        .interests-education-container {
-            display: flex;
-            justify-content: space-between;
-        }
-        .interests, .education {
-            width: 48%;
-        }
-        .links {
-            color: grey;
-            font-size: 23px;
-        }
-        .title {
-            font-size: 28px;
-            font-weight: bold;
-            color: black;
-            margin-bottom: 30px;
+            font-family: "Charter", "Georgia", serif;
+            font-size: 17px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: var(--text);
+            border-bottom: 1px solid var(--rule);
+            padding-bottom: 4px;
+            margin: 28px 0 12px;
         }
         .semester-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr); /* Dynamic columns */
-            gap: 20px; /* Space between items */
+            grid-template-columns: 1fr 1fr;
+            gap: 18px 28px;
         }
-        .semester-card {
-            background-color: #2e2e2e;
-            border-radius: 8px;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
-            text-align: left;
-            color: white;
-            padding: 20px;
-            grid-row: span var(--grid-rows, 1);
-            grid-column: auto;
+        .semester {
+            margin-bottom: 6px;
         }
-        .semester-card h3 {
-            margin-top: 0;
-            font-size: 20px;
-            color: #f5ba13;
+        .semester h3 {
+            font-family: "Charter", "Georgia", serif;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin: 0 0 6px 0;
         }
-        .semester-card ul {
+        .semester ul {
             list-style: none;
             padding: 0;
+            margin: 0;
         }
-        .semester-card ul li {
-            margin-bottom: 8px;
-            color: #ddd;
-            font-family: 'Menlo';
+        .semester ul li {
+            font-size: 14px;
+            margin-bottom: 3px;
+            line-height: 1.45;
         }
-        a {
-            color: white;
-            text-decoration: none;
+        .grad {
+            color: var(--accent);
         }
-
-        @media screen and (min-width: 769px) {
-            .semester-card:nth-child(3n+1) {
-                grid-column: 1;
-            }
-            .semester-card:nth-child(3n+2) {
-                grid-column: 2;
-            }
-            .semester-card:nth-child(3n) {
-                grid-column: 3;
-            }
+        .grad-mark {
+            color: var(--accent);
+            font-weight: 600;
+            margin-left: 2px;
         }
-
-        .comments {
-            max-width: 1500px;
-            padding-top: 1px;
-            padding-bottom: 40px;
-            text-align: center;
-            margin: 40px auto;
+        .course-detail {
+            margin-bottom: 16px;
+            padding-bottom: 14px;
+            border-bottom: 1px dotted var(--rule);
         }
-
-        .course-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr); /* Dynamic columns */
-            gap: 20px; /* Space between items */
+        .course-detail:last-child { border-bottom: none; }
+        .course-detail .course-head {
+            font-weight: 600;
+            font-size: 14.5px;
+            margin-bottom: 4px;
         }
-        .course-card {
-            background-color: #2e2e2e;
-            border-radius: 8px;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
-            text-align: left;
-            color: white;
-            padding: 20px;
-            grid-row: span var(--grid-rows, 1);
-            grid-column: auto;
-            font-family: 'Menlo';
-            justify-content: space-between;
-            align-items: center;
-        }
-        .course-card h3 {
-            margin-top: 0;
-            font-size: 20px;
-            color: #f5ba13;
-        }
-        .course-card ul {
-            list-style: none;
-            padding: 0;
-        }
-        .course-card ul li {
-            margin-bottom: 8px;
-            color: #ddd;
-            font-family: 'Menlo';
-        }
-        .course-card a{
-            color: grey;
-        }
-        .navb {
-            display: none;
+        .course-detail .course-head a { color: var(--text); }
+        .course-detail .course-head a:hover { color: var(--link); }
+        .course-detail .course-body {
+            font-size: 14px;
+            color: #333;
+            text-align: justify;
         }
         footer {
+            margin-top: 36px;
+            padding-top: 12px;
+            border-top: 1px solid var(--rule);
+            font-size: 12px;
+            color: var(--muted);
             text-align: center;
-            padding: 20px;
-            border-top: 1px solid #ddd;
-            margin-top: 20px;
-            font-size: 12px; /* Footer font size */
         }
-        @media screen and (max-width: 768px) {
-            h1 {
-                line-height: 1.0;
-                font-family: 'Courier New', Courier, monospace;
-                font-size: 45px; /* Enlarged heading fonts */
-            }
-            .navb {
-                display: flex;
-            }
-            nav {
-                flex-direction: column; /* Change navbar to vertical */
-                align-items: center; /* Center-align the links */
-            }
-            nav a {
-                margin: 10px 0; /* Add spacing between links */
-                font-size: 18px; /* Slightly larger font for better usability */
-            }
-            .navbar .hamburger {
-                display: block; /* Show hamburger menu on small screens */
-            }
-            .navbar-links {
-                display: none; /* Hidden by default for dropdown behavior */
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 10px;
-                position: absolute;
-                top: 50px;
-                left: 0;
-                width: 100%;
-                background-color: #f5f5f5;
-                box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-                z-index: 1000;
-            }
-
-            .navbar-links.visible {
-                display: flex;
-            }
-            .semester-grid {
-                display: grid;
-                grid-template-columns: repeat(1, 1fr); /* Dynamic columns */
-                gap: 20px; /* Space between items */
-            }
-            .semester-card {
-                background-color: #2e2e2e;
-                border-radius: 8px;
-                box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
-                text-align: left;
-                color: white;
-                padding: 20px;
-                grid-row: span var(--grid-rows, 1);
-                grid-column: auto;
-            }
-
-            .semester-card h3 {
-                margin-top: 0;
-                font-size: 20px;
-                color: #f5ba13;
-            }
-
-            .semester-card ul {
-                list-style: none;
-                padding: 0;
-            }
-
-            .semester-card ul li {
-                margin-bottom: 8px;
-                color: #ddd;
-                font-family: 'Menlo';
-            }
-            .course-grid {
-                display: grid;
-                grid-template-columns: repeat(1, 1fr); /* Dynamic columns */
-                gap: 20px; /* Space between items */
-            }
-            .comments {
-                max-width: 1500px;
-                padding-top: 1px;
-                padding-bottom: 40px;
-                text-align: center;
-                margin: 40px auto;
-                padding-left: 20px;
-                padding-right: 20px;
-            }
-            footer {
-                text-align: center;
-                padding: 20px;
-                border-top: 1px solid #ddd;
-                margin-top: 20px;
-                font-size: 12px; /* Footer font size */
-            }
+        @media screen and (max-width: 640px) {
+            .wrap { padding: 24px 18px 32px; }
+            .semester-grid { grid-template-columns: 1fr; }
+            nav.top { flex-wrap: wrap; justify-content: center; }
+            .course-detail .course-body { text-align: left; }
         }
     </style>
 </head>
 <body>
-    <header style = "background-color: white;">
-        <h1>Harry Huang's Homepage</h1>
-        <hr class = "navb">
-        <nav>
-            <a href="https://whuang369.com", class = "links">Home</a>
-            <a href="https://whuang369.com/blog", class = "links">Blog</a>
-            <a href="courses.html" class="links">Courses</a>
-            <a href="src/docs/resume.pdf", class = "links">Resume</a>
+    <div class="wrap">
+        <nav class="top">
+            <a href="https://whuang369.com">Home</a>
+            <a href="https://whuang369.com/blog">Blog</a>
+            <a href="Courses.html">Courses</a>
+            <a href="src/docs/resume.pdf">CV</a>
         </nav>
-    </header>
 
-    <div class="mid">
-        <div class="container">
-            <h2 class="title", id="uwm">
-                <p>University of Wisconsin - Madison</p>
-                <span style="font-size: 14px; display: inline-block; color:white; background-color: #2e2e2e;"> Courses marked in <span style="display: inline-block;color:#ede47d; background-color: #2e2e2e;">light yellow</span> are for graduate students.</span>
-            </h2>
-            
+        <h1>Courses</h1>
+        <div class="lede">
+            Coursework at the University of Wisconsin&ndash;Madison. <span class="grad-mark">&dagger;</span> denotes graduate-level courses.
+        </div>
 
-            <!-- Courses Grid -->
+        <section>
+            <h2>By Semester</h2>
             <div class="semester-grid">
-                <!-- Semester 1 -->
-                <div class="semester-card", style="--grid-rows: 6;">
-                    <h3>2024 Spring</h3>
+                <div class="semester">
+                    <h3>2026 Spring</h3>
                     <ul>
-                        <li><a href="#math341">MATH 341 - Linear Algebra (Honor)</a></li>
-                        <li><a href="#cs300">CS 300 - Programming II </a></li>
-                        <li><a href="#math240">MATH/CS 240 - Introduction to Discrete Mathematics </a></li>
-                        <li>ESL 116 - Academic Reading and Vocabulary Skills</li>
-                        <li>ASIAN AM 102 - Introduction to Comparative US Ethnic and American Indian Studies </li>
-                        <li><a href="#music60">Music 60 - All-University String Orchestra</a></li>
-                    </ul>
-                </div>
-                
-                <!-- Semester 2 -->
-                <div class="semester-card", style="--grid-rows: 3;">
-                    <h3>2024 Summer</h3>
-                    <ul>
-                        <li><a href="#cs252">CS 252 - Introduction to Computer Engineering </a></li>
-                        <li><a href="#cs400">CS 400 - Programming III </a></li>
-                        <li>ESL 117 - Academic Writing I</li>
-                    </ul>
-                </div>
-                
-                <!-- Semester 3 -->
-                <div class="semester-card", style="--grid-rows: 7;">
-                    <h3>2024 Fall</h3>
-                    <ul>
-                        <li><a href="#math521">MATH 521 - Analysis I (Honor)</a></li>
-                        <li><a href="#math541">MATH 541 - Modern Algebra (Honor)</a></li>
-                        <li><a href="#math551">MATH 551 - Elementary Topology (Honor)</a></li>
-                        <li><a href="#math475">MATH/CS 475 - Introduction to Combinatorics</a></li>
-                        <li><a href="#cs540">CS 540 - Introduction to Artificial Intelligence</a></li>
-                        <li><a href="#cs502">CS 502 - Theory and Practice in Computer Science Education</a></li>
-                        <li><a href="#music60">Music 60 - All-University String Orchestra</a></li>
-                    </ul>
-                </div>
-                
-                <!-- Semester 4 -->
-                <div class="semester-card", style="--grid-rows: 4;">
-                    <h3>2025 Spring</h3>
-                    <ul>
-                        <li><a href="cs577">CS 577 - Introduction to Algorithms (Honor)</a></li>
-                        <li><a href="cs639cv">CS 639 - Deep Learning for Computer Vision</a></li>
-                        <li><a href="math522">MATH 522 - Analysis II (Honor)</a></li>
-                        <li>ENGL 177 - AI: Reimagining Communication</a></li>
+                        <li>CS 537 &mdash; Introduction to Operating Systems</li>
+                        <li>CS 557 &mdash; Parallel &amp; Throughput-Optimized Programming</li>
+                        <li><a href="#music60">MUSIC 60 &mdash; All-University String Orchestra</a></li>
                     </ul>
                 </div>
 
-                <!-- Semester 5 -->
-                <div class="semester-card", style="--grid-rows: 3;">
+                <div class="semester">
+                    <h3>2025 Fall</h3>
+                    <ul>
+                        <li class="grad">MATH/CS 726 &mdash; Nonlinear Optimization I<span class="grad-mark">&dagger;</span></li>
+                        <li class="grad">CS 839 &mdash; Advanced Topics in Reinforcement Learning<span class="grad-mark">&dagger;</span></li>
+                        <li>MATH 542 &mdash; Modern Algebra</li>
+                    </ul>
+                </div>
+
+                <div class="semester">
                     <h3>2025 Summer</h3>
                     <ul>
-                        <li>CS 354 - Machine Organization and Programming</li>
-                        <li>MATH 431 - Introduction to the Theory of Probability</li>
-                        <li>ESL 118 - Academic Writing II</li>
+                        <li>CS 354 &mdash; Machine Organization and Programming</li>
+                        <li>MATH 431 &mdash; Introduction to the Theory of Probability</li>
                     </ul>
                 </div>
 
-                <!-- Semester 6 -->
-                <div class="semester-card", style="--grid-rows: 4;">
-                    <h3>2025 Fall (Current)</h3>
+                <div class="semester">
+                    <h3>2025 Spring</h3>
                     <ul>
-                        <li style="color:#ede47d">MATH/CS 726 - Nonlinear Optimization I</li>
-                        <li style="color:#ede47d">CS 839 - Advanced Topics in Reinforcement Learning</li>
-                        <li>MATH 542 - Modern Algebra</li>
-                        <li>PSYCH 202 - Introduction to Psychology</li>
+                        <li><a href="#cs577">CS 577 &mdash; Introduction to Algorithms (Honors)</a></li>
+                        <li><a href="#cs639">CS 639 &mdash; Deep Learning for Computer Vision</a></li>
+                        <li><a href="#math522">MATH 522 &mdash; Analysis II (Honors)</a></li>
+                    </ul>
+                </div>
+
+                <div class="semester">
+                    <h3>2024 Fall</h3>
+                    <ul>
+                        <li><a href="#math521">MATH 521 &mdash; Analysis I (Honors)</a></li>
+                        <li><a href="#math541">MATH 541 &mdash; Modern Algebra (Honors)</a></li>
+                        <li><a href="#math551">MATH 551 &mdash; Elementary Topology (Honors)</a></li>
+                        <li><a href="#math475">MATH/CS 475 &mdash; Introduction to Combinatorics</a></li>
+                        <li><a href="#cs540">CS 540 &mdash; Introduction to Artificial Intelligence</a></li>
+                        <li><a href="#cs502">CS 502 &mdash; Theory &amp; Practice in CS Education</a></li>
+                        <li><a href="#music60">MUSIC 60 &mdash; All-University String Orchestra</a></li>
+                    </ul>
+                </div>
+
+                <div class="semester">
+                    <h3>2024 Summer</h3>
+                    <ul>
+                        <li><a href="#cs252">CS 252 &mdash; Introduction to Computer Engineering</a></li>
+                        <li><a href="#cs400">CS 400 &mdash; Programming III</a></li>
+                    </ul>
+                </div>
+
+                <div class="semester">
+                    <h3>2024 Spring</h3>
+                    <ul>
+                        <li><a href="#math341">MATH 341 &mdash; Linear Algebra (Honors)</a></li>
+                        <li><a href="#cs300">CS 300 &mdash; Programming II</a></li>
+                        <li><a href="#math240">MATH/CS 240 &mdash; Introduction to Discrete Mathematics</a></li>
+                        <li><a href="#music60">MUSIC 60 &mdash; All-University String Orchestra</a></li>
                     </ul>
                 </div>
             </div>
-        </div>
-    </div>
-    
-    <div class="tail", style = "background-color: white;">
-        <div class="comments">
-            <h2>Details of Selected Courses</h2>
-            <div class="course-grid">
-                <div class="course-card", id="math240">
-                    <h3><a href = "#uwm", style = "color: #f5ba13">MATH 240 <br> Introduction to Discrete Mathematics</a></h3>
-                    An introduction to discrete mathematics. We covered topics such like proof techniques, 
-                    recursion and structural induction, recurrences, 
-                    functions and relations, graphs and trees, finite automata and regular expressions, and counting.
-                </div>
-                <div class="course-card", id="math341">
-                    <h3><a href = "#uwm", style = "color: #f5ba13">MATH 341 <br> Linear Algebra (Honor Section) </a></h3>
-                    An introduction to linear algebra. This is one of the hardest linear algebra courses
-                    in UW-Madison. We talked about some properties of vector
-                    space, subspace, and field first. Then we covered the regular topics such as matrix
-                    calculation, eigenvalues, diagonalization, Gram-Schmidt Orthogonalization Process
-                    and Orthogonal Complements. Details can be seen in my github repo <a href="https://github.com/whuang369/MATH-341">MATH341</a>.
-                </div>
-                <div class="course-card", id="cs300">
-                    <h3><a href = "#uwm", style = "color: #f5ba13">COMP SCI 300 <br> Programming II </a></h3>
-                    My first formal Computer Science course in UW-Madison. This course talked about some basic objects and properties of Java like polymorphis.
-                    Also, it introduced some simple data structures like binary search tree, heap, etc.
-                    There were 10 programming assignments in total, all of them are strongly related with current topic. All of them should be completed with Java.
-                </div>
-                <div class="course-card", id="music60">
-                    <h3><a href = "#uwm", style = "color: #f5ba13">MUSIC 60 <br> All-University String Orchestra</a></h3>
-                    University string orchastra opened for all students in our university. I play cello in this orchastra. This course has rehearsals every week, and a concert at the end of semester.
-                </div>
-                <div class="course-card", id="cs252">
-                    <h3><a href = "#uwm", style = "color: #f5ba13">COMP SCI 252 <br> Introduction to Computer Engineering </a></h3>
-                    An introduction to computer engineering. It introduced how computers compile programs, various electronic components, and how to write
-                    assembly language. There are programming assignments in LC-3 language.
-                </div>
-                <div class="course-card", id="cs400">
-                    <h3><a href = "#uwm", style = "color: #f5ba13">COMP SCI 400 <br> Programming III </a></h3>
-                    This is the third and final course in the series of Java programming course CS200/300/400. In this course we learnt some useful
-                    CS techniques, including usage of various Linux commands and git. Also, we learnt more algorithms including 
-                    Kruskal, Dijkstra, and data structures like red-black tree.
-                </div>
-                <div class="course-card", id="math521">
-                    <h3><a href = "#uwm", style = "color: #f5ba13">MATH 521 <br> Analysis I (Honor Section)</a></h3>
-                    Introduction to mathematics analysis. It covered several topics about analysis, including basic set theory, topology on metric spaces, formal definitions 
-                    of derivative and integral, and some techniques about analyzing properties of sequence, series, and functions.
-                    We used baby rudin (Principles of Mathematical Analysis) as our textbooks, which is written by professor Rudin from our university!
-                </div>
-                <div class="course-card", id="math541">
-                    <h3><a href = "#uwm", style = "color: #f5ba13">MATH 541 <br> Modern Algebra (Honor Section)</a></h3>
-                    This course introduced abstract algebra. Topics basic set theory, group theory (including group actions), ring theory, Euclidean Domain, 
-                    Principle Ideal Domain, and congurence problems with Chinese Remainder Theorem are covered and all appear in the homework and exams.
-                    We mainly followed the lecture notes written by professor Chenxi Wu.
-                    I wrote <a href = "https://whuang369.com/blog/categories/Mathematics/Abstract-Algebra/">several blogs</a> about topics that are covered in this course.
-                </div>
-                <div class="course-card", id="math551">
-                    <h3><a href = "#uwm", style = "color: #f5ba13">MATH 551 <br> Elementary Topology (Honor Section)</a></h3>
-                    In this course, we learnt point set topology, in the order of set theory, topology on metric spaces, then point set topology (general topology).
-                    I wrote <a href = "https://whuang369.com/blog/categories/Mathematics/Topology/">several blogs</a> about topics that are covered in this course.
-                </div>
-                <div class="course-card", id="math475">
-                    <h3><a href = "#uwm", style = "color: #f5ba13">MATH/CS 475 <br> Introduction to Combinatorics</a></h3>
-                    This course introduced various topics about combinatorics, including generating permutations and combinations, binomial coefficients, 
-                    inclusion-exclusion principle, recurrence relations, generating functions, special counting sequences (First/Second Stirling number, Catalan number), 
-                    and Polya Counting. It is interesting that these topics are also covered in International Collegiate Programming Contest.
-                    We used a textbook written by professor Brualdi, who also comes from our university.
-                </div>
-                <div class="course-card", id="cs540">
-                    <h3><a href = "#uwm", style = "color: #f5ba13">COMP SCI 540 <br> Introduction to Artificial Intelligence</a></h3>
-                    As its name, this is an introduction to artificial intelligence. Indeed, this is one of the most popular upper level CS courses in UW-MAdison, probably because its name.
-                    As there are to many topics that are covered in this course, please refer to <a href = "https://pages.cs.wisc.edu/~yw/CS540F24S.html">our course webpage</a> if you are interested in 
-                    the topics of this course.
-                    There are 10 programming assignments in this course. All of them (except the first one about writing essay) should be completed by python.
-                    While there are few prerequistes for this course, you need a solid understanding in basic probability theory and linear algebra to 
-                    fully grasp this course.
-                </div>
-                <div class="course-card", id="cs502">
-                    <h3><a href = "#uwm", style = "color: #f5ba13">COMP SCI 502 <br> Theory and Practice in Computer Science Education</a></h3>
-                    This is a course about CS education. We discuessed lots of topics about the problems in CS education, such as the usage of LLM, 
-                    how to make students feel more belonging in CS courses, and what are the characteristics of a good peer mentor. We are also asked to watch 
-                    how peer mentors/TAs work, and write reports and thoughts from the observation.
-                </div>
-                <div class="course-card", id="cs577">
-                    <h3><a href = "#uwm", style = "color: #f5ba13">COMP SCI 577 <br> Introduction to Algorithms (Honor)</a></h3>
-                    An introduction to algorithms. The course was taught by Prof. Dieter van Melkebeek. We went over several topics: Greedy, Dynamic Programming, Binary Search / Divide
-                    and Conquer, Network Flow, P/NP/NP Hard/NP Complete Problems, Reduction, Randomness. There's one required and graded problem as homework every week, also with some additional
-                    practice problems (but not graded). Two midterms and one final, not very hard. The A rate is really high (64%!), personally strongly recommand everyone take this honor section.
-                </div>
-                <div class="course-card", id="cs639cv">
-                    <h3><a href = "#uwm", style = "color: #f5ba13">COMP SCI 639 <br> CS 639 - Deep Learning for Computer Vision</a></h3>
-                    This is an computer vision course together with introduction to deep learning. This course was taught by professor Yong Jae Lee. We went over the topics of DL in CV, including
-                    CNN, R-CNN, RNN, Optimization, Object Detection, Segmentation, Attention, (Vision) Transformer, VAE, GAN, Diffusion, and Self-Supervised Learning. 
-                </div>
-                <div class="course-card", id="math522">
-                    <h3><a href = "#uwm", style = "color: #f5ba13">MATH 522 <br> Analysis II (Honor)</a></h3>
-                    We went over baby rudin Chap 7-9, with topics including Uniform Convergence, Stone-Weierstrass Theorem, Fourier Series, Gamma Function, Inverse/Implicit Function Theorem, The Rank Theorem.
-                    As I took it with honor, I also read the The Lebesgue Theory.
+        </section>
+
+        <section>
+            <h2>Selected Course Notes</h2>
+
+            <div class="course-detail" id="math240">
+                <div class="course-head">MATH 240 &mdash; Introduction to Discrete Mathematics</div>
+                <div class="course-body">
+                    An introduction to discrete mathematics covering proof techniques, recursion and structural induction, recurrences, functions and relations, graphs and trees, finite automata and regular expressions, and counting.
                 </div>
             </div>
-        </div>
+
+            <div class="course-detail" id="math341">
+                <div class="course-head">MATH 341 &mdash; Linear Algebra (Honors)</div>
+                <div class="course-body">
+                    One of the more rigorous linear algebra offerings at UW&ndash;Madison. We began with abstract properties of vector spaces, subspaces, and fields, then covered matrix computation, eigenvalues, diagonalization, Gram&ndash;Schmidt, and orthogonal complements. Notes in <a href="https://github.com/whuang369/MATH-341">whuang369/MATH-341</a>.
+                </div>
+            </div>
+
+            <div class="course-detail" id="cs300">
+                <div class="course-head">CS 300 &mdash; Programming II</div>
+                <div class="course-body">
+                    My first formal CS course at UW&ndash;Madison. Covered Java fundamentals (objects, polymorphism) and elementary data structures (BST, heap). Ten Java programming assignments.
+                </div>
+            </div>
+
+            <div class="course-detail" id="cs252">
+                <div class="course-head">CS 252 &mdash; Introduction to Computer Engineering</div>
+                <div class="course-body">
+                    Compilation, basic digital logic, and assembly programming in LC-3.
+                </div>
+            </div>
+
+            <div class="course-detail" id="cs400">
+                <div class="course-head">CS 400 &mdash; Programming III</div>
+                <div class="course-body">
+                    The final course in the Java sequence. Practical tooling (Linux, git) alongside algorithms (Kruskal, Dijkstra) and data structures (red-black trees).
+                </div>
+            </div>
+
+            <div class="course-detail" id="math521">
+                <div class="course-head">MATH 521 &mdash; Analysis I (Honors)</div>
+                <div class="course-body">
+                    Introduction to real analysis: basic set theory, topology on metric spaces, formal definitions of derivative and integral, and properties of sequences, series, and functions. Textbook: <i>Principles of Mathematical Analysis</i> by Rudin (formerly of UW&ndash;Madison).
+                </div>
+            </div>
+
+            <div class="course-detail" id="math541">
+                <div class="course-head">MATH 541 &mdash; Modern Algebra (Honors)</div>
+                <div class="course-body">
+                    Abstract algebra: basic set theory, group theory (with group actions), ring theory, Euclidean domains, PIDs, and congruence problems via CRT. Mostly followed Prof. Chenxi Wu's lecture notes. <a href="https://whuang369.com/blog/categories/Mathematics/Abstract-Algebra/">Related blog posts</a>.
+                </div>
+            </div>
+
+            <div class="course-detail" id="math551">
+                <div class="course-head">MATH 551 &mdash; Elementary Topology (Honors)</div>
+                <div class="course-body">
+                    Point-set topology: set theory, topology on metric spaces, then general topology. <a href="https://whuang369.com/blog/categories/Mathematics/Topology/">Related blog posts</a>.
+                </div>
+            </div>
+
+            <div class="course-detail" id="math475">
+                <div class="course-head">MATH/CS 475 &mdash; Introduction to Combinatorics</div>
+                <div class="course-body">
+                    Permutations and combinations, binomial coefficients, inclusion&ndash;exclusion, recurrences, generating functions, special counting sequences (Stirling, Catalan), and P&oacute;lya counting. Textbook by Prof. Brualdi (UW&ndash;Madison).
+                </div>
+            </div>
+
+            <div class="course-detail" id="cs540">
+                <div class="course-head">CS 540 &mdash; Introduction to Artificial Intelligence</div>
+                <div class="course-body">
+                    Broad survey of classical AI topics; see the <a href="https://pages.cs.wisc.edu/~yw/CS540F24S.html">course page</a> for the full syllabus. Ten Python programming assignments. Solid probability and linear algebra are essential prerequisites in practice.
+                </div>
+            </div>
+
+            <div class="course-detail" id="cs502">
+                <div class="course-head">CS 502 &mdash; Theory &amp; Practice in CS Education</div>
+                <div class="course-body">
+                    Pedagogy seminar on CS education: use of LLMs, fostering belonging in CS courses, and the qualities of effective peer mentors. Included structured observations of TAs and peer mentors.
+                </div>
+            </div>
+
+            <div class="course-detail" id="cs577">
+                <div class="course-head">CS 577 &mdash; Introduction to Algorithms (Honors)</div>
+                <div class="course-body">
+                    Taught by Prof. Dieter van Melkebeek. Greedy, dynamic programming, divide-and-conquer, network flow, P/NP/NP-hard/NP-complete, reductions, and randomness. Weekly graded problems plus optional practice; two midterms and one final. Strongly recommend the honors section.
+                </div>
+            </div>
+
+            <div class="course-detail" id="cs639">
+                <div class="course-head">CS 639 &mdash; Deep Learning for Computer Vision</div>
+                <div class="course-body">
+                    Taught by Prof. Yong Jae Lee. CNNs, R-CNN, RNNs, optimization, object detection, segmentation, attention, vision transformers, VAEs, GANs, diffusion, and self-supervised learning.
+                </div>
+            </div>
+
+            <div class="course-detail" id="math522">
+                <div class="course-head">MATH 522 &mdash; Analysis II (Honors)</div>
+                <div class="course-body">
+                    Rudin Ch. 7&ndash;9: uniform convergence, Stone&ndash;Weierstrass, Fourier series, the Gamma function, the inverse and implicit function theorems, and the rank theorem. The honors track additionally covered Lebesgue theory.
+                </div>
+            </div>
+
+            <div class="course-detail" id="music60">
+                <div class="course-head">MUSIC 60 &mdash; All-University String Orchestra</div>
+                <div class="course-body">
+                    University string orchestra open to all students. I play cello. Weekly rehearsals with a concert at the end of each semester.
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            &copy; Harry Huang. Licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>.
+        </footer>
     </div>
-
-
-    <footer>
-        <p>© Harry Huang. This work is licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/", style = "color: purple;">CC BY-NC-SA 4.0</a></p>
-    </footer>
 </body>
 </html>

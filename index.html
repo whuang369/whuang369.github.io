@@ -3,290 +3,240 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Harry Huang's Homepage</title>
+    <title>Harry Huang</title>
     <link rel="icon" href="src/images/favicon.JPG" type="image/JPG">
     <style>
+        :root {
+            --text: #1a1a1a;
+            --muted: #666;
+            --rule: #e5e5e5;
+            --link: #8b1a1a;
+            --link-hover: #c0392b;
+        }
+        * { box-sizing: border-box; }
         body {
-            font-family: "Microsoft YaHei", Arial, sans-serif;
-            font-size: 20px; /* Enlarged default font size */
+            font-family: "Charter", "Georgia", "Times New Roman", serif;
+            font-size: 15px;
+            line-height: 1.55;
+            color: var(--text);
+            background: #fff;
             margin: 0;
             padding: 0;
-            line-height: 1.8;
-            background-color: white;
         }
-        header {
-            text-align: center;
-            padding: 10px;
-            border-bottom: 1px solid #ddd;
-            line-height: 1.2;
+        a { color: var(--link); text-decoration: none; }
+        a:hover { color: var(--link-hover); text-decoration: underline; }
+        .wrap {
+            max-width: 880px;
+            margin: 0 auto;
+            padding: 36px 28px 48px;
         }
         nav {
+            font-family: "Helvetica Neue", Arial, sans-serif;
+            font-size: 13px;
+            color: var(--muted);
+            border-bottom: 1px solid var(--rule);
+            padding-bottom: 10px;
+            margin-bottom: 28px;
             display: flex;
-            justify-content: center;
-            padding: 10px;
+            justify-content: flex-end;
+            gap: 18px;
         }
-        nav a {
-            margin: 0 20px; /* Increased spacing between links */
-            text-decoration: none;
-            color: black;
-            font-size: 20px; /* Enlarged font for navigation links */
-        }
-        nav a:hover {
-            color: #007bff; /* Add hover effect */
-        }
-        .container {
+        nav a { color: var(--muted); }
+        nav a:hover { color: var(--link); }
+        .header {
             display: flex;
-            max-width: 1500px;
-            margin: 20px auto;
-            padding: 0 20px;
+            gap: 28px;
+            align-items: flex-start;
+            margin-bottom: 26px;
         }
-        .shortinfo {
-            color: #A0A0A0;
-            text-align: center;
-            font-size: 20px;
+        .header .photo img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 4px;
         }
-        .left-column {
-            width: 30%;
-            padding-right: 20px;
-            border-right: 1px solid #ddd;
-            box-sizing: border-box;
-        }
-        .right-column {
-            width: 70%;
-            padding-left: 20px;
-            box-sizing: border-box;
-        }
-        .profile-image {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .profile-image img {
-            /* border-radius: 50%; */
-            width: 1000px;
-            height: 1000px;
-            object-fit: fill;
-        }
-        .subtitle {
+        .header .info h1 {
+            font-family: "Charter", "Georgia", serif;
+            font-size: 26px;
+            font-weight: 600;
+            margin: 0 0 6px 0;
             line-height: 1.2;
-            color: black;
-            font-size: 16px; /* Enlarged heading fonts */
         }
-        h2, h3 {
-            line-height: 0.5;
-            font-family: 'Times New Roman', Times, serif;
-            font-size: 35px; /* Enlarged heading fonts */
-        }
-        h1 {
-            line-height: 0.5;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 45px; /* Enlarged heading fonts */
-        }
-        .biography, .interests, .education {
-            margin-bottom: 20px;
-        }
-        .interests-education-container {
-            display: flex;
-            justify-content: space-between;
-        }
-        .interests, .education {
-            width: 48%;
-        }
-        .links {
-            color: grey;
-            font-size: 23px;
-        }
-        .education-item {
-            line-height: 1.2;
+        .header .info .affil {
+            color: var(--muted);
             font-size: 14px;
-            display: flex;
-            align-items: center;
+            line-height: 1.5;
+        }
+        .header .info .contact {
+            margin-top: 10px;
+            font-size: 13px;
+            color: var(--muted);
+        }
+        .header .info .contact a { margin-right: 10px; }
+        h2 {
+            font-family: "Charter", "Georgia", serif;
+            font-size: 17px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: var(--text);
+            border-bottom: 1px solid var(--rule);
+            padding-bottom: 4px;
+            margin: 28px 0 12px;
+        }
+        section p {
+            margin: 0 0 10px 0;
+            text-align: justify;
+        }
+        .pub-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            counter-reset: pub;
+        }
+        .pub-list li {
+            position: relative;
+            padding-left: 28px;
             margin-bottom: 14px;
+            counter-increment: pub;
         }
-        .education-item img {
-            width: 50px;
-            height: 50px;
-            margin-right: 10px;
+        .pub-list li::before {
+            content: "[" counter(pub) "]";
+            position: absolute;
+            left: 0;
+            top: 0;
+            color: var(--muted);
+            font-variant-numeric: tabular-nums;
         }
+        .pub-title { font-weight: 600; }
+        .pub-authors { color: var(--text); }
+        .pub-authors .me { text-decoration: underline; }
+        .pub-venue { color: var(--muted); font-style: italic; }
+        .pub-links { font-size: 13px; }
+        .edu-item {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .edu-item img {
+            width: 36px;
+            height: 36px;
+            object-fit: cover;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        .edu-item .edu-text {
+            line-height: 1.4;
+            font-size: 14px;
+        }
+        .edu-item .edu-text .school { font-weight: 600; }
+        .edu-item .edu-text .meta { color: var(--muted); font-size: 13px; }
         footer {
+            margin-top: 36px;
+            padding-top: 12px;
+            border-top: 1px solid var(--rule);
+            font-size: 12px;
+            color: var(--muted);
             text-align: center;
-            padding: 20px;
-            border-top: 1px solid #ddd;
-            margin-top: 20px;
-            font-size: 12px; /* Footer font size */
         }
-        @media screen and (max-width: 768px) {
-            h1 {
-                line-height: 1.0;
-                font-family: 'Courier New', Courier, monospace;
-                font-size: 45px; /* Enlarged heading fonts */
-                border-bottom: 1px solid #ddd;
-                padding-bottom: 20px;
-            }
-            h2, h3 {
-                line-height: 1.0;
-                font-family: 'Times New Roman', Times, serif;
-                font-size: 35px; /* Enlarged heading fonts */
-            }
-            .container {
-                display: flex;
-                flex-direction: column;
-                max-width: 1500px;
-                margin: 20px auto;
-                padding: 0 20px;
-                gap: 0;
-            }
-            .left-column, .right-column {
-                border: none;
-            }
-
-            .left-column {
-                width: 100%;
-            }
-            .right-column {
-                width: 100%;
-            }
-            .navb {
-                display: flex;
-            }
-            nav {
-                display: flex;
-                justify-content: center;
-                padding: 0px;
-                flex-direction: column; /* Change navbar to vertical */
-                align-items: center; /* Center-align the links */
-            }
-            nav a {
-                margin: 10px 0; /* Add spacing between links */
-                font-size: 18px; /* Slightly larger font for better usability */
-            }
-            .navbar .hamburger {
-                display: block; /* Show hamburger menu on small screens */
-            }
-            .navbar-links {
-                display: none; /* Hidden by default for dropdown behavior */
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 10px;
-                position: absolute;
-                top: 0px;
-                left: 0;
-                width: 100%;
-                background-color: #f5f5f5;
-                box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-                z-index: 1000;
-            }
-            .interests-education-container {
-                display: flex;
-                flex-direction: column;
-            }
-            .interests, .education {
-                width: 100%;
-            }
-            .navbar-links.visible {
-                display: flex;
-            }
-            footer {
-                text-align: center;
-                padding: 20px;
-                border-top: 1px solid #ddd;
-                margin-top: 20px;
-                font-size: 12px; /* Footer font size */
-            }
+        @media screen and (max-width: 640px) {
+            .wrap { padding: 24px 18px 32px; }
+            .header { flex-direction: column; align-items: center; text-align: center; gap: 16px; }
+            .header .info h1 { font-size: 22px; }
+            nav { flex-wrap: wrap; justify-content: center; }
+            section p { text-align: left; }
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>Harry Huang's Homepage</h1>
+    <div class="wrap">
         <nav>
-            <a href="https://whuang369.com", class = "links">Home</a>
-            <a href="https://whuang369.com/blog", class = "links">Blog</a>
-            <a href="Courses.html" class="links">Courses</a>
-            <a href="src/docs/resume.pdf", class = "links">Resume</a>
+            <a href="https://whuang369.com">Home</a>
+            <a href="https://whuang369.com/blog">Blog</a>
+            <a href="Courses.html">Courses</a>
+            <a href="src/docs/resume.pdf">CV</a>
         </nav>
-    </header>
 
-    <div class="container">
-        <!-- Left Column -->
-        <div class="left-column">
-            <div class="profile-image">
-                <img src="src/images/Smilephoto.jpg" alt="Harry Huang" style="width: 300px; height: 300px; border-radius: 50%; object-fit: cover;">
-            </div>            
-            <h2 align="center">Harry Huang</h2>
-            <div class="shortinfo">
-                Undergraduate (Senior)<br>
-                Math & CS<br>
-                University of Wisconsin - Madison
+        <div class="header">
+            <div class="photo">
+                <img src="src/images/Smilephoto.jpg" alt="Harry Huang">
             </div>
-            <div class="social-icons" style="display: flex; justify-content: center; gap: 20px; margin-top: 20px;">
-                <a href="https://www.linkedin.com/in/harry-wenyuan-huang-078061311/" target="_blank">
-                    <img src="src/images/linkedin.png" alt="LinkedIn" style="width: 50px; height: 50px; object-fit: cover;">
-                </a>
-                <a href="https://github.com/whuang369" target="_blank">
-                    <img src="src/images/github.png" alt="GitHub" style="width: 50px; height: 50px; object-fit: cover;">
-                </a>
-                <a href="https://www.instagram.com/huangwe_10/" target="_blank">
-                    <img src="src/images/instagram.png" alt="Instagram" style="width: 50px; height: 50px; object-fit: cover;">
-                </a>
-                <a href="https://x.com/whuang369" target="_blank">
-                    <img src="src/images/twitter.png" alt="Twitter" style="width: 50px; height: 50px; object-fit: cover;">
-                </a>
-            </div>
-        </div>
-
-        <!-- Right Column -->
-        <div class="right-column">
-            <div class="biography">
-                <h2>Biography</h2>
-                <p>
-                    I am Harry Huang (Wenyuan Huang, 黄问远), a senior majoring in Math and Computer Science at the University of Wisconsin-Madison. 
-                    My research interests include various topics about <b>Large Language Models</b>, specifically <b>agents, continual learning, and LLM reasoning</b>, also including a strong passion for Operating Systems and Machine Learning Systems.
-                </p>
-                <p>
-                    I'm an active competitive programming participant (ICPC and OI). I won three NOIP (CSP-S) First Prizes prior to college and was the <b>champion of the 2024 ICPC NCNA</b> (see <a href="https://www.cs.wisc.edu/2024/12/02/uw-madison-team-places-first-at-regional-icpc/">school news</a>). 
-                    Currently, I am serving as a co-coach of the UW-Madison ICPC team for the 2025-2026 season (see <a href="https://www.cs.wisc.edu/2025/12/11/icpc-and-van-melkelbeek-regional-champs/#:~:text=One%20of%20those,he%20develops%20solutions.">school news</a>).
-                </p>
-                <p> 
-                    Outside of academics, I enjoy sports (badminton, swimming, ice skating, bouldering) and music. 
-                    I started playing piano at 4 and began learning the cello in college. After nearly three years of orchestral experience, I am currently the <b>principal cellist of UW-Madison All-University String Orchestra</b>.
-                </p>
-            </div>
-
-            <div class="interests-education-container">
-                <div class="interests">
-                    <h2>Some interesting topics</h2>
-                    <ul>
-                        <li><a href="https://frontier-cs.org/"></a>Benchmark for LLM reasoning (problem solving)</li>
-                        <li><a href="https://docs.vllm.ai/en/latest/">vLLM</a></li>
-                    </ul>
+            <div class="info">
+                <h1>Harry Huang (黄问远)</h1>
+                <div class="affil">
+                    Undergraduate, Mathematics &amp; Computer Science<br>
+                    University of Wisconsin&ndash;Madison
                 </div>
-
-                <div class="education">
-                    <h2>Education</h2>
-                    <div class="education-item">
-                        <img src="src/images/uwmlogo.png" alt="uwm" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover;">
-                        <div>
-                            <div class="subtitle"><b>University of Wisconsin - Madison</b></div>
-                            2024 Jan ~ 2027 May (Expected)<br>
-                            B.Sc. in Mathematics with Honor <br>
-                            B.Sc. in Computer Science with Honor
-                        </div>
-                    </div>
-                    <p>
-                    <div class="education-item">
-                        <img src="src/images/nfls.jpeg"  alt="nfls" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover;">
-                        <div>
-                            <div class="subtitle"><b>Nanjing Foreign Language School</b></div>
-                            2016 Sep ~ 2022 Jun<br>
-                        </div>
-                    </div>
+                <div class="contact">
+                    <a href="mailto:wenyuanhuang369@gmail.com">Email</a>
+                    <a href="https://github.com/whuang369" target="_blank" rel="noopener">GitHub</a>
+                    <a href="https://www.linkedin.com/in/harry-wenyuan-huang-078061311/" target="_blank" rel="noopener">LinkedIn</a>
+                    <a href="https://x.com/whuang369" target="_blank" rel="noopener">Twitter</a>
+                    <a href="https://scholar.google.com/citations?user=Z5je9WUAAAAJ&hl=en" target="_blank" rel="noopener">Scholar</a>
                 </div>
             </div>
         </div>
+
+        <section>
+            <h2>About</h2>
+            <p>
+                I am Harry Huang (Wenyuan Huang, 黄问远), a senior majoring in Mathematics and Computer Science at the University of Wisconsin&ndash;Madison.
+                My research interests include various topics on <b>large language models</b> &mdash; specifically <b>agents, continual learning, and LLM reasoning</b> &mdash; along with a strong passion for Operating Systems and Machine Learning Systems.
+            </p>
+            <p>
+                I am an active competitive programmer (ICPC and OI). I won three NOIP (CSP-S) First Prizes prior to college and was a member of the <b>champion team of the 2024 ICPC NCNA Regional</b> (see <a href="https://www.cs.wisc.edu/2024/12/02/uw-madison-team-places-first-at-regional-icpc/">school news</a>). I previously served as a co-coach of the UW&ndash;Madison ICPC team for the 2025&ndash;2026 season (see <a href="https://www.cs.wisc.edu/2025/12/11/icpc-and-van-melkelbeek-regional-champs/">school news</a>).
+            </p>
+            <p>
+                Outside of academics, I enjoy sports (badminton, swimming, ice skating, bouldering) and music.
+                I started playing piano at 4 and began learning the cello in college. After nearly three years of orchestral experience, I currently serve as the <b>principal cellist of the UW&ndash;Madison All-University String Orchestra</b>.
+            </p>
+        </section>
+
+        <section>
+            <h2>Publications</h2>
+            <ol class="pub-list">
+                <li>
+                    <div class="pub-title">FrontierCS: Evolving Challenges for Evolving Intelligence</div>
+                    <div class="pub-authors">Qiuyang Mang, Wenhao Chai, Zhifei Li, et al.</div>
+                    <div class="pub-venue">arXiv preprint, 2025.</div>
+                    <div class="pub-links">
+                        <a href="https://arxiv.org/abs/2512.15699" target="_blank" rel="noopener">arXiv:2512.15699</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="pub-title">Distributionally Robust Multi-Task Reinforcement Learning via Adaptive Task Sampling</div>
+                    <div class="pub-authors">Nicholas E. Corrado, <span class="me">Wenyuan Huang</span>, Josiah P. Hanna.</div>
+                    <div class="pub-venue">arXiv preprint, 2026.</div>
+                    <div class="pub-links">
+                        <a href="https://arxiv.org/abs/2605.14350" target="_blank" rel="noopener">arXiv:2605.14350</a>
+                    </div>
+                </li>
+            </ol>
+        </section>
+
+        <section>
+            <h2>Education</h2>
+            <div class="edu-item">
+                <img src="src/images/uwmlogo.png" alt="UW-Madison">
+                <div class="edu-text">
+                    <div class="school">University of Wisconsin&ndash;Madison</div>
+                    <div>B.Sc. in Mathematics (Honors); B.Sc. in Computer Science (Honors)</div>
+                    <div class="meta">Jan 2024 &ndash; May 2027 (expected)</div>
+                </div>
+            </div>
+            <div class="edu-item">
+                <img src="src/images/nfls.jpeg" alt="NFLS">
+                <div class="edu-text">
+                    <div class="school">Nanjing Foreign Language School</div>
+                    <div class="meta">Sep 2016 &ndash; Jun 2022</div>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            &copy; Harry Huang. Licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>.
+        </footer>
     </div>
-
-    <footer>
-        <p>© Harry Huang. This work is licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> </p> </p>
-    </footer>
 </body>
 </html>
