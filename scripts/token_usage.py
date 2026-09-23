@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """Count daily LLM token usage from local coding-agent logs.
 
-Reads the session logs that Claude Code (~/.claude/projects), Codex
-(~/.codex/sessions) and Gemini CLI (~/.gemini/tmp) keep on this machine, merges
-the per-day totals into src/data/token-usage.json, and renders the heatmap SVGs
-that the GitHub profile README embeds.
+Reads the session logs that Claude Code (~/.claude/projects) and Codex
+(~/.codex/sessions) keep on this machine, merges the per-day totals into
+src/data/token-usage.json, and renders the heatmap SVGs that the GitHub profile
+README embeds.
 
 The agents prune old logs (Claude Code keeps 30 days by default), so the JSON
 file is the long-term record: a stored day is only replaced by a larger count,
@@ -25,7 +25,7 @@ DATA = ROOT / 'src' / 'data' / 'token-usage.json'
 SVGS = {'light': ROOT / 'src' / 'images' / 'token-usage.svg',
         'dark': ROOT / 'src' / 'images' / 'token-usage-dark.svg'}
 
-SOURCES = {'claude': 'Claude Code', 'codex': 'Codex', 'gemini': 'Gemini CLI'}
+SOURCES = {'claude': 'Claude Code', 'codex': 'Codex'}
 FIELDS = ['input', 'output', 'cache_read', 'cache_write']
 MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
@@ -174,31 +174,6 @@ def collect_codex(tally):
             previous = total
 
 
-# --- Gemini CLI --------------------------------------------------------------
-
-def collect_gemini(tally):
-    seen = set()
-    for path in (Path.home() / '.gemini' / 'tmp').glob('*/chats/*.json'):
-        try:
-            chat = json.loads(path.read_text(encoding='utf-8'))
-        except (OSError, ValueError):
-            continue
-        for message in chat.get('messages', []) if isinstance(chat, dict) else []:
-            tokens = message.get('tokens') if isinstance(message, dict) else None
-            if not isinstance(tokens, dict) or message.get('id') in seen:
-                continue
-            if message.get('id'):
-                seen.add(message['id'])
-            # Gemini's input count includes the cached tokens; thoughts are billed as output.
-            cached = num(tokens.get('cached'))
-            tally.add(message.get('timestamp'), 'gemini', [
-                num(tokens.get('input')) - cached + num(tokens.get('tool')),
-                num(tokens.get('output')) + num(tokens.get('thoughts')),
-                cached,
-                0,
-            ])
-
-
 # --- Storage -----------------------------------------------------------------
 
 def local_timezone():
@@ -218,7 +193,11 @@ def load_data():
 
 
 def merge(stored, scanned, rebuild):
-    days = {day: dict(sources) for day, sources in stored.items()}
+    days = {}
+    for day, sources in stored.items():
+        kept = {source: counts for source, counts in sources.items() if source in SOURCES}
+        if kept:
+            days[day] = kept
     for day, sources in scanned.items():
         for source, counts in sources.items():
             old = days.get(day, {}).get(source)
@@ -252,17 +231,25 @@ def write_if_changed(path, text):
 
 
 # --- Heatmap -----------------------------------------------------------------
-# Same layout and levels as src/js/token-heatmap.js: 53 Sunday-first weeks
-# ending on the update day, with levels split at the quartiles of active days.
+# Same layout and levels as src/js/token-heatmap.js: one calendar per source,
+# 53 Sunday-first weeks ending on the update day, with levels split at the
+# quartiles of that source's active days.
 
 WEEKS, CELL, GAP = 53, 10, 3
 PITCH = CELL + GAP
 FONT = "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif"
+# One-hue ramps from GitHub's Primer scales (light: steps 3/4/6/8, dark: 7/5/3/1),
+# checked for steadily changing lightness, visibly distinct steps, and a first
+# level that stands out from the page (>= 2:1 contrast).
+RAMPS = {
+    'light': {'claude': ('#ff8182', '#fa4549', '#a40e26', '#660018'),
+              'codex': ('#54aeff', '#218bff', '#0550ae', '#0a3069')},
+    'dark': {'claude': ('#8e1519', '#da3633', '#ff7b72', '#ffc1ba'),
+             'codex': ('#0d419d', '#1f6feb', '#58a6ff', '#a5d6ff')},
+}
 THEMES = {
-    'light': {'cells': ('#eff2f5', '#aceebb', '#4ac26b', '#2da44e', '#116329'),
-              'text': '#1f2328', 'muted': '#59636e', 'border': '#d1d9e0', 'outline': '#1f2328'},
-    'dark': {'cells': ('#151b23', '#033a16', '#196c2e', '#2ea043', '#56d364'),
-             'text': '#f0f6fc', 'muted': '#9198a1', 'border': '#3d444d', 'outline': '#f0f6fc'},
+    'light': {'empty': '#eff2f5', 'text': '#1f2328', 'muted': '#59636e', 'border': '#d1d9e0', 'outline': '#1f2328'},
+    'dark': {'empty': '#151b23', 'text': '#f0f6fc', 'muted': '#9198a1', 'border': '#3d444d', 'outline': '#f0f6fc'},
 }
 
 
@@ -295,54 +282,60 @@ def month_labels(start):
     return [(week, name) for week, name in labels if week < WEEKS - 1]
 
 
+def cell(x, y, fill):
+    return f'<rect class="day" x="{x + 0.5}" y="{y + 0.5}" width="{CELL - 1}" height="{CELL - 1}" rx="2" fill="{fill}"/>'
+
+
 def render_svg(days, end, theme):
     colors = THEMES[theme]
     start = end - timedelta(days=(end.weekday() + 1) % 7 + (WEEKS - 1) * 7)
-    window = [start + timedelta(days=i) for i in range((end - start).days + 1)]
-    totals = [sum(sum(c) for c in days.get(d.isoformat(), {}).values()) for d in window]
-    cuts = quartiles(totals)
-    used = [SOURCES.get(s, s) for s in SOURCES
-            if any(days.get(d.isoformat(), {}).get(s) for d in window)]
+    window = [(start + timedelta(days=i)).isoformat() for i in range((end - start).days + 1)]
 
-    pad, left, top = 16, 32, 20
+    # Each panel: a headline above a box holding month labels, the grid and a legend.
+    pad, left, top, head, gap = 16, 32, 20, 30, 20
     width = 2 * pad + left + WEEKS * PITCH - GAP
-    box_top = 30
-    grid_x, grid_y = pad + left, box_top + pad + top
-    foot_y = grid_y + 7 * PITCH - GAP + 24
-    height = foot_y + pad
-    headline = f'{compact(sum(totals))} tokens in the last year' if sum(totals) else 'No tokens in the last year'
+    panel = head + 2 * pad + top + 7 * PITCH - GAP + 24
+    height = len(SOURCES) * (panel + gap) - gap
+    titles, body = [], []
+    for n, (source, name) in enumerate(SOURCES.items()):
+        totals = [sum(days.get(day, {}).get(source, [])) for day in window]
+        cuts, fills = quartiles(totals), (colors['empty'],) + RAMPS[theme][source]
+        summary = f'{compact(sum(totals))} tokens in the last year' if sum(totals) else 'No tokens in the last year'
+        titles.append(f'{name}: {summary}')
 
-    out = [
+        box_y = n * (panel + gap) + head
+        grid_x, grid_y = pad + left, box_y + pad + top
+        foot_y = grid_y + 7 * PITCH - GAP + 24
+        body.append(f'<text class="head" x="0" y="{box_y - 12}">'
+                    f'<tspan font-weight="600">{escape(name)}</tspan> · {summary}</text>')
+        body.append(f'<rect x="0.5" y="{box_y + 0.5}" width="{width - 1}" height="{panel - head - 1}" '
+                    f'rx="6" fill="none" stroke="{colors["border"]}"/>')
+        for week, label in month_labels(start):
+            body.append(f'<text x="{grid_x + week * PITCH}" y="{grid_y - 8}">{label}</text>')
+        for row, label in ((1, 'Mon'), (3, 'Wed'), (5, 'Fri')):
+            body.append(f'<text x="{pad}" y="{grid_y + row * PITCH + 9}">{label}</text>')
+        body += [cell(grid_x + i // 7 * PITCH, grid_y + i % 7 * PITCH, fills[level(total, cuts)])
+                 for i, total in enumerate(totals)]
+
+        if n == len(SOURCES) - 1:
+            body.append(f'<text x="{pad}" y="{foot_y}">Updated {MONTHS[end.month - 1]} {end.day}, {end.year}</text>')
+        more_x = width - pad
+        legend_x = more_x - 36 - (5 * PITCH - GAP)
+        body.append(f'<text x="{legend_x - 6}" y="{foot_y}" text-anchor="end">Less</text>')
+        body += [cell(legend_x + i * PITCH, foot_y - 10, fill) for i, fill in enumerate(fills)]
+        body.append(f'<text x="{more_x}" y="{foot_y}" text-anchor="end">More</text>')
+
+    title = escape('; '.join(titles))
+    return '\n'.join([
         f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" '
-        f'viewBox="0 0 {width} {height}" role="img" aria-label="{escape(headline)}">',
-        f'<title>{escape(headline)}</title>',
+        f'viewBox="0 0 {width} {height}" role="img" aria-label="{title}">',
+        f'<title>{title}</title>',
         f'<style>text {{ font: 12px {FONT}; fill: {colors["muted"]}; }} '
         f'.head {{ font-size: 16px; fill: {colors["text"]}; }} '
         f'rect.day {{ stroke: {colors["outline"]}; stroke-opacity: 0.05; }}</style>',
-        f'<text class="head" x="0" y="18">{escape(headline)}</text>',
-        f'<rect x="0.5" y="{box_top + 0.5}" width="{width - 1}" height="{height - box_top - 1}" '
-        f'rx="6" fill="none" stroke="{colors["border"]}"/>',
-    ]
-    for week, name in month_labels(start):
-        out.append(f'<text x="{grid_x + week * PITCH}" y="{grid_y - 8}">{name}</text>')
-    for row, name in ((1, 'Mon'), (3, 'Wed'), (5, 'Fri')):
-        out.append(f'<text x="{pad}" y="{grid_y + row * PITCH + 9}">{name}</text>')
-    for i, total in enumerate(totals):
-        x, y = grid_x + i // 7 * PITCH, grid_y + i % 7 * PITCH
-        out.append(f'<rect class="day" x="{x + 0.5}" y="{y + 0.5}" width="{CELL - 1}" height="{CELL - 1}" '
-                   f'rx="2" fill="{colors["cells"][level(total, cuts)]}"/>')
-
-    updated = f'{MONTHS[end.month - 1]} {end.day}, {end.year}'
-    out.append(f'<text x="{pad}" y="{foot_y}">{escape(" · ".join(used + ["updated " + updated]))}</text>')
-    more_x = width - pad
-    legend_x = more_x - 36 - (5 * PITCH - GAP)
-    out.append(f'<text x="{legend_x - 6}" y="{foot_y}" text-anchor="end">Less</text>')
-    for i, fill in enumerate(colors['cells']):
-        out.append(f'<rect class="day" x="{legend_x + i * PITCH + 0.5}" y="{foot_y - 9.5}" '
-                   f'width="{CELL - 1}" height="{CELL - 1}" rx="2" fill="{fill}"/>')
-    out.append(f'<text x="{more_x}" y="{foot_y}" text-anchor="end">More</text>')
-    out.append('</svg>')
-    return '\n'.join(out) + '\n'
+        *body,
+        '</svg>',
+    ]) + '\n'
 
 
 def main():
@@ -357,7 +350,6 @@ def main():
     tally = Tally(ZoneInfo(timezone))
     collect_claude(tally)
     collect_codex(tally)
-    collect_gemini(tally)
 
     days = merge(stored.get('days', {}), tally.days, args.rebuild)
     today = datetime.now(ZoneInfo(timezone)).date()

@@ -150,17 +150,17 @@
         .edu-item .edu-text .meta { color: var(--muted); font-size: 13px; }
         .token-heatmap {
             --th-0: #eff2f5;
-            --th-1: #aceebb;
-            --th-2: #4ac26b;
-            --th-3: #2da44e;
-            --th-4: #116329;
             position: relative;
             margin-top: 12px;
             font-family: "Helvetica Neue", Arial, sans-serif;
             font-size: 12px;
             color: var(--muted);
         }
-        .token-heatmap:empty { min-height: 160px; }
+        .token-heatmap:empty { min-height: 340px; }
+        /* One-hue ramps from GitHub's Primer scales, as in scripts/token_usage.py. */
+        .th-claude { --th-1: #ff8182; --th-2: #fa4549; --th-3: #a40e26; --th-4: #660018; }
+        .th-codex { --th-1: #54aeff; --th-2: #218bff; --th-3: #0550ae; --th-4: #0a3069; }
+        .th-cal + .th-cal { margin-top: 18px; }
         .th-head {
             font-family: "Charter", "Georgia", serif;
             font-size: 15px;
@@ -201,8 +201,6 @@
             white-space: nowrap;
             pointer-events: none;
         }
-        .th-tip strong { display: block; font-weight: 600; }
-        .th-tip span { color: rgba(255, 255, 255, 0.7); }
         .th-tip::after {
             content: "";
             position: absolute;
@@ -258,6 +256,12 @@
                 </div>
             </div>
         </div>
+
+        <section id="token-usage">
+            <h2>Token Usage</h2>
+            <p>Tokens my coding agents use each day, counted from their local session logs (cached input included). If you find me vibing too little today, please <a href="mailto:wenyuanhuang369@gmail.com">push me</a>.</p>
+            <div class="token-heatmap" data-src="src/data/token-usage.json"></div>
+        </section>
 
         <section>
             <h2>About</h2>
@@ -315,12 +319,6 @@
                     <div class="meta">Sep 2016 &ndash; Jun 2022</div>
                 </div>
             </div>
-        </section>
-
-        <section id="token-usage">
-            <h2>Token Usage</h2>
-            <p>Daily LLM tokens used by my coding agents (Claude Code, Codex, and Gemini CLI), counted from their local session logs; cached input is included.</p>
-            <div class="token-heatmap" data-src="src/data/token-usage.json"></div>
         </section>
 
         <section>
