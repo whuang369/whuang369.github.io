@@ -148,6 +148,70 @@
         }
         .edu-item .edu-text .school { font-weight: 600; }
         .edu-item .edu-text .meta { color: var(--muted); font-size: 13px; }
+        .token-heatmap {
+            --th-0: #eff2f5;
+            --th-1: #aceebb;
+            --th-2: #4ac26b;
+            --th-3: #2da44e;
+            --th-4: #116329;
+            position: relative;
+            margin-top: 12px;
+            font-family: "Helvetica Neue", Arial, sans-serif;
+            font-size: 12px;
+            color: var(--muted);
+        }
+        .token-heatmap:empty { min-height: 160px; }
+        .th-head {
+            font-family: "Charter", "Georgia", serif;
+            font-size: 15px;
+            color: var(--text);
+            margin-bottom: 6px;
+        }
+        .th-scroll { overflow-x: auto; }
+        .th-scroll svg { display: block; width: 100%; min-width: 600px; height: auto; }
+        .th-scroll text { font-size: 10.5px; fill: var(--muted); }
+        .th-scroll rect { stroke: rgba(31, 35, 40, 0.05); }
+        .th-scroll rect:hover { stroke: var(--text); stroke-opacity: 0.5; }
+        .th-l0 { fill: var(--th-0); background: var(--th-0); }
+        .th-l1 { fill: var(--th-1); background: var(--th-1); }
+        .th-l2 { fill: var(--th-2); background: var(--th-2); }
+        .th-l3 { fill: var(--th-3); background: var(--th-3); }
+        .th-l4 { fill: var(--th-4); background: var(--th-4); }
+        .th-foot {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 4px 16px;
+            margin-top: 6px;
+        }
+        .th-legend { display: inline-flex; align-items: center; gap: 3px; }
+        .th-legend i { width: 10px; height: 10px; border-radius: 2px; }
+        .th-legend i:first-of-type { margin-left: 3px; }
+        .th-legend i:last-of-type { margin-right: 3px; }
+        .th-tip {
+            position: absolute;
+            z-index: 1;
+            transform: translate(-50%, calc(-100% - 8px));
+            padding: 5px 9px;
+            border-radius: 4px;
+            background: var(--text);
+            color: #fff;
+            line-height: 1.45;
+            text-align: center;
+            white-space: nowrap;
+            pointer-events: none;
+        }
+        .th-tip strong { display: block; font-weight: 600; }
+        .th-tip span { color: rgba(255, 255, 255, 0.7); }
+        .th-tip::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: calc(50% + var(--arrow, 0px));
+            margin-left: -5px;
+            border: 5px solid transparent;
+            border-top-color: var(--text);
+        }
         footer {
             margin-top: 36px;
             padding-top: 12px;
@@ -253,6 +317,12 @@
             </div>
         </section>
 
+        <section id="token-usage">
+            <h2>Token Usage</h2>
+            <p>Daily LLM tokens used by my coding agents (Claude Code, Codex, and Gemini CLI), counted from their local session logs; cached input is included.</p>
+            <div class="token-heatmap" data-src="src/data/token-usage.json"></div>
+        </section>
+
         <section>
             <h2>Beyond Academics</h2>
             <p>
@@ -265,5 +335,6 @@
             &copy; Harry Huang. Licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>.
         </footer>
     </div>
+    <script src="src/js/token-heatmap.js"></script>
 </body>
 </html>
