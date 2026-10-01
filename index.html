@@ -91,13 +91,36 @@
         .opportunity-note {
             width: fit-content;
             max-width: 100%;
-            margin: 0 auto 24px;
-            padding: 8px 18px;
-            border: 3px solid var(--link);
-            border-radius: 4px;
+            margin: 0 auto 26px;
+            padding: 9px 22px;
+            border: 1px solid #efc3bf;
+            border-radius: 999px;
+            background: linear-gradient(135deg, #fff6f5, #fbe3e1);
+            box-shadow: 0 3px 12px rgba(139, 26, 26, 0.12);
+            color: var(--link);
+            font: 600 14px "Helvetica Neue", Arial, sans-serif;
             text-align: center;
         }
         .opportunity-note p { margin: 0; }
+        /* A pulsing "open" dot before the sentence. */
+        .opportunity-note p::before {
+            content: "";
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            margin-right: 10px;
+            border-radius: 50%;
+            vertical-align: 1px;
+            background: #d1242f;
+            animation: note-pulse 2s ease-out infinite;
+        }
+        @keyframes note-pulse {
+            0% { box-shadow: 0 0 0 0 rgba(209, 36, 47, 0.45); }
+            70%, 100% { box-shadow: 0 0 0 7px rgba(209, 36, 47, 0); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .opportunity-note p::before { animation: none; box-shadow: 0 0 0 4px rgba(209, 36, 47, 0.18); }
+        }
         .pub-list {
             list-style: none;
             padding: 0;
@@ -225,6 +248,7 @@
             .header .info h1 { font-size: 22px; }
             nav { flex-wrap: wrap; justify-content: center; }
             section p { text-align: left; }
+            .opportunity-note { border-radius: 14px; }
         }
     </style>
 </head>
