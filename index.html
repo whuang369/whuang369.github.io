@@ -89,15 +89,13 @@
             text-align: justify;
         }
         .opportunity-note {
-            margin: 28px 0;
-            padding: 14px 18px;
-            border-left: 3px solid var(--link);
-            background: #faf7f7;
-        }
-        .opportunity-note h2 {
-            border: 0;
-            margin: 0 0 4px;
-            padding: 0;
+            width: fit-content;
+            max-width: 100%;
+            margin: 0 auto 24px;
+            padding: 8px 18px;
+            border: 3px solid var(--link);
+            border-radius: 4px;
+            text-align: center;
         }
         .opportunity-note p { margin: 0; }
         .pub-list {
@@ -190,6 +188,7 @@
         .th-foot .th-legend { gap: 3px; }
         .th-legend i:first-of-type { margin-left: 3px; }
         .th-legend i:last-of-type { margin-right: 3px; }
+        section p.th-note { text-align: center; }
         .th-tip {
             position: absolute;
             z-index: 1;
@@ -258,26 +257,25 @@
             </div>
         </div>
 
+        <aside class="opportunity-note">
+            <p>I am applying to PhD/MS programs or research positions for Fall 2027!</p>
+        </aside>
+
         <section id="token-usage" aria-label="Token usage">
             <div class="token-heatmap" data-src="src/data/token-usage.json"></div>
-            <p>Above is my token usage. <a href="mailto:wenyuanhuang369@gmail.com">Let me know</a> if you find me vibing too little today :-)</p>
+            <p class="th-note">Above is my token usage. Let me know if you find me vibing too little today :-)</p>
         </section>
 
         <section>
             <h2>About</h2>
             <p>
-                I am Harry Huang (Wenyuan Huang, 黄问远), a senior majoring in Mathematics and Computer Science at the University of Wisconsin&ndash;Madison. I was previously a Visiting Student Researcher at the UC Berkeley Sky Computing Lab.
+                I am Harry Huang (Wenyuan Huang, 黄问远), a senior majoring in Mathematics and Computer Science at the University of Wisconsin&ndash;Madison. I was previously a <b>Visiting Student Researcher at the <a href="https://sky.cs.berkeley.edu/" target="_blank" rel="noopener">UC Berkeley Sky Computing Lab</a></b>.
                 My research interests include various topics on <b>large language models</b> &mdash; specifically <b>agents, continual learning, and LLM reasoning</b> &mdash; along with a strong passion for Operating Systems and Machine Learning Systems.
             </p>
             <p>
                 I am an active competitive programmer (ICPC and OI). I won three NOIP (CSP-S) First Prizes prior to college and was a member of the <b>champion team of the 2024 ICPC NCNA Regional</b> (see <a href="https://www.cs.wisc.edu/2024/12/02/uw-madison-team-places-first-at-regional-icpc/">school news</a>). I previously served as a co-coach of the UW&ndash;Madison ICPC team for the 2025&ndash;2026 season (see <a href="https://www.cs.wisc.edu/2025/12/11/icpc-and-van-melkelbeek-regional-champs/">school news</a>).
             </p>
         </section>
-
-        <aside class="opportunity-note" aria-labelledby="fall-2027-heading">
-            <h2 id="fall-2027-heading">Fall 2027 Opportunities</h2>
-            <p>I am applying to PhD and MS programs and seeking research roles beginning in Fall 2027.</p>
-        </aside>
 
         <section>
             <h2>Publications</h2>
