@@ -15,6 +15,7 @@ Usage: python3 scripts/token_usage.py [--rebuild] [--tz Area/City]
 import argparse
 import json
 import os
+import re
 from datetime import datetime, timedelta
 from pathlib import Path
 from xml.sax.saxutils import escape
@@ -26,7 +27,10 @@ SVGS = {'light': ROOT / 'src' / 'images' / 'token-usage.svg',
         'dark': ROOT / 'src' / 'images' / 'token-usage-dark.svg'}
 
 SOURCES = {'claude': 'Claude Code', 'codex': 'Codex'}
+LOGOS = {'claude': 'src/images/logo-claude.svg', 'codex': 'src/images/logo-openai.svg'}
 FIELDS = ['input', 'output', 'cache_read', 'cache_write']
+# Logs before this day are incomplete, so the heatmaps show those days as "no reliable data".
+RELIABLE_FROM = '2026-09-01'
 MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
 
@@ -213,7 +217,9 @@ def dump_data(timezone, updated, days):
         '{',
         f'  "timezone": {json.dumps(timezone)},',
         f'  "updated": {json.dumps(updated)},',
+        f'  "reliable_from": {json.dumps(RELIABLE_FROM)},',
         f'  "sources": {json.dumps(SOURCES)},',
+        f'  "logos": {json.dumps(LOGOS)},',
         f'  "fields": {json.dumps(FIELDS)},',
         '  "days": {',
         ',\n'.join(rows),
@@ -233,7 +239,7 @@ def write_if_changed(path, text):
 # --- Heatmap -----------------------------------------------------------------
 # Same layout and levels as src/js/token-heatmap.js: one calendar per source,
 # 53 Sunday-first weeks ending on the update day, with levels split at the
-# quartiles of that source's active days.
+# quartiles of that source's active days since RELIABLE_FROM.
 
 WEEKS, CELL, GAP = 53, 10, 3
 PITCH = CELL + GAP
@@ -248,9 +254,12 @@ RAMPS = {
              'codex': ('#0d419d', '#1f6feb', '#58a6ff', '#a5d6ff')},
 }
 THEMES = {
-    'light': {'empty': '#eff2f5', 'text': '#1f2328', 'muted': '#59636e', 'border': '#d1d9e0', 'outline': '#1f2328'},
-    'dark': {'empty': '#151b23', 'text': '#f0f6fc', 'muted': '#9198a1', 'border': '#3d444d', 'outline': '#f0f6fc'},
+    'light': {'empty': '#eff2f5', 'nodata': '#d0d7de', 'text': '#1f2328', 'muted': '#59636e',
+              'border': '#d1d9e0', 'outline': '#1f2328'},
+    'dark': {'empty': '#151b23', 'nodata': '#2d333b', 'text': '#f0f6fc', 'muted': '#9198a1',
+             'border': '#3d444d', 'outline': '#f0f6fc'},
 }
+LOGO_COLORS = {'claude': '#d97757'}  # Claude's brand color; other logos take the text color
 
 
 def compact(n):
@@ -286,52 +295,60 @@ def cell(x, y, fill):
     return f'<rect class="day" x="{x + 0.5}" y="{y + 0.5}" width="{CELL - 1}" height="{CELL - 1}" rx="2" fill="{fill}"/>'
 
 
+def logo(source, x, y, size, colors):
+    # GitHub shows this SVG as an <img>, which can't load other files, so inline the logo's path.
+    path = re.search(r' d="([^"]+)"', (ROOT / LOGOS[source]).read_text(encoding='utf-8')).group(1)
+    return (f'<svg x="{x}" y="{y}" width="{size}" height="{size}" viewBox="0 0 24 24">'
+            f'<title>{escape(SOURCES[source])}</title>'
+            f'<path fill="{LOGO_COLORS.get(source, colors["text"])}" d="{path}"/></svg>')
+
+
 def render_svg(days, end, theme):
     colors = THEMES[theme]
     start = end - timedelta(days=(end.weekday() + 1) % 7 + (WEEKS - 1) * 7)
     window = [(start + timedelta(days=i)).isoformat() for i in range((end - start).days + 1)]
 
-    # Each panel: a headline above a box holding month labels, the grid and a legend.
-    pad, left, top, head, gap = 16, 32, 20, 30, 20
-    width = 2 * pad + left + WEEKS * PITCH - GAP
-    panel = head + 2 * pad + top + 7 * PITCH - GAP + 24
-    height = len(SOURCES) * (panel + gap) - gap
-    titles, body = [], []
-    for n, (source, name) in enumerate(SOURCES.items()):
+    # Each panel: the source's logo, then a box holding month labels, the grid and a legend.
+    side, pad, left, top, gap = 44, 16, 32, 20, 16
+    box_w = 2 * pad + left + WEEKS * PITCH - GAP
+    box_h = 2 * pad + top + 7 * PITCH - GAP + 24
+    width, height = side + box_w, len(SOURCES) * (box_h + gap) - gap
+    body = []
+    for n, source in enumerate(SOURCES):
         totals = [sum(days.get(day, {}).get(source, [])) for day in window]
-        cuts, fills = quartiles(totals), (colors['empty'],) + RAMPS[theme][source]
-        summary = f'{compact(sum(totals))} tokens in the last year' if sum(totals) else 'No tokens in the last year'
-        titles.append(f'{name}: {summary}')
+        cuts = quartiles([total for day, total in zip(window, totals) if day >= RELIABLE_FROM])
+        fills = (colors['empty'],) + RAMPS[theme][source]
 
-        box_y = n * (panel + gap) + head
-        grid_x, grid_y = pad + left, box_y + pad + top
+        box_y = n * (box_h + gap)
+        grid_x, grid_y = side + pad + left, box_y + pad + top
         foot_y = grid_y + 7 * PITCH - GAP + 24
-        body.append(f'<text class="head" x="0" y="{box_y - 12}">'
-                    f'<tspan font-weight="600">{escape(name)}</tspan> · {summary}</text>')
-        body.append(f'<rect x="0.5" y="{box_y + 0.5}" width="{width - 1}" height="{panel - head - 1}" '
+        body.append(logo(source, 0, grid_y + (7 * PITCH - GAP) / 2 - 14, 28, colors))
+        body.append(f'<rect x="{side + 0.5}" y="{box_y + 0.5}" width="{box_w - 1}" height="{box_h - 1}" '
                     f'rx="6" fill="none" stroke="{colors["border"]}"/>')
         for week, label in month_labels(start):
             body.append(f'<text x="{grid_x + week * PITCH}" y="{grid_y - 8}">{label}</text>')
         for row, label in ((1, 'Mon'), (3, 'Wed'), (5, 'Fri')):
-            body.append(f'<text x="{pad}" y="{grid_y + row * PITCH + 9}">{label}</text>')
-        body += [cell(grid_x + i // 7 * PITCH, grid_y + i % 7 * PITCH, fills[level(total, cuts)])
-                 for i, total in enumerate(totals)]
+            body.append(f'<text x="{side + pad}" y="{grid_y + row * PITCH + 9}">{label}</text>')
+        body += [cell(grid_x + i // 7 * PITCH, grid_y + i % 7 * PITCH,
+                      fills[level(total, cuts)] if day >= RELIABLE_FROM else colors['nodata'])
+                 for i, (day, total) in enumerate(zip(window, totals))]
 
         if n == len(SOURCES) - 1:
-            body.append(f'<text x="{pad}" y="{foot_y}">Updated {MONTHS[end.month - 1]} {end.day}, {end.year}</text>')
+            body.append(cell(side + pad, foot_y - 10, colors['nodata']))
+            body.append(f'<text x="{side + pad + CELL + 6}" y="{foot_y}">No reliable data · '
+                        f'Updated {MONTHS[end.month - 1]} {end.day}, {end.year}</text>')
         more_x = width - pad
         legend_x = more_x - 36 - (5 * PITCH - GAP)
         body.append(f'<text x="{legend_x - 6}" y="{foot_y}" text-anchor="end">Less</text>')
         body += [cell(legend_x + i * PITCH, foot_y - 10, fill) for i, fill in enumerate(fills)]
         body.append(f'<text x="{more_x}" y="{foot_y}" text-anchor="end">More</text>')
 
-    title = escape('; '.join(titles))
+    title = escape('Daily token usage of ' + ' and '.join(SOURCES.values()))
     return '\n'.join([
         f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" '
         f'viewBox="0 0 {width} {height}" role="img" aria-label="{title}">',
         f'<title>{title}</title>',
         f'<style>text {{ font: 12px {FONT}; fill: {colors["muted"]}; }} '
-        f'.head {{ font-size: 16px; fill: {colors["text"]}; }} '
         f'rect.day {{ stroke: {colors["outline"]}; stroke-opacity: 0.05; }}</style>',
         *body,
         '</svg>',

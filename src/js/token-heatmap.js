@@ -57,14 +57,14 @@
         return node;
     }
 
-    // One source's calendar: a headline, the grid of days, and a legend.
-    function calendar(source, name, dates, totals, footnote) {
-        const cuts = quartiles(totals), total = sum(totals);
-        const summary = `${total ? compact(total) : 'No'} tokens in the last year`;
+    // One source's calendar: its logo, the grid of days, and a legend. Days before
+    // the data's reliable_from date show as "no reliable data" and don't set the levels.
+    function calendar(source, name, logo, dates, totals, reliable, footnote) {
+        const cuts = quartiles(totals.filter((t, i) => reliable[i]));
         const svg = document.createElementNS(SVG_NS, 'svg');
         svg.setAttribute('viewBox', `0 0 ${LEFT + WEEKS * PITCH - GAP} ${TOP + 7 * PITCH - GAP}`);
         svg.setAttribute('role', 'img');
-        svg.setAttribute('aria-label', `Heatmap of daily ${name} token usage: ${summary}`);
+        svg.setAttribute('aria-label', `Heatmap of daily ${name} token usage`);
         for (const [week, label] of monthLabels(dates[0])) {
             svgEl('text', { x: LEFT + week * PITCH, y: TOP - 6 }, svg, label);
         }
@@ -74,16 +74,16 @@
         totals.forEach((t, i) => {
             const cell = svgEl('rect', {
                 x: LEFT + Math.floor(i / 7) * PITCH + 0.5, y: TOP + (i % 7) * PITCH + 0.5,
-                width: CELL - 1, height: CELL - 1, rx: 2, class: `th-l${level(t, cuts)}`,
+                width: CELL - 1, height: CELL - 1, rx: 2, class: reliable[i] ? `th-l${level(t, cuts)}` : 'th-none',
             }, svg);
             cell.dataset.index = i;
         });
         const legend = el('span', { className: 'th-legend' },
             ['Less', ...[0, 1, 2, 3, 4].map(l => el('i', { className: `th-l${l}` })), 'More']);
         return el('div', { className: `th-cal th-${source}` }, [
-            el('div', { className: 'th-head' }, [el('strong', { textContent: name }), ` · ${summary}`]),
+            el('img', { className: 'th-logo', src: logo, alt: name, title: name }),
             el('div', { className: 'th-scroll' }, [svg]),
-            el('div', { className: 'th-foot' }, [el('span', { textContent: footnote }), legend]),
+            el('div', { className: 'th-foot' }, [el('span', {}, footnote), legend]),
         ]);
     }
 
@@ -104,11 +104,14 @@
         for (let day = addDays(end, -end.getDay() - (WEEKS - 1) * 7); day <= end; day = addDays(day, 1)) {
             dates.push(day);
         }
+        const reliable = dates.map(d => !data.reliable_from || isoDay(d) >= data.reliable_from);
         const sources = Object.entries(data.sources);
         const calendars = sources.map(([source, name], i) => {
             const totals = dates.map(d => sum((data.days[isoDay(d)] || {})[source] || []));
-            const footnote = i === sources.length - 1 ? `Updated ${longDate(end)}` : '';
-            return { node: calendar(source, name, dates, totals, footnote), totals };
+            const footnote = i === sources.length - 1
+                ? [el('i', { className: 'th-none' }), `No reliable data · Updated ${longDate(end)}`] : [];
+            const logo = (data.logos || {})[source];
+            return { node: calendar(source, name, logo, dates, totals, reliable, footnote), totals };
         });
         const tip = el('div', { className: 'th-tip', hidden: true });
         root.replaceChildren(...calendars.map(c => c.node), tip);
@@ -116,7 +119,8 @@
         const hide = () => { tip.hidden = true; };
         function show(cell, totals) {
             const i = Number(cell.dataset.index);
-            tip.textContent = `${totals[i] ? compact(totals[i]) : 'No'} tokens on ${longDate(dates[i])}`;
+            tip.textContent = !reliable[i] ? `No reliable data for ${longDate(dates[i])}`
+                : `${totals[i] ? compact(totals[i]) : 'No'} tokens on ${longDate(dates[i])}`;
             tip.hidden = false;
             // Center the tip above the cell, but keep it inside the component.
             const box = cell.getBoundingClientRect(), host = root.getBoundingClientRect();
