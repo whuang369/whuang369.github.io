@@ -384,9 +384,9 @@
 <rect class="day" x="755.5" y="114.5" width="9" height="9" rx="2" fill="#eff2f5"/>
 <rect class="day" x="768.5" y="36.5" width="9" height="9" rx="2" fill="#eff2f5"/>
 <rect class="day" x="768.5" y="49.5" width="9" height="9" rx="2" fill="#660018"/>
-<rect class="day" x="768.5" y="62.5" width="9" height="9" rx="2" fill="#660018"/>
+<rect class="day" x="768.5" y="62.5" width="9" height="9" rx="2" fill="#a40e26"/>
 <rect class="day" x="768.5" y="75.5" width="9" height="9" rx="2" fill="#a40e26"/>
-<rect class="day" x="768.5" y="88.5" width="9" height="9" rx="2" fill="#a40e26"/>
+<rect class="day" x="768.5" y="88.5" width="9" height="9" rx="2" fill="#660018"/>
 <text x="674" y="148" text-anchor="end">Less</text>
 <rect class="day" x="680.5" y="138.5" width="9" height="9" rx="2" fill="#eff2f5"/>
 <rect class="day" x="693.5" y="138.5" width="9" height="9" rx="2" fill="#ff8182"/>
