@@ -740,7 +740,7 @@
 <rect class="day" x="690.5" y="242.5" width="9" height="9" rx="2" fill="#151b23"/>
 <rect class="day" x="690.5" y="255.5" width="9" height="9" rx="2" fill="#151b23"/>
 <rect class="day" x="690.5" y="268.5" width="9" height="9" rx="2" fill="#1f6feb"/>
-<rect class="day" x="690.5" y="281.5" width="9" height="9" rx="2" fill="#1f6feb"/>
+<rect class="day" x="690.5" y="281.5" width="9" height="9" rx="2" fill="#0d419d"/>
 <rect class="day" x="690.5" y="294.5" width="9" height="9" rx="2" fill="#a5d6ff"/>
 <rect class="day" x="703.5" y="216.5" width="9" height="9" rx="2" fill="#0d419d"/>
 <rect class="day" x="703.5" y="229.5" width="9" height="9" rx="2" fill="#1f6feb"/>
@@ -753,13 +753,13 @@
 <rect class="day" x="716.5" y="229.5" width="9" height="9" rx="2" fill="#58a6ff"/>
 <rect class="day" x="716.5" y="242.5" width="9" height="9" rx="2" fill="#1f6feb"/>
 <rect class="day" x="716.5" y="255.5" width="9" height="9" rx="2" fill="#151b23"/>
-<rect class="day" x="716.5" y="268.5" width="9" height="9" rx="2" fill="#a5d6ff"/>
+<rect class="day" x="716.5" y="268.5" width="9" height="9" rx="2" fill="#58a6ff"/>
 <rect class="day" x="716.5" y="281.5" width="9" height="9" rx="2" fill="#151b23"/>
 <rect class="day" x="716.5" y="294.5" width="9" height="9" rx="2" fill="#151b23"/>
 <rect class="day" x="729.5" y="216.5" width="9" height="9" rx="2" fill="#151b23"/>
 <rect class="day" x="729.5" y="229.5" width="9" height="9" rx="2" fill="#151b23"/>
 <rect class="day" x="729.5" y="242.5" width="9" height="9" rx="2" fill="#0d419d"/>
-<rect class="day" x="729.5" y="255.5" width="9" height="9" rx="2" fill="#58a6ff"/>
+<rect class="day" x="729.5" y="255.5" width="9" height="9" rx="2" fill="#1f6feb"/>
 <rect class="day" x="729.5" y="268.5" width="9" height="9" rx="2" fill="#0d419d"/>
 <rect class="day" x="729.5" y="281.5" width="9" height="9" rx="2" fill="#151b23"/>
 <rect class="day" x="729.5" y="294.5" width="9" height="9" rx="2" fill="#151b23"/>
@@ -783,7 +783,7 @@
 <rect class="day" x="768.5" y="255.5" width="9" height="9" rx="2" fill="#a5d6ff"/>
 <rect class="day" x="768.5" y="268.5" width="9" height="9" rx="2" fill="#a5d6ff"/>
 <rect class="day" x="768.5" y="281.5" width="9" height="9" rx="2" fill="#58a6ff"/>
-<rect class="day" x="768.5" y="294.5" width="9" height="9" rx="2" fill="#151b23"/>
+<rect class="day" x="768.5" y="294.5" width="9" height="9" rx="2" fill="#a5d6ff"/>
 <rect class="day" x="60.5" y="318.5" width="9" height="9" rx="2" fill="#2d333b"/>
 <text x="76" y="328">No reliable data · Updated Oct 31, 2026</text>
 <text x="674" y="328" text-anchor="end">Less</text>
